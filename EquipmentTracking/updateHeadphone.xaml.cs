@@ -124,7 +124,7 @@ namespace EquipmentTracking
         {
             Button btn = sender as Button;
 
-            GlobalData.MouseID = Convert.ToInt32(btn.Tag.ToString());
+            GlobalData.hID = Convert.ToInt32(btn.Tag.ToString());
 
             this.Frame.Navigate(typeof(UpdateHeadphoneDetail));
         }

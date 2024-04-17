@@ -128,6 +128,7 @@
     <Compile Include="history.xaml.cs">
       <DependentUpon>history.xaml</DependentUpon>
     </Compile>
+    <Compile Include="LaptopDetail.cs" />
     <Compile Include="MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>
@@ -154,6 +155,9 @@
     </Compile>
     <Compile Include="updateLaptop.xaml.cs">
       <DependentUpon>updateLaptop.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UpdateLaptopDetail.xaml.cs">
+      <DependentUpon>UpdateLaptopDetail.xaml</DependentUpon>
     </Compile>
     <Compile Include="updateMonitor.xaml.cs">
       <DependentUpon>updateMonitor.xaml</DependentUpon>
@@ -231,6 +235,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="updateLaptop.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UpdateLaptopDetail.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
