@@ -1,0 +1,37 @@
+﻿<Page
+    x:Class="EquipmentTracking.MainPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:EquipmentTracking"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d" RequestedTheme="Light">
+    <Page.Background>
+        <ImageBrush ImageSource="/Assets/equipment.jpg" Stretch="UniformToFill" Opacity="1">
+            <ImageBrush.RelativeTransform>
+                <CompositeTransform CenterY="0.5" CenterX="0.5" TranslateX="0"/>
+            </ImageBrush.RelativeTransform>
+        </ImageBrush>
+    </Page.Background>
+
+    <StackPanel>
+        <CommandBar Height="70" UseLayoutRounding="True" Background="#FFEDF2EE">
+            <CommandBar.Content>
+                <Grid/>
+            </CommandBar.Content>
+
+            <AppBarButton x:Name="exitCommandBar" Icon="ClosePane" Label="Exit" Click="exitCommandBar_Click" />
+
+        </CommandBar>
+        <TextBlock x:Name="space" Text="" Height="20" />
+        <Grid>
+            <StackPanel Background="#FFEDF2EE" Margin="54,60,60,0" Height="400">
+                <TextBlock x:Name="title" FontFamily="Arial" FontSize="30" TextWrapping="Wrap" UseLayoutRounding="True" RelativePanel.AlignHorizontalCenterWithPanel="True" RelativePanel.AlignVerticalCenterWithPanel="True" Margin="0,20,0,30" HorizontalAlignment="Center" FontWeight="Black" Foreground="#FF884E12"><Run Text="Equipment Management System"/></TextBlock>
+                <Button x:Name="viewEquipmentBtn" Content="Equipment List" Margin="10" Width="210" HorizontalAlignment="Center" FontFamily="Segoe UI Variable Display" FontSize="20" Background="#FFA5A5A3" Click="viewEquipment_Click" />
+                <Button x:Name="updateEquipmentBtn" Margin="10" Content="Update Equipment" Width="210" HorizontalAlignment="Center" FontFamily="Segoe UI Variable Display" FontSize="20" Background="#FFA5A5A3" Click="updateEquipment_Click" />
+                <Button x:Name="addEquipmentBtn" Margin="10" Content="Add Equipment" Width="210" HorizontalAlignment="Center" FontFamily="Segoe UI Variable Display" FontSize="20" Background="#FFA5A5A3" Click="addEquipment_Click" />
+                <Button x:Name="historyBtn" Margin="10" Content="History" Width="210" HorizontalAlignment="Center" FontFamily="Segoe UI Variable Display" FontSize="20" Background="#FFA5A5A3" Click="history_Click" />
+            </StackPanel>
+        </Grid>
+    </StackPanel>
+</Page>

@@ -1,0 +1,95 @@
+﻿<Page
+    x:Class="EquipmentTracking.updateDockingSystem"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:EquipmentTracking"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d" RequestedTheme="Light">
+
+    <Grid>
+        <StackPanel Margin="10,0,10,0" Background="#FFEDF2EE" CornerRadius="10" Padding="10" Grid.RowSpan="2">
+            <StackPanel.Resources>
+                <Style TargetType="TextBlock">
+                    <Setter Property="FontSize" Value="10" />
+                    <Setter Property="Foreground" Value="#1A237E" />
+                    <Setter Property="Margin" Value="0 0 0 10" />
+                </Style>
+                <Style TargetType="TextBox">
+                    <Setter Property="FontSize" Value="10" />
+                    <Setter Property="Foreground" Value="#1A237E" />
+                    <Setter Property="Margin" Value="0 0 0 20" />
+                    <Setter Property="Padding" Value="10" />
+                    <Setter Property="BorderThickness" Value="2" />
+                    <Setter Property="BorderBrush" Value="#1A237E" />
+                </Style>
+                <Style TargetType="Button">
+                    <Setter Property="FontSize" Value="15" />
+                    <Setter Property="Foreground" Value="White" />
+                    <Setter Property="Margin" Value="5" />
+                    <Setter Property="Padding" Value="10" />
+                    <Setter Property="Background" Value="#0B3D91" />
+                    <Setter Property="BorderThickness" Value="0" />
+                    <Setter Property="HorizontalAlignment" Value="Center" />
+                    <Setter Property="Width" Value="100" />
+                    <Setter Property="Height" Value="35" />
+                </Style>
+            </StackPanel.Resources>
+
+            <TextBlock x:Name="DockingTile" Text="Docking System Record" FontSize="32" FontWeight="Bold" Foreground="Black" HorizontalAlignment="Center" Margin="0,10,0,10"/>
+
+            <TextBlock x:Name="display" Margin="100,10,100,10" TextAlignment="Center" VerticalAlignment="Center" FontSize="20" FontWeight="Bold" />
+            <Grid Background="{ThemeResource SystemControlAcrylicWindowBrush}" Height="598" Width="1386" RenderTransformOrigin="0.478,0.486">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition/>
+                    <ColumnDefinition Width="0*"/>
+                </Grid.ColumnDefinitions>
+                <RelativePanel>
+                    <ListView x:Name="DockingList"
+                              SelectionMode="Single"
+                              ScrollViewer.VerticalScrollBarVisibility="Auto"
+                              ScrollViewer.IsVerticalRailEnabled="True"
+                              ScrollViewer.VerticalScrollMode="Enabled"
+                              ScrollViewer.HorizontalScrollMode="Enabled"
+                              ScrollViewer.HorizontalScrollBarVisibility="Auto"
+                              ScrollViewer.IsHorizontalRailEnabled="True"
+                              Height="Auto" 
+                              RenderTransformOrigin="0.5,0.5" 
+                              UseLayoutRounding="False" 
+                              d:LayoutRounding="Auto" 
+                              Width="Auto">
+                        <ListView.RenderTransform>
+                            <CompositeTransform SkewY="-0.139" TranslateY="-0.998"/>
+                        </ListView.RenderTransform>
+                        <ListView.HeaderTemplate>
+                            <DataTemplate>
+                                <StackPanel Orientation="Horizontal"  >
+                                    <TextBlock Text="Model" Margin="10,20" Width="200" Foreground="#0B3D91" FontWeight="Bold" TextAlignment="Center" />
+                                    <TextBlock Text="Code SN" Margin="10,20" Width="150" Foreground="#0B3D91" FontWeight="Bold" TextAlignment="Center"/>
+                                    <TextBlock Text="Received Date" Margin="10,20" Width="150" Foreground="#0B3D91" FontWeight="Bold" TextAlignment="Center" />
+                                    <TextBlock Text="Condition" Margin="10,20" Width="100" Foreground="#0B3D91" FontWeight="Bold" TextAlignment="Center" />
+                                    <TextBlock Text="Remarks" Margin="10,20" Width="130" Foreground="#0B3D91" FontWeight="Bold" TextAlignment="Center" />
+                                    <TextBlock Text="Owner" Margin="10,20" Width="100" Foreground="#0B3D91" FontWeight="Bold" TextAlignment="Center" />
+                                </StackPanel>
+                            </DataTemplate>
+                        </ListView.HeaderTemplate>
+                        <ListView.ItemTemplate>
+                            <DataTemplate x:DataType="local:DockingDetail">
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock Text="{x:Bind Path=Model}" Margin="0,20" TextAlignment="Center" Width="200" />
+                                    <TextBlock Text="{x:Bind Path=Code_SN}" Margin="10,20" TextAlignment="Center" Width="150" />
+                                    <TextBlock Text="{x:Bind Path=Received_date}" Margin="10,20" TextAlignment="Center" Width="150" />
+                                    <TextBlock Text="{x:Bind Path=Condition}" Margin="10,20" TextAlignment="Center" Width="100" />
+                                    <TextBlock Text="{x:Bind Path=Remarks}" Margin="10,20" TextAlignment="Center" Width="130" />
+                                    <TextBlock Text="{x:Bind Path=OwnerID}" Margin="10,20" TextAlignment="Center" Width="100" />
+                                    <Button x:Name="btnDelete" Click="btnDelete_Click"  Tag="{x:Bind Path=DockingID}" Content="Delete" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                    <Button x:Name="btnUpdate" Click="btnUpdate_Click" Tag="{x:Bind Path=DockingID}" Content="Update" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                </StackPanel>
+                            </DataTemplate>
+                        </ListView.ItemTemplate>
+                    </ListView>
+                </RelativePanel>
+            </Grid>
+        </StackPanel>
+    </Grid>
+</Page>
