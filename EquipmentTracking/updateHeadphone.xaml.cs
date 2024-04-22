@@ -55,7 +55,7 @@ namespace EquipmentTracking
                     h.Received_date = sdr["Received_date"].ToString();
                     h.Condition = sdr["Condition"].ToString();
                     h.Remarks = sdr["Remarks"].ToString();
-                    h.OwnerID = sdr["OwnerID"] != DBNull.Value ? Convert.ToInt32(sdr["OwnerID"]) : 0;
+                    h.Owner = sdr["Owner"].ToString();
                     /*if (!Convert.IsDBNull(sdr["OwnerID"]))
                     {
                         m.OwnerID = Convert.ToInt32(sdr["OwnerID"]);

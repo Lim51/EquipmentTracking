@@ -81,7 +81,7 @@
                                     <TextBlock Text="{x:Bind Path=Received_date}" Margin="10,20" TextAlignment="Center" Width="150" />
                                     <TextBlock Text="{x:Bind Path=Condition}" Margin="10,20" TextAlignment="Center" Width="100" />
                                     <TextBlock Text="{x:Bind Path=Remarks}" Margin="10,20" TextAlignment="Center" Width="130" />
-                                    <TextBlock Text="{x:Bind Path=OwnerID}" Margin="10,20" TextAlignment="Center" Width="100" />
+                                    <TextBlock Text="{x:Bind Path=Owner}" Margin="10,20" TextAlignment="Center" Width="100" />
                                     <Button x:Name="btnDelete" Click="btnDelete_Click"  Tag="{x:Bind Path=MonitorID}" Content="Delete" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                                     <Button x:Name="btnUpdate" Click="btnUpdate_Click" Tag="{x:Bind Path=MonitorID}" Content="Update" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                                 </StackPanel>

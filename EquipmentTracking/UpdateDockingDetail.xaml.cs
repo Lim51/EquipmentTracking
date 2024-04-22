@@ -36,7 +36,7 @@ namespace EquipmentTracking
                 // Set the selected item in ComboBox for conditionTextbox
                 SetConditionComboBox(itemToUpdate.Condition);
                 remarkTextbox.Text = itemToUpdate.Remarks;
-                ownerNameTextbox.Text = itemToUpdate.OwnerID.ToString();
+                ownerNameTextbox.Text = itemToUpdate.Owner.ToString();
 
             }
         }
@@ -78,7 +78,7 @@ namespace EquipmentTracking
                         updateCommand.Connection = db;
 
                         //Use parameterized query to prevent SQL injection attacks
-                        updateCommand.CommandText = "UPDATE docking_sys SET Model=@Model, Code_SN=@Code_SN, Received_date=@Received_date, Condition=@Condition, Remarks=@Remarks,OwnerID=@OwnerID WHERE DockingID='" + GlobalData.DockingID.ToString() + "'";
+                        updateCommand.CommandText = "UPDATE docking_sys SET Model=@Model, Code_SN=@Code_SN, Received_date=@Received_date, Condition=@Condition, Remarks=@Remarks,Owner=@Owner WHERE DockingID='" + GlobalData.DockingID.ToString() + "'";
 
                         updateCommand.Parameters.AddWithValue("@Model", modelTextbox.Text);
                         updateCommand.Parameters.AddWithValue("@Code_SN", codeTextbox.Text);
@@ -86,7 +86,7 @@ namespace EquipmentTracking
                         // Save the selected condition from ComboBox
                         updateCommand.Parameters.AddWithValue("@Condition", conditionComboBox.SelectedItem != null ? (conditionComboBox.SelectedItem as ComboBoxItem).Content.ToString() : "");
                         updateCommand.Parameters.AddWithValue("@Remarks", remarkTextbox.Text);
-                        updateCommand.Parameters.AddWithValue("@OwnerID", ownerNameTextbox.Text);
+                        updateCommand.Parameters.AddWithValue("@Owner", ownerNameTextbox.Text);
 
                         updateCommand.ExecuteNonQuery();
 

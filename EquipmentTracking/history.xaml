@@ -8,7 +8,15 @@
     mc:Ignorable="d"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
-    <Grid>
+    <StackPanel>
+        <CommandBar Height="36" UseLayoutRounding="True" Background="#FFEDF2EE">
+            <CommandBar.Content>
+                <Grid/>
+            </CommandBar.Content>
+            <AppBarButton Icon="Back" Label="Back" Click="BackButton_Click"/>
+            <AppBarSeparator/>
+            <AppBarButton x:Name="exitCommandBar" Icon="ClosePane" Label="Exit" Click="exitCommandBar_Click" />
 
-    </Grid>
+        </CommandBar>
+    </StackPanel>
 </Page>

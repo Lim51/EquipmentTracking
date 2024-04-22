@@ -14,7 +14,7 @@ namespace EquipmentTracking
         public string Received_date { get; set; }
         public string Condition { get; set; }
         public string Remarks { get; set; }
-        public int OwnerID { get; set; }
+        public string Owner { get; set; }
     }
 }
 
