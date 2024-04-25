@@ -119,9 +119,28 @@
     <Compile Include="add.xaml.cs">
       <DependentUpon>add.xaml</DependentUpon>
     </Compile>
+    <Compile Include="addCables.xaml.cs">
+      <DependentUpon>addCables.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="addDockingSystem.xaml.cs">
+      <DependentUpon>addDockingSystem.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="addHeadphone.xaml.cs">
+      <DependentUpon>addHeadphone.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="addLaptop.xaml.cs">
+      <DependentUpon>addLaptop.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="addMonitor.xaml.cs">
+      <DependentUpon>addMonitor.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="addMouse.xaml.cs">
+      <DependentUpon>addMouse.xaml</DependentUpon>
+    </Compile>
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
+    <Compile Include="CableDetail.cs" />
     <Compile Include="DockingDetail.cs" />
     <Compile Include="GlobalData.cs" />
     <Compile Include="HeadphoneDetail.cs" />
@@ -140,6 +159,9 @@
     </Compile>
     <Compile Include="updateCables.xaml.cs">
       <DependentUpon>updateCables.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UpdateCablesDetail.xaml.cs">
+      <DependentUpon>UpdateCablesDetail.xaml</DependentUpon>
     </Compile>
     <Compile Include="UpdateDockingDetail.xaml.cs">
       <DependentUpon>UpdateDockingDetail.xaml</DependentUpon>
@@ -181,16 +203,60 @@
     </AppxManifest>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Assets\Continental-logo-1920x1080.altform-lightunplated_targetsize-16.png" />
+    <Content Include="Assets\Continental-logo-1920x1080.altform-lightunplated_targetsize-24.png" />
+    <Content Include="Assets\Continental-logo-1920x1080.altform-lightunplated_targetsize-256.png" />
+    <Content Include="Assets\Continental-logo-1920x1080.altform-lightunplated_targetsize-32.png" />
+    <Content Include="Assets\Continental-logo-1920x1080.altform-lightunplated_targetsize-48.png" />
+    <Content Include="Assets\Continental-logo-1920x1080.altform-unplated_targetsize-16.png" />
+    <Content Include="Assets\Continental-logo-1920x1080.altform-unplated_targetsize-24.png" />
+    <Content Include="Assets\Continental-logo-1920x1080.altform-unplated_targetsize-256.png" />
+    <Content Include="Assets\Continental-logo-1920x1080.altform-unplated_targetsize-32.png" />
+    <Content Include="Assets\Continental-logo-1920x1080.altform-unplated_targetsize-48.png" />
+    <Content Include="Assets\Continental-logo-1920x1080.scale-100.png" />
+    <Content Include="Assets\Continental-logo-1920x1080.scale-125.png" />
+    <Content Include="Assets\Continental-logo-1920x1080.scale-150.png" />
+    <Content Include="Assets\Continental-logo-1920x1080.scale-200.png" />
+    <Content Include="Assets\Continental-logo-1920x1080.scale-400.png" />
+    <Content Include="Assets\Continental-logo-1920x1080.targetsize-16.png" />
+    <Content Include="Assets\Continental-logo-1920x1080.targetsize-24.png" />
+    <Content Include="Assets\Continental-logo-1920x1080.targetsize-256.png" />
+    <Content Include="Assets\Continental-logo-1920x1080.targetsize-32.png" />
+    <Content Include="Assets\Continental-logo-1920x1080.targetsize-48.png" />
     <Content Include="Assets\equipment.jpg">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="Assets\LargeTile.scale-100.png" />
+    <Content Include="Assets\LargeTile.scale-125.png" />
+    <Content Include="Assets\LargeTile.scale-150.png" />
+    <Content Include="Assets\LargeTile.scale-200.png" />
+    <Content Include="Assets\LargeTile.scale-400.png" />
+    <Content Include="Assets\SmallTile.scale-100.png" />
+    <Content Include="Assets\SmallTile.scale-125.png" />
+    <Content Include="Assets\SmallTile.scale-150.png" />
+    <Content Include="Assets\SmallTile.scale-200.png" />
+    <Content Include="Assets\SmallTile.scale-400.png" />
+    <Content Include="Assets\SplashScreen.scale-100.png" />
+    <Content Include="Assets\SplashScreen.scale-125.png" />
+    <Content Include="Assets\SplashScreen.scale-150.png" />
+    <Content Include="Assets\SplashScreen.scale-400.png" />
+    <Content Include="Assets\Square150x150Logo.scale-100.png" />
+    <Content Include="Assets\Square150x150Logo.scale-125.png" />
+    <Content Include="Assets\Square150x150Logo.scale-150.png" />
+    <Content Include="Assets\Square150x150Logo.scale-400.png" />
+    <Content Include="Assets\Wide310x150Logo.scale-100.png" />
+    <Content Include="Assets\Wide310x150Logo.scale-125.png" />
+    <Content Include="Assets\Wide310x150Logo.scale-150.png" />
+    <Content Include="Assets\Wide310x150Logo.scale-400.png" />
     <Content Include="Properties\Default.rd.xml" />
     <Content Include="Assets\LockScreenLogo.scale-200.png" />
     <Content Include="Assets\SplashScreen.scale-200.png" />
     <Content Include="Assets\Square150x150Logo.scale-200.png" />
     <Content Include="Assets\Square44x44Logo.scale-200.png" />
     <Content Include="Assets\Square44x44Logo.targetsize-24_altform-unplated.png" />
-    <Content Include="Assets\StoreLogo.png" />
+    <Content Include="Assets\StoreLogo.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="Assets\Wide310x150Logo.scale-200.png" />
   </ItemGroup>
   <ItemGroup>
@@ -199,6 +265,30 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Page Include="add.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="addCables.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="addDockingSystem.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="addHeadphone.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="addLaptop.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="addMonitor.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="addMouse.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -215,6 +305,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="updateCables.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UpdateCablesDetail.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

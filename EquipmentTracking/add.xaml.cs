@@ -25,6 +25,32 @@ namespace EquipmentTracking
         public add()
         {
             this.InitializeComponent();
+            LoadCategories();
+        }
+
+        private void LoadCategories()
+        {
+            // Assuming you have a list of categories, you need to populate them in the ListView
+            categoryComboBox.ItemsSource = new[]
+            {
+                new { Name = "Mouse", Page = typeof(addMouse) },
+                new { Name = "Headphone", Page = typeof(addHeadphone) },
+                new { Name = "Monitor", Page = typeof(addMonitor) },
+                new { Name = "Docking System", Page = typeof(addDockingSystem) },
+                new { Name = "Cables", Page = typeof(addCables) },
+                new { Name = "Laptop", Page = typeof(addLaptop) }
+            };
+        }
+
+        private void categoryComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            // When a category is selected, navigate to the corresponding page
+            if (categoryComboBox.SelectedItem != null)
+            {
+                var selectedCategory = categoryComboBox.SelectedItem as dynamic;
+                var pageType = selectedCategory.Page;
+                categoryFrame.Navigate(pageType);
+            }
         }
 
         private void BackButton_Click(object sender, RoutedEventArgs e)

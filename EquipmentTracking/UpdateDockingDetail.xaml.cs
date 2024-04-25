@@ -32,7 +32,7 @@ namespace EquipmentTracking
             {
                 modelTextbox.Text = itemToUpdate.Model;
                 codeTextbox.Text = itemToUpdate.Code_SN;
-                datePicker.Date = DateTime.Parse(itemToUpdate.Received_date);
+                dateTextbox.Text = itemToUpdate.Received_date;
                 // Set the selected item in ComboBox for conditionTextbox
                 SetConditionComboBox(itemToUpdate.Condition);
                 remarkTextbox.Text = itemToUpdate.Remarks;
@@ -82,7 +82,26 @@ namespace EquipmentTracking
 
                         updateCommand.Parameters.AddWithValue("@Model", modelTextbox.Text);
                         updateCommand.Parameters.AddWithValue("@Code_SN", codeTextbox.Text);
-                        updateCommand.Parameters.AddWithValue("@Received_date", datePicker.Date.ToString("yyyy-MM-dd")); // Format the date correctly
+                        // Check if the date is in the correct format (yyyy-MM-dd)
+                        if (string.IsNullOrWhiteSpace(dateTextbox.Text))
+                        {
+                            // If the date is empty, set it to null in the database
+                            updateCommand.Parameters.AddWithValue("@Received_date", DBNull.Value);
+                        }
+                        else
+                        {
+                            DateTime receivedDate;
+                            if (DateTime.TryParseExact(dateTextbox.Text, "yyyy-MM-dd", null, System.Globalization.DateTimeStyles.None, out receivedDate))
+                            {
+                                updateCommand.Parameters.AddWithValue("@Received_date", receivedDate.ToString("yyyy-MM-dd"));
+                            }
+                            else
+                            {
+                                // Handle invalid date format
+                                DisplayDialog("Input Error", "Enter a valid date in the format yyyy-MM-dd.");
+                                return;
+                            }
+                        }
                         // Save the selected condition from ComboBox
                         updateCommand.Parameters.AddWithValue("@Condition", conditionComboBox.SelectedItem != null ? (conditionComboBox.SelectedItem as ComboBoxItem).Content.ToString() : "");
                         updateCommand.Parameters.AddWithValue("@Remarks", remarkTextbox.Text);

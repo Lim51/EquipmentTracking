@@ -49,17 +49,15 @@ namespace EquipmentTracking
                         h.hID = Convert.ToInt32(sdr["hID"]);
                     }
 
-                    h.Model = sdr["Model"].ToString();
-                    h.Code_SN = sdr["Code_SN"].ToString();
-                    // Format the date
-                    h.Received_date = sdr["Received_date"].ToString();
-                    h.Condition = sdr["Condition"].ToString();
-                    h.Remarks = sdr["Remarks"].ToString();
-                    h.Owner = sdr["Owner"].ToString();
-                    /*if (!Convert.IsDBNull(sdr["OwnerID"]))
-                    {
-                        m.OwnerID = Convert.ToInt32(sdr["OwnerID"]);
-                    }*/
+                    // Check if the columns are null or empty, if so, set them to "-"
+
+                    h.Model = !string.IsNullOrEmpty(sdr["Model"].ToString()) ? sdr["Model"].ToString() : "-";
+                    h.Code_SN = !string.IsNullOrEmpty(sdr["Code_SN"].ToString()) ? sdr["Code_SN"].ToString() : "-";            
+                    h.Received_date = !string.IsNullOrEmpty(sdr["Received_date"].ToString()) ? sdr["Received_date"].ToString() : "-";
+                    h.Condition = !string.IsNullOrEmpty(sdr["Condition"].ToString()) ? sdr["Condition"].ToString() : "-";
+                    h.Remarks = !string.IsNullOrEmpty(sdr["Remarks"].ToString()) ? sdr["Remarks"].ToString() : "-";
+                    h.Owner = !string.IsNullOrEmpty(sdr["Owner"].ToString()) ? sdr["Owner"].ToString() : "-";
+                    
                     GlobalData.HeadphoneDetailList.Add(h);
                     h = null;
                 }

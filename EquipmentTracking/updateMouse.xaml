@@ -8,7 +8,7 @@
     mc:Ignorable="d" RequestedTheme="Light">
 
     <Grid>
-        <StackPanel Margin="10,0,10,0" Background="#FFEDF2EE" CornerRadius="10" Padding="10" Grid.RowSpan="2">
+        <StackPanel Margin="10,0,10,0" Background="#FFEDF2EE" CornerRadius="10" Padding="10" Grid.RowSpan="10">
             <StackPanel.Resources>
                 <Style TargetType="TextBlock">
                     <Setter Property="FontSize" Value="10" />
@@ -34,11 +34,34 @@
                     <Setter Property="Width" Value="100" />
                     <Setter Property="Height" Value="35" />
                 </Style>
+
+                <Style x:Key="FilterTextBoxStyle" TargetType="TextBox">
+                    <Setter Property="FontSize" Value="14"/>
+                    <Setter Property="Margin" Value="5"/>
+                    <Setter Property="Padding" Value="5"/>
+                    <Setter Property="BorderThickness" Value="1"/>
+                    <Setter Property="BorderBrush" Value="#1A237E"/>
+                </Style>
+
+                <Style x:Key="FilterButtonStyle" TargetType="Button">
+                    <Setter Property="FontSize" Value="14"/>
+                    <Setter Property="Foreground" Value="White"/>
+                    <Setter Property="Margin" Value="5"/>
+                    <Setter Property="Padding" Value="10"/>
+                    <Setter Property="Background" Value="#0B3D91"/>
+                    <Setter Property="BorderThickness" Value="0"/>
+                </Style>
             </StackPanel.Resources>
 
             <TextBlock x:Name="MouseTile" Text="Mouse Record" FontSize="32" FontWeight="Bold" Foreground="Black" HorizontalAlignment="Center" Margin="0,10,0,10"/>
 
             <TextBlock x:Name="display" Margin="100,10,100,10" TextAlignment="Center" VerticalAlignment="Center" FontSize="20" FontWeight="Bold" />
+            <!-- Add the filtering controls here -->
+            <StackPanel Orientation="Horizontal" Margin="0,10,50,10" HorizontalAlignment="Right">
+                <TextBox x:Name="txtFilter" PlaceholderText="Search" Width="200" Style="{StaticResource FilterTextBoxStyle}"/>
+                <Button Content="Apply Filter" Click="ApplyFilter_Click" Style="{StaticResource FilterButtonStyle}"/>
+                <Button Content="Clear Filter" Click="ClearFilter_Click" Style="{StaticResource FilterButtonStyle}"/>
+            </StackPanel>
             <Grid Background="{ThemeResource SystemControlAcrylicWindowBrush}" Height="598" Width="1386" RenderTransformOrigin="0.478,0.486">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition/>
@@ -46,30 +69,30 @@
                 </Grid.ColumnDefinitions>
                 <RelativePanel>
                     <ListView x:Name="MouseList"
-                              SelectionMode="Single"
-                              ScrollViewer.VerticalScrollBarVisibility="Auto"
-                              ScrollViewer.IsVerticalRailEnabled="True"
-                              ScrollViewer.VerticalScrollMode="Enabled"
-                              ScrollViewer.HorizontalScrollMode="Enabled"
-                              ScrollViewer.HorizontalScrollBarVisibility="Auto"
-                              ScrollViewer.IsHorizontalRailEnabled="True"
-                              Height="Auto" 
-                              RenderTransformOrigin="0.5,0.5" 
-                              UseLayoutRounding="False" 
-                              d:LayoutRounding="Auto" 
-                              Width="Auto">
+                            SelectionMode="Single"
+                            ScrollViewer.VerticalScrollBarVisibility="Auto"
+                            ScrollViewer.IsVerticalRailEnabled="True"
+                            ScrollViewer.VerticalScrollMode="Enabled"
+                            ScrollViewer.HorizontalScrollMode="Enabled"
+                            ScrollViewer.HorizontalScrollBarVisibility="Auto"
+                            ScrollViewer.IsHorizontalRailEnabled="True"
+                            Height="Auto" 
+                            RenderTransformOrigin="0.5,0.5" 
+                            UseLayoutRounding="False" 
+                            d:LayoutRounding="Auto" 
+                            Width="Auto">   
                         <ListView.RenderTransform>
                             <CompositeTransform SkewY="-0.139" TranslateY="-0.998"/>
                         </ListView.RenderTransform>
                         <ListView.HeaderTemplate>
                             <DataTemplate>
                                 <StackPanel Orientation="Horizontal"  >
-                                    <TextBlock Text="Model" Margin="10,20" Width="200" Foreground="#0B3D91" FontWeight="Bold" TextAlignment="Center" />
-                                    <TextBlock Text="Code SN" Margin="10,20" Width="150" Foreground="#0B3D91" FontWeight="Bold" TextAlignment="Center"/>
-                                    <TextBlock Text="Received Date" Margin="10,20" Width="150" Foreground="#0B3D91" FontWeight="Bold" TextAlignment="Center" />
-                                    <TextBlock Text="Condition" Margin="10,20" Width="100" Foreground="#0B3D91" FontWeight="Bold" TextAlignment="Center" />
-                                    <TextBlock Text="Remarks" Margin="10,20" Width="130" Foreground="#0B3D91" FontWeight="Bold" TextAlignment="Center" />
-                                    <TextBlock Text="Owner" Margin="10,20" Width="100" Foreground="#0B3D91" FontWeight="Bold" TextAlignment="Center" />
+                                    <TextBlock Text="Model" Margin="10,20" Width="200" Foreground="#0B3D91" FontWeight="Bold" TextAlignment="Center" PointerPressed="SortByModel_Click"/>
+                                    <TextBlock Text="Code SN" Margin="10,20" Width="150" Foreground="#0B3D91" FontWeight="Bold" TextAlignment="Center" PointerPressed="SortByModel_Click"/>
+                                    <TextBlock Text="Received Date" Margin="10,20" Width="150" Foreground="#0B3D91" FontWeight="Bold" TextAlignment="Center" PointerPressed="SortByDate_Click"/>
+                                    <TextBlock Text="Condition" Margin="10,20" Width="100" Foreground="#0B3D91" FontWeight="Bold" TextAlignment="Center" PointerPressed="SortByCondition_Click"/>
+                                    <TextBlock Text="Remarks" Margin="10,20" Width="130" Foreground="#0B3D91" FontWeight="Bold" TextAlignment="Center" PointerPressed="SortByRemark_Click"/>
+                                    <TextBlock Text="Owner" Margin="10,20" Width="100" Foreground="#0B3D91" FontWeight="Bold" TextAlignment="Center" PointerPressed="SortByOwner_Click"/>
                                 </StackPanel>
                             </DataTemplate>
                         </ListView.HeaderTemplate>
@@ -87,6 +110,7 @@
                                 </StackPanel>
                             </DataTemplate>
                         </ListView.ItemTemplate>
+
                     </ListView>
                 </RelativePanel>
             </Grid>

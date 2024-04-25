@@ -48,7 +48,7 @@
 
                 <RelativePanel  Margin="50,10,50,2" Width="902">
                     <TextBlock x:Name="dateTextblock" Height="50" TextWrapping="Wrap" Text="Received Date      :" Width="160"/>
-                    <DatePicker x:Name="datePicker" Height="50" Width="307" RelativePanel.RightOf="dateTextblock"/>
+                    <TextBox x:Name="dateTextbox" Height="50" TextWrapping="Wrap" Text="" Width="307" RelativePanel.RightOf="dateTextblock" PlaceholderText="yyyy-MM-dd" />
 
                     <TextBlock x:Name="conditionTextblock" Height="50" Text="Condition            :" Width="160" TextAlignment="DetectFromContent" Margin="500,0,0,10"/>
                     <ComboBox x:Name="conditionComboBox" Height="50" Width="236" RelativePanel.RightOf="conditionTextblock">

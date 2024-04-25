@@ -49,17 +49,14 @@ namespace EquipmentTracking
                         m.DockingID = Convert.ToInt32(sdr["DockingID"]);
                     }
 
-                    m.Model = sdr["Model"].ToString();
-                    m.Code_SN = sdr["Code_SN"].ToString();
-                    // Format the date
-                    m.Received_date = sdr["Received_date"].ToString();
-                    m.Condition = sdr["Condition"].ToString();
-                    m.Remarks = sdr["Remarks"].ToString();
-                    m.Owner = sdr["Owner"].ToString();
-                    /*if (!Convert.IsDBNull(sdr["OwnerID"]))
-                    {
-                        m.OwnerID = Convert.ToInt32(sdr["OwnerID"]);
-                    }*/
+                    // Check if the columns are null or empty, if so, set them to "-"
+                    m.Model = !string.IsNullOrEmpty(sdr["Model"].ToString()) ? sdr["Model"].ToString() : "-";
+                    m.Code_SN = !string.IsNullOrEmpty(sdr["Code_SN"].ToString()) ? sdr["Code_SN"].ToString() : "-";
+                    m.Received_date = !string.IsNullOrEmpty(sdr["Received_date"].ToString()) ? sdr["Received_date"].ToString() : "-";
+                    m.Condition = !string.IsNullOrEmpty(sdr["Condition"].ToString()) ? sdr["Condition"].ToString() : "-";
+                    m.Remarks = !string.IsNullOrEmpty(sdr["Remarks"].ToString()) ? sdr["Remarks"].ToString() : "-";
+                    m.Owner = !string.IsNullOrEmpty(sdr["Owner"].ToString()) ? sdr["Owner"].ToString() : "-";
+
                     GlobalData.DockingDetailList.Add(m);
                     m = null;
                 }

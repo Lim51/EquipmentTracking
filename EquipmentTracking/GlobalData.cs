@@ -14,11 +14,13 @@ namespace EquipmentTracking
         public static List<MonitorDetail> MonitorDetailList = new List<MonitorDetail>();
         public static List<DockingDetail> DockingDetailList = new List<DockingDetail>();
         public static List<LaptopDetail> LaptopDetailList = new List<LaptopDetail>();
+        public static List<CableDetail> CableDetailList = new List<CableDetail>();
 
         public static int MouseID { get; set; }
         public static int hID { get; set; }
         public static int MonitorID { get; set; }
         public static int DockingID { get; set; }
         public static int LaptopID { get; set; }
+        public static int CableID { get; set; }
     }
 }

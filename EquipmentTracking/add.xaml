@@ -5,18 +5,62 @@
     xmlns:local="using:EquipmentTracking"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    mc:Ignorable="d"
-    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+    mc:Ignorable="d" RequestedTheme="Light">
+    <Page.Background>
+        <ImageBrush ImageSource="/Assets/equipment.jpg" Stretch="UniformToFill" Opacity="1">
+            <ImageBrush.RelativeTransform>
+                <CompositeTransform CenterY="0.5" CenterX="0.5" TranslateX="0"/>
+            </ImageBrush.RelativeTransform>
+        </ImageBrush>
+    </Page.Background>
+    <ScrollViewer VerticalScrollBarVisibility="Auto">
+        <StackPanel>
+            <CommandBar Height="36" UseLayoutRounding="True" Background="#FFEDF2EE">
+                <CommandBar.Content>
+                    <Grid/>
+                </CommandBar.Content>
+                <AppBarButton Icon="Back" Label="Back" Click="BackButton_Click"/>
+                <AppBarSeparator/>
+                <AppBarButton x:Name="exitCommandBar" Icon="ClosePane" Label="Exit" Click="exitCommandBar_Click" />
 
-    <StackPanel>
-        <CommandBar Height="36" UseLayoutRounding="True" Background="#FFEDF2EE">
-            <CommandBar.Content>
-                <Grid/>
-            </CommandBar.Content>
-            <AppBarButton Icon="Back" Label="Back" Click="BackButton_Click"/>
-            <AppBarSeparator/>
-            <AppBarButton x:Name="exitCommandBar" Icon="ClosePane" Label="Exit" Click="exitCommandBar_Click" />
+            </CommandBar>
+            <Grid Height="auto" RenderTransformOrigin="0.499,0.316">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition/>
+                    <ColumnDefinition Width="0*"/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" MinHeight="83.333"/>
+                    <!-- Pages -->
+                    <!-- Header -->
+                    <RowDefinition Height="Auto" MinHeight="13.333"/>
+                    <!-- Category Selection (ComboBox) -->
+                    <RowDefinition/>
+                </Grid.RowDefinitions>
 
-        </CommandBar>
-    </StackPanel>
+                <!-- Header -->
+                <TextBlock Text="Add Equipment" FontSize="30" Margin="10,10,2,20" FontWeight="Bold" Foreground="White" TextAlignment="Center"/>
+
+                <!-- Category Selection Title and ComboBox -->
+                <StackPanel Grid.Row="1" Orientation="Horizontal" Margin="20,0,0,0" Height="63" VerticalAlignment="Center">
+                    <!-- Category Selection Title -->
+                    <TextBlock Text="Select Category:" FontSize="20" Margin="0,0,10,10" FontWeight="Bold"/>
+                    <!-- Category Selection (ComboBox) -->
+                    <ComboBox x:Name="categoryComboBox" SelectionChanged="categoryComboBox_SelectionChanged" Width="300" Height="45" FontSize="15">
+                        <ComboBox.ItemTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding Name}" Margin="8"/>
+                            </DataTemplate>
+                        </ComboBox.ItemTemplate>
+                    </ComboBox>
+
+                </StackPanel>
+
+                <!-- Pages -->
+                <Frame Grid.Row="2" x:Name="categoryFrame" IsNavigationStackEnabled="True"/>
+
+
+            </Grid>
+        </StackPanel>
+    </ScrollViewer>
 </Page>

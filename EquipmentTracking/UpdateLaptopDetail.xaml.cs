@@ -82,7 +82,30 @@ namespace EquipmentTracking
 
                         updateCommand.Parameters.AddWithValue("@Model", modelTextbox.Text);
                         updateCommand.Parameters.AddWithValue("@Code_SN", codeTextbox.Text);
-                        updateCommand.Parameters.AddWithValue("@Received_date", dateTextbox.Text); 
+                        // Check if the date is in the correct format (yyyy)
+                        if (string.IsNullOrWhiteSpace(dateTextbox.Text))
+                        {
+                            // If the date is empty, set it to null in the database
+                            updateCommand.Parameters.AddWithValue("@Received_date", DBNull.Value);
+                        }
+                        else
+                        {
+                            // Regular expression pattern to match yyyy format
+                            string yearPattern = @"^\d{4}$";
+
+                            if (System.Text.RegularExpressions.Regex.IsMatch(dateTextbox.Text, yearPattern))
+                            {
+                                // Date format is correct, set it to the database parameter
+                                updateCommand.Parameters.AddWithValue("@Received_date", dateTextbox.Text);
+                            }
+                            else
+                            {
+                                // Handle invalid date format
+                                DisplayDialog("Input Error", "Enter a valid year in the format yyyy.");
+                                return;
+                            }
+                        }
+
                         // Save the selected condition from ComboBox
                         updateCommand.Parameters.AddWithValue("@Condition", conditionComboBox.SelectedItem != null ? (conditionComboBox.SelectedItem as ComboBoxItem).Content.ToString() : "");
                         updateCommand.Parameters.AddWithValue("@Remarks", remarkTextbox.Text);

@@ -1,0 +1,79 @@
+﻿<Page
+    x:Class="EquipmentTracking.addMonitor"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:EquipmentTracking"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d" RequestedTheme="Light">
+
+
+    <StackPanel>
+        <Grid>
+            <StackPanel Margin="50,20,50,0" Background="#FFEDF2EE" CornerRadius="10" Padding="10">
+                <StackPanel.Resources>
+                    <Style TargetType="TextBlock">
+                        <Setter Property="FontSize" Value="18" />
+                        <Setter Property="Foreground" Value="#1A237E" />
+                        <Setter Property="Margin" Value="0 8 0 10" />
+                    </Style>
+                    <Style TargetType="TextBox">
+                        <Setter Property="FontSize" Value="18" />
+                        <Setter Property="Foreground" Value="#1A237E" />
+                        <Setter Property="Margin" Value="0 0 0 20" />
+                        <Setter Property="Padding" Value="10" />
+                        <Setter Property="BorderThickness" Value="2" />
+                        <Setter Property="BorderBrush" Value="#1A237E" />
+                    </Style>
+                    <Style TargetType="Button">
+                        <Setter Property="FontSize" Value="18" />
+                        <Setter Property="Foreground" Value="White" />
+                        <Setter Property="Margin" Value="10" />
+                        <Setter Property="Padding" Value="10" />
+                        <Setter Property="Background" Value="#0B3D91" />
+                        <Setter Property="BorderThickness" Value="0" />
+                        <Setter Property="HorizontalAlignment" Value="Center" />
+                        <Setter Property="Width" Value="200" />
+                        <Setter Property="Height" Value="50" />
+                    </Style>
+                </StackPanel.Resources>
+                <TextBlock x:Name="MonitorTile" Text="Add Monitor Record" FontSize="32" FontWeight="Bold" Foreground="Black" HorizontalAlignment="Center" Margin="0,10,0,10"/>
+
+                <RelativePanel  Margin="50,10,50,2" Width="902">
+                    <TextBlock x:Name="modelTextBlock" Height="50" TextWrapping="Wrap" Text="Model                   :" Width="160"/>
+                    <TextBox x:Name="modelTextbox" Height="50" TextWrapping="Wrap" Text="" Width="236" RelativePanel.RightOf="modelTextBlock"/>
+                    <TextBlock x:Name="codeTextblock" Height="50" Text="Code SN              :" Width="160" TextAlignment="DetectFromContent" Margin="500,10,0,10"/>
+                    <TextBox x:Name="codeTextbox" Height="50" TextWrapping="Wrap" Text="" Width="236" RelativePanel.RightOf="codeTextblock"/>
+                </RelativePanel>
+
+                <RelativePanel  Margin="50,10,50,2" Width="902">
+                    <TextBlock x:Name="dateTextblock" Height="50" TextWrapping="Wrap" Text="Received Date      :" Width="160"/>
+                    <TextBox x:Name="dateTextbox" Height="50" TextWrapping="Wrap" Text="" Width="307" RelativePanel.RightOf="dateTextblock" PlaceholderText="yyyy-MM-dd" />
+
+                    <TextBlock x:Name="conditionTextblock" Height="50" Text="Condition            :" Width="160" TextAlignment="DetectFromContent" Margin="500,0,0,10"/>
+                    <ComboBox x:Name="conditionComboBox" Height="50" Width="236" RelativePanel.RightOf="conditionTextblock">
+                        <ComboBoxItem Content="Good"/>
+                        <ComboBoxItem Content="Bad"/>
+
+                    </ComboBox>
+
+                </RelativePanel>
+
+                <RelativePanel  Margin="50,10,50,2" Width="902">
+                    <TextBlock x:Name="remarkTextblock" Height="50" TextWrapping="Wrap" Text="Remark      :" Width="160"/>
+                    <TextBox x:Name="remarkTextbox" Height="80" TextWrapping="Wrap" Text="" Width="236" RelativePanel.RightOf="remarkTextblock"/>
+                    <TextBlock x:Name="ownerNameTextblock" Height="50" Text="Owner                 :" Width="160" TextAlignment="DetectFromContent" Margin="500,10,0,10"/>
+                    <TextBox x:Name="ownerNameTextbox" Height="50" TextWrapping="Wrap" Text="" Width="236" RelativePanel.RightOf="ownerNameTextblock"/>
+                </RelativePanel>
+
+
+                <StackPanel Orientation="Horizontal" Margin="100 30 100 0" Width="600" HorizontalAlignment="Center" >
+                    <Button x:Name="saveButton" Content="Save" Click="saveButton_Click" Margin="80,0,80,0" />
+                    <Button x:Name="clearButton" Content="Clear" Click="btnClear_Click" Margin="10 0 50 0" />
+                </StackPanel>
+
+            </StackPanel>
+        </Grid>
+
+    </StackPanel>
+</Page>
