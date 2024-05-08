@@ -24,9 +24,79 @@ namespace EquipmentTracking
     public sealed partial class updateMonitor : Page
     {
         private string conn = (App.Current as App).ConnectionString;
+
+        // Define enum for sorting order
+        public enum SortDirection
+        {
+            Ascending,
+            Descending
+        }
+
+        // Track current sorting column and direction
+        private string currentSortColumn = "";
+        private SortDirection currentSortDirection = SortDirection.Ascending;
+
+        // Implement sorting logic for each column
+        private void SortByModel_Click(object sender, PointerRoutedEventArgs e)
+        {
+            SortByColumn("Model");
+        }
+
+        private void SortByCodeSN_Click(object sender, PointerRoutedEventArgs e)
+        {
+            SortByColumn("Code_SN");
+        }
+
+        private void SortByDate_Click(object sender, PointerRoutedEventArgs e)
+        {
+            SortByColumn("Received_date");
+        }
+        private void SortByCondition_Click(object sender, PointerRoutedEventArgs e)
+        {
+            SortByColumn("Condition");
+        }
+        private void SortByRemark_Click(object sender, PointerRoutedEventArgs e)
+        {
+            SortByColumn("Remarks");
+        }
+        private void SortByOwner_Click(object sender, PointerRoutedEventArgs e)
+        {
+            SortByColumn("Owner");
+        }
+        // Generic method to sort by column
+        private void SortByColumn(string columnName)
+        {
+            // Toggle sorting direction if the same column is clicked
+            if (columnName == currentSortColumn)
+            {
+                currentSortDirection = currentSortDirection == SortDirection.Ascending ? SortDirection.Descending : SortDirection.Ascending;
+            }
+            else
+            {
+                currentSortDirection = SortDirection.Ascending;
+            }
+
+            // Update current sort column
+            currentSortColumn = columnName;
+
+            // Sort the list based on the selected column and direction
+            if (currentSortDirection == SortDirection.Ascending)
+            {
+                // Sort in ascending order
+                GlobalData.MonitorDetailList = GlobalData.MonitorDetailList.OrderBy(m => m.GetType().GetProperty(columnName).GetValue(m, null)).ToList();
+            }
+            else
+            {
+                // Sort in descending order
+                GlobalData.MonitorDetailList = GlobalData.MonitorDetailList.OrderByDescending(m => m.GetType().GetProperty(columnName).GetValue(m, null)).ToList();
+            }
+
+            // Update the ListView
+            MonitorList.ItemsSource = GlobalData.MonitorDetailList;
+        }
+
         public updateMonitor()
         {
-
             this.InitializeComponent();
             SqlConnection con = null;
             try
@@ -75,7 +145,38 @@ namespace EquipmentTracking
             }
         }
 
+        private void ApplyFilter_Click(object sender, RoutedEventArgs e)
+        {
+            string filterText = txtFilter.Text.Trim().ToLower();
 
+            List<MonitorDetail> filteredList = new List<MonitorDetail>();
+
+            foreach (var item in GlobalData.MonitorDetailList)
+            {
+                // Check if any field contains the filter text
+                if (item.Model.ToLower().Contains(filterText) ||
+                    item.Code_SN.ToLower().Contains(filterText) ||
+                    item.Received_date.ToLower().Contains(filterText) ||
+                    item.Condition.ToLower().Contains(filterText) ||
+                    item.Remarks.ToLower().Contains(filterText) ||
+                    item.Owner.ToLower().Contains(filterText))
+                {
+                    filteredList.Add(item);
+                }
+            }
+
+            MonitorList.ItemsSource = filteredList;
+        }
+
+
+        private void ClearFilter_Click(object sender, RoutedEventArgs e)
+        {
+            // Clear filter criteria and display all records
+            txtFilter.Text = "";
+
+
+            MonitorList.ItemsSource = GlobalData.MonitorDetailList;
+        }
 
         private void btnDelete_Click(object sender, RoutedEventArgs e)
         {
@@ -139,8 +240,5 @@ namespace EquipmentTracking
 
 
         }
-
-
-
     }
 }

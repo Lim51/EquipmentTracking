@@ -37,7 +37,7 @@
                         <Setter Property="Height" Value="50" />
                     </Style>
                 </StackPanel.Resources>
-                <TextBlock x:Name="MouseTile" Text="Add Mouse Record" FontSize="32" FontWeight="Bold" Foreground="Black" HorizontalAlignment="Center" Margin="0,10,0,10"/>
+                <TextBlock x:Name="MouseTile" Text="Add Laptop Record" FontSize="32" FontWeight="Bold" Foreground="Black" HorizontalAlignment="Center" Margin="0,10,0,10"/>
 
                 <RelativePanel  Margin="50,10,50,2" Width="902">
                     <TextBlock x:Name="modelTextBlock" Height="50" TextWrapping="Wrap" Text="Model                   :" Width="160"/>

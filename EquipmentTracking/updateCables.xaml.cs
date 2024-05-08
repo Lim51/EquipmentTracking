@@ -24,6 +24,59 @@ namespace EquipmentTracking
     public sealed partial class updateCables : Page
     {
         private string conn = (App.Current as App).ConnectionString;
+
+        // Define enum for sorting order
+        public enum SortDirection
+        {
+            Ascending,
+            Descending
+        }
+
+        // Track current sorting column and direction
+        private string currentSortColumn = "";
+        private SortDirection currentSortDirection = SortDirection.Ascending;
+
+        // Implement sorting logic for each column
+        private void SortByCable_Click(object sender, PointerRoutedEventArgs e)
+        {
+            SortByColumn("cables");
+        }
+
+        private void SortByQuantity_Click(object sender, PointerRoutedEventArgs e)
+        {
+            SortByColumn("quantity");
+        }
+        // Generic method to sort by column
+        private void SortByColumn(string columnName)
+        {
+            // Toggle sorting direction if the same column is clicked
+            if (columnName == currentSortColumn)
+            {
+                currentSortDirection = currentSortDirection == SortDirection.Ascending ? SortDirection.Descending : SortDirection.Ascending;
+            }
+            else
+            {
+                currentSortDirection = SortDirection.Ascending;
+            }
+
+            // Update current sort column
+            currentSortColumn = columnName;
+
+            // Sort the list based on the selected column and direction
+            if (currentSortDirection == SortDirection.Ascending)
+            {
+                // Sort in ascending order
+                GlobalData.CableDetailList = GlobalData.CableDetailList.OrderBy(m => m.GetType().GetProperty(columnName).GetValue(m, null)).ToList();
+            }
+            else
+            {
+                // Sort in descending order
+                GlobalData.CableDetailList = GlobalData.CableDetailList.OrderByDescending(m => m.GetType().GetProperty(columnName).GetValue(m, null)).ToList();
+            }
+
+            // Update the ListView
+            CableList.ItemsSource = GlobalData.CableDetailList;
+        }
         public updateCables()
         {
             this.InitializeComponent();
@@ -73,6 +126,35 @@ namespace EquipmentTracking
             }
         }
 
+        private void ApplyFilter_Click(object sender, RoutedEventArgs e)
+        {
+            string filterText = txtFilter.Text.Trim().ToLower();
+
+            List<CableDetail> filteredList = new List<CableDetail>();
+
+            foreach (var item in GlobalData.CableDetailList)
+            {
+                // Check if any field contains the filter text
+                if (item.cables.ToLower().Contains(filterText) ||
+                    item.quantity.ToString().Contains(filterText))
+                   
+                {
+                    filteredList.Add(item);
+                }
+            }
+
+            CableList.ItemsSource = filteredList;
+        }
+
+
+        private void ClearFilter_Click(object sender, RoutedEventArgs e)
+        {
+            // Clear filter criteria and display all records
+            txtFilter.Text = "";
+
+
+            CableList.ItemsSource = GlobalData.CableDetailList;
+        }
 
 
 

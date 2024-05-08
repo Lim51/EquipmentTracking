@@ -34,11 +34,33 @@
                     <Setter Property="Width" Value="100" />
                     <Setter Property="Height" Value="35" />
                 </Style>
+                <Style x:Key="FilterTextBoxStyle" TargetType="TextBox">
+                    <Setter Property="FontSize" Value="14"/>
+                    <Setter Property="Margin" Value="5"/>
+                    <Setter Property="Padding" Value="5"/>
+                    <Setter Property="BorderThickness" Value="1"/>
+                    <Setter Property="BorderBrush" Value="#1A237E"/>
+                </Style>
+
+                <Style x:Key="FilterButtonStyle" TargetType="Button">
+                    <Setter Property="FontSize" Value="14"/>
+                    <Setter Property="Foreground" Value="White"/>
+                    <Setter Property="Margin" Value="5"/>
+                    <Setter Property="Padding" Value="10"/>
+                    <Setter Property="Background" Value="#0B3D91"/>
+                    <Setter Property="BorderThickness" Value="0"/>
+                </Style>
             </StackPanel.Resources>
 
             <TextBlock x:Name="CableTile" Text="Cables Record" FontSize="32" FontWeight="Bold" Foreground="Black" HorizontalAlignment="Center" Margin="0,10,0,10"/>
 
             <TextBlock x:Name="display" Margin="100,10,100,10" TextAlignment="Center" VerticalAlignment="Center" FontSize="20" FontWeight="Bold" />
+            <!-- Add the filtering controls here -->
+            <StackPanel Orientation="Horizontal" Margin="0,10,50,10" HorizontalAlignment="Right">
+                <TextBox x:Name="txtFilter" PlaceholderText="Search" Width="200" Style="{StaticResource FilterTextBoxStyle}"/>
+                <Button Content="Apply Filter" Click="ApplyFilter_Click" Style="{StaticResource FilterButtonStyle}"/>
+                <Button Content="Clear Filter" Click="ClearFilter_Click" Style="{StaticResource FilterButtonStyle}"/>
+            </StackPanel>
             <Grid Background="{ThemeResource SystemControlAcrylicWindowBrush}" Height="598" Width="1386" RenderTransformOrigin="0.478,0.486">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition/>
@@ -64,8 +86,8 @@
                         <ListView.HeaderTemplate>
                             <DataTemplate>
                                 <StackPanel Orientation="Horizontal"  >
-                                    <TextBlock Text="cables" Margin="10,20" Width="600" Foreground="#0B3D91" FontWeight="Bold" TextAlignment="Center" />
-                                    <TextBlock Text="quantity" Margin="10,20" Width="200" Foreground="#0B3D91" FontWeight="Bold" TextAlignment="Center" />
+                                    <TextBlock Text="cables" Margin="10,20" Width="600" Foreground="#0B3D91" FontWeight="Bold" TextAlignment="Center" PointerPressed="SortByCable_Click"/>
+                                    <TextBlock Text="quantity" Margin="10,20" Width="200" Foreground="#0B3D91" FontWeight="Bold" TextAlignment="Center" PointerPressed="SortByQuantity_Click"/>
                                 </StackPanel>
                             </DataTemplate>
                         </ListView.HeaderTemplate>

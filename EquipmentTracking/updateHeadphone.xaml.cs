@@ -24,6 +24,77 @@ namespace EquipmentTracking
     public sealed partial class updateHeadphone : Page
     {
         private string conn = (App.Current as App).ConnectionString;
+
+        // Define enum for sorting order
+        public enum SortDirection
+        {
+            Ascending,
+            Descending
+        }
+
+        // Track current sorting column and direction
+        private string currentSortColumn = "";
+        private SortDirection currentSortDirection = SortDirection.Ascending;
+
+        // Implement sorting logic for each column
+        private void SortByModel_Click(object sender, PointerRoutedEventArgs e)
+        {
+            SortByColumn("Model");
+        }
+
+        private void SortByCodeSN_Click(object sender, PointerRoutedEventArgs e)
+        {
+            SortByColumn("Code_SN");
+        }
+
+        private void SortByDate_Click(object sender, PointerRoutedEventArgs e)
+        {
+            SortByColumn("Received_date");
+        }
+        private void SortByCondition_Click(object sender, PointerRoutedEventArgs e)
+        {
+            SortByColumn("Condition");
+        }
+        private void SortByRemark_Click(object sender, PointerRoutedEventArgs e)
+        {
+            SortByColumn("Remarks");
+        }
+        private void SortByOwner_Click(object sender, PointerRoutedEventArgs e)
+        {
+            SortByColumn("Owner");
+        }
+        // Generic method to sort by column
+        private void SortByColumn(string columnName)
+        {
+            // Toggle sorting direction if the same column is clicked
+            if (columnName == currentSortColumn)
+            {
+                currentSortDirection = currentSortDirection == SortDirection.Ascending ? SortDirection.Descending : SortDirection.Ascending;
+            }
+            else
+            {
+                currentSortDirection = SortDirection.Ascending;
+            }
+
+            // Update current sort column
+            currentSortColumn = columnName;
+
+            // Sort the list based on the selected column and direction
+            if (currentSortDirection == SortDirection.Ascending)
+            {
+                // Sort in ascending order
+                GlobalData.HeadphoneDetailList = GlobalData.HeadphoneDetailList.OrderBy(h => h.GetType().GetProperty(columnName).GetValue(h, null)).ToList();
+            }
+            else
+            {
+                // Sort in descending order
+                GlobalData.HeadphoneDetailList = GlobalData.HeadphoneDetailList.OrderByDescending(h => h.GetType().GetProperty(columnName).GetValue(h, null)).ToList();
+            }
+
+            // Update the ListView
+            HeadphoneList.ItemsSource = GlobalData.HeadphoneDetailList;
+        }
+
         public updateHeadphone()
         {
             this.InitializeComponent();
@@ -76,7 +147,38 @@ namespace EquipmentTracking
             }
         }
 
+        private void ApplyFilter_Click(object sender, RoutedEventArgs e)
+        {
+            string filterText = txtFilter.Text.Trim().ToLower();
 
+            List<HeadphoneDetail> filteredList = new List<HeadphoneDetail>();
+
+            foreach (var item in GlobalData.HeadphoneDetailList)
+            {
+                // Check if any field contains the filter text
+                if (item.Model.ToLower().Contains(filterText) ||
+                    item.Code_SN.ToLower().Contains(filterText) ||
+                    item.Received_date.ToLower().Contains(filterText) ||
+                    item.Condition.ToLower().Contains(filterText) ||
+                    item.Remarks.ToLower().Contains(filterText) ||
+                    item.Owner.ToLower().Contains(filterText))
+                {
+                    filteredList.Add(item);
+                }
+            }
+
+            HeadphoneList.ItemsSource = filteredList;
+        }
+
+
+        private void ClearFilter_Click(object sender, RoutedEventArgs e)
+        {
+            // Clear filter criteria and display all records
+            txtFilter.Text = "";
+
+
+            HeadphoneList.ItemsSource = GlobalData.HeadphoneDetailList;
+        }
 
         private void btnDelete_Click(object sender, RoutedEventArgs e)
         {

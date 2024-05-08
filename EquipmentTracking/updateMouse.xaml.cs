@@ -98,10 +98,6 @@ namespace EquipmentTracking
         public updateMouse()
         {
             this.InitializeComponent();
-
-            
-
-
             SqlConnection con = null;
             try
             {
@@ -149,9 +145,6 @@ namespace EquipmentTracking
                 con.Close();
             }
         }
-
-        
-
 
         private void ApplyFilter_Click(object sender, RoutedEventArgs e)
         {
