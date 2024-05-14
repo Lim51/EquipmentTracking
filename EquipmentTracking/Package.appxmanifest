@@ -7,16 +7,16 @@
   IgnorableNamespaces="uap mp">
 
   <Identity
-    Name="63b64997-5598-45ba-95af-503f7c6167c3"
+    Name="63b64997-5598-45ba-95af-SomethingElse"
     Publisher="CN=uig60643"
-    Version="1.0.0.0" />
+    Version="1.0.35.0" />
 
   <mp:PhoneIdentity PhoneProductId="63b64997-5598-45ba-95af-503f7c6167c3" PhonePublisherId="00000000-0000-0000-0000-000000000000"/>
 
   <Properties>
     <DisplayName>EquipmentTracking</DisplayName>
     <PublisherDisplayName>uig60643</PublisherDisplayName>
-    <Logo>Assets\Continental-logo-1920x1080.png</Logo>
+    <Logo>Assets\StoreLogo.png</Logo>
   </Properties>
 
   <Dependencies>
@@ -33,12 +33,15 @@
       EntryPoint="EquipmentTracking.App">
       <uap:VisualElements
         DisplayName="EquipmentTracking"
-        Square150x150Logo="Assets\Square150x150Logo.png"
-        Square44x44Logo="Assets\Continental-logo-1920x1080.png"
         Description="EquipmentTracking"
-        BackgroundColor="transparent">
-        <uap:DefaultTile Wide310x150Logo="Assets\Wide310x150Logo.png" Square71x71Logo="Assets\SmallTile.png" Square310x310Logo="Assets\LargeTile.png"/>
-        <uap:SplashScreen Image="Assets\SplashScreen.png" />
+        BackgroundColor="transparent" Square150x150Logo="Assets\Square150x150Logo.png" Square44x44Logo="Assets\Square44x44Logo.png">
+        <uap:DefaultTile Wide310x150Logo="Assets\Wide310x150Logo.png" Square71x71Logo="Assets\SmallTile.png" Square310x310Logo="Assets\LargeTile.png">
+          <uap:ShowNameOnTiles>
+            <uap:ShowOn Tile="square150x150Logo"/>
+            <uap:ShowOn Tile="wide310x150Logo"/>
+          </uap:ShowNameOnTiles>
+        </uap:DefaultTile>
+        <uap:SplashScreen Image="Assets\SplashScreen.png"/>
       </uap:VisualElements>
     </Application>
   </Applications>

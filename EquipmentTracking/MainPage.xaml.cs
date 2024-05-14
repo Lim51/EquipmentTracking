@@ -51,6 +51,6 @@ namespace EquipmentTracking
             this.Frame.Navigate(typeof(add));
         }
 
-
+       
     }
 }

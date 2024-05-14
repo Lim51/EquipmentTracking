@@ -32,6 +32,7 @@
                 <Button x:Name="addEquipmentBtn" Margin="10" Content="Add Equipment" Width="210" HorizontalAlignment="Center" FontFamily="Segoe UI Variable Display" FontSize="20" Background="#FFA5A5A3" Click="addEquipment_Click" />
                 <Button x:Name="historyBtn" Margin="10" Content="History" Width="210" HorizontalAlignment="Center" FontFamily="Segoe UI Variable Display" FontSize="20" Background="#FFA5A5A3" Click="history_Click" />
             </StackPanel>
+            <Image HorizontalAlignment="Left" Height="177" Margin="3,-81,0,0" VerticalAlignment="Top" Width="586" Source="/Assets/continental_logo_tagline_yellow_srgb_png-data.png"/>
         </Grid>
     </StackPanel>
 </Page>
