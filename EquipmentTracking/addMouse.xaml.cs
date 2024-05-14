@@ -23,14 +23,17 @@ namespace EquipmentTracking
     /// </summary>
     public sealed partial class addMouse : Page
     {
+        // Connection string to the database
         private string conn = (App.Current as App).ConnectionString; 
         public addMouse()
         {
             this.InitializeComponent();
         }
 
+        // Event handler for the Clear button click event
         private void btnClear_Click(object sender, RoutedEventArgs e)
         {
+            // Clear all input fields and reset the combo box
             modelTextbox.Text = "";
             codeTextbox.Text = "";
             dateTextbox.Text = ""; 
@@ -40,25 +43,27 @@ namespace EquipmentTracking
         }
 
 
-
-
+        // Event handler for the Save button click event
         private void saveButton_Click(object sender, RoutedEventArgs e)
         {
             try
             {
+                // Check if the model textbox is not empty
                 if (!string.IsNullOrEmpty(modelTextbox.Text))
                 {
+                    // Establish a connection to the database
                     using (SqlConnection db = new SqlConnection(conn))
                     {
                         db.Open();
 
+                        // Create a SQL command for inserting a new mouse record
                         SqlCommand insertCommand = new SqlCommand();
                         insertCommand.Connection = db;
 
                         // Use parameterized query to prevent SQL injection attacks
                         insertCommand.CommandText = "INSERT INTO mouse (Model, Code_SN, Received_date, Condition, Remarks, Owner) VALUES (@Model, @Code_SN, @Received_date, @Condition, @Remarks, @Owner)";
 
-
+                        // Add parameters to the SQL command
                         insertCommand.Parameters.AddWithValue("@Model", modelTextbox.Text);
                         insertCommand.Parameters.AddWithValue("@Code_SN", codeTextbox.Text);
 
@@ -71,6 +76,7 @@ namespace EquipmentTracking
                         else
                         {
                             DateTime receivedDate;
+                            // Try to parse the date from the input
                             if (DateTime.TryParseExact(dateTextbox.Text, "yyyy-MM-dd", null, System.Globalization.DateTimeStyles.None, out receivedDate))
                             {
                                 insertCommand.Parameters.AddWithValue("@Received_date", receivedDate.ToString("yyyy-MM-dd"));
@@ -82,10 +88,11 @@ namespace EquipmentTracking
                                 return;
                             }
                         }
-
+                        // Add the remaining parameters
                         insertCommand.Parameters.AddWithValue("@Condition", conditionComboBox.SelectedItem != null ? (conditionComboBox.SelectedItem as ComboBoxItem).Content.ToString() : "");
                         insertCommand.Parameters.AddWithValue("@Remarks", remarkTextbox.Text);
                         insertCommand.Parameters.AddWithValue("@Owner", ownerNameTextbox.Text);
+                        // Execute the SQL command
                         insertCommand.ExecuteNonQuery();
 
                         db.Close();
@@ -113,7 +120,7 @@ namespace EquipmentTracking
                 DisplayDialog("Error", "Error: " + theException.Message);
             }
         }
-
+        // Method to display a dialog with a specified title and content
         private async void DisplayDialog(string title, string content)
         {
             ContentDialog noDialog = new ContentDialog

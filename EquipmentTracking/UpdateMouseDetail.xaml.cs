@@ -23,8 +23,10 @@ namespace EquipmentTracking
     /// </summary>
     public sealed partial class UpdateMouseDetail : Page
     {
+        // Connection string to the database
         private string conn = (App.Current as App).ConnectionString;
 
+        // Constructor to initialize the page and load the selected mouse details
         public UpdateMouseDetail()
         {
             this.InitializeComponent();
@@ -54,17 +56,19 @@ namespace EquipmentTracking
                 conditionComboBox.SelectedIndex = 1; // Index 1 corresponds to "Bad"
             }
         }
-
+        // Event handler for Back button click to navigate back to the updateMouse page
         private void BackButton_Click(object sender, RoutedEventArgs e)
         {
             this.Frame.Navigate(typeof(updateMouse));
         }
 
+        // Event handler for Exit button click to close the application
         private void exitCommandBar_Click(object sender, RoutedEventArgs e)
         {
             Application.Current.Exit();
         }
 
+        // Event handler for Save button click to update the mouse details in the database
         private void saveButton_Click(object sender, RoutedEventArgs e)
         {
             try
@@ -136,9 +140,7 @@ namespace EquipmentTracking
 
 
 
-
-
-
+        // Method to display a dialog with a specified title and content
         private async void DisplayDialog(string title, string content)
         {
             ContentDialog noDialog = new ContentDialog

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Data.SqlClient;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -29,8 +30,9 @@ namespace EquipmentTracking
 
 
         //for connection database change name
-        //private string connectionString = "Data Source=PYL2514W\\SQLEXPRESS;Initial Catalog=Equipment;Integrated Security=True;";
-        private string connectionString = "Data Source=10.221.204.232\\SQLEXPRESS;Initial Catalog=Equipment;Integrated Security=True;";
+        private string connectionString = @"Data Source=PYL2514W\SQLEXPRESS;Initial Catalog=Equipment;Integrated Security=True;";
+
+        //private string connectionString = "Data Source=10.221.204.232\\SQLEXPRESS;Initial Catalog=Equipment;Integrated Security=True;";
 
         public string ConnectionString { get => connectionString; set => connectionString = value; }
 
