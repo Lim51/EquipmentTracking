@@ -4,12 +4,17 @@
   xmlns="http://schemas.microsoft.com/appx/manifest/foundation/windows10"
   xmlns:mp="http://schemas.microsoft.com/appx/2014/phone/manifest"
   xmlns:uap="http://schemas.microsoft.com/appx/manifest/uap/windows10"
-  IgnorableNamespaces="uap mp">
+  xmlns:uap3="http://schemas.microsoft.com/appx/manifest/uap/windows10/3"
+  xmlns:iot="http://schemas.microsoft.com/appx/manifest/iot/windows10"
+  xmlns:uap4="http://schemas.microsoft.com/appx/manifest/uap/windows10/4"
+  xmlns:uap6="http://schemas.microsoft.com/appx/manifest/uap/windows10/6"
+  xmlns:uap2="http://schemas.microsoft.com/appx/manifest/uap/windows10/2"
+  IgnorableNamespaces="uap mp uap3 iot uap4 uap6 uap2">
 
   <Identity
     Name="63b64997-5598-45ba-95af-SomethingElse"
     Publisher="CN=uig60643"
-    Version="1.0.36.0" />
+    Version="1.0.40.0" />
 
   <mp:PhoneIdentity PhoneProductId="63b64997-5598-45ba-95af-503f7c6167c3" PhonePublisherId="00000000-0000-0000-0000-000000000000"/>
 
@@ -49,5 +54,7 @@
   <Capabilities>
     <Capability Name="internetClient" />
     <uap:Capability Name="enterpriseAuthentication"/>
+    <Capability Name="internetClientServer"/>
+    <Capability Name="privateNetworkClientServer"/>
   </Capabilities>
 </Package>

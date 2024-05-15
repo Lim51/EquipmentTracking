@@ -18,34 +18,58 @@ using Windows.UI.Xaml.Navigation;
 namespace EquipmentTracking
 {
     /// <summary>
-    /// An empty page that can be used on its own or navigated to within a Frame.
+    /// Represents the main page of the application.
     /// </summary>
     public sealed partial class MainPage : Page
     {
+        /// <summary>
+        /// Initializes a new instance of the MainPage class.
+        /// </summary>
         public MainPage()
         {
             this.InitializeComponent();
         }
+
+        /// <summary>
+        /// Event handler for the "View Equipment" button click.
+        /// Navigates to the view equipment page.
+        /// </summary>
         private void viewEquipment_Click(object sender, RoutedEventArgs e)
         {
             this.Frame.Navigate(typeof(view));
         }
 
+        /// <summary>
+        /// Event handler for the "Exit" command bar button click.
+        /// Exits the application.
+        /// </summary>
         private void exitCommandBar_Click(object sender, RoutedEventArgs e)
         {
             Application.Current.Exit();
         }
 
+        /// <summary>
+        /// Event handler for the "Update Equipment" button click.
+        /// Navigates to the update equipment page.
+        /// </summary>
         private void updateEquipment_Click(object sender, RoutedEventArgs e)
         {
             this.Frame.Navigate(typeof(update));
         }
 
+        /// <summary>
+        /// Event handler for the "History" button click.
+        /// Navigates to the history page.
+        /// </summary>
         private void history_Click(object sender, RoutedEventArgs e)
         {
             this.Frame.Navigate(typeof(history));
         }
 
+        /// <summary>
+        /// Event handler for the "Add Equipment" button click.
+        /// Navigates to the add equipment page.
+        /// </summary>
         private void addEquipment_Click(object sender, RoutedEventArgs e)
         {
             this.Frame.Navigate(typeof(add));

@@ -19,10 +19,11 @@ using Windows.UI.Xaml.Navigation;
 namespace EquipmentTracking
 {
     /// <summary>
-    /// An empty page that can be used on its own or navigated to within a Frame.
+    /// Represents a page for managing monitor information.
     /// </summary>
     public sealed partial class updateMonitor : Page
     {
+        // Connection string to the database
         private string conn = (App.Current as App).ConnectionString;
 
         // Define enum for sorting order
@@ -145,6 +146,7 @@ namespace EquipmentTracking
             }
         }
 
+        // Event handler for applying filter
         private void ApplyFilter_Click(object sender, RoutedEventArgs e)
         {
             string filterText = txtFilter.Text.Trim().ToLower();
@@ -168,7 +170,7 @@ namespace EquipmentTracking
             MonitorList.ItemsSource = filteredList;
         }
 
-
+        // Event handler for clearing filter
         private void ClearFilter_Click(object sender, RoutedEventArgs e)
         {
             // Clear filter criteria and display all records
@@ -178,6 +180,7 @@ namespace EquipmentTracking
             MonitorList.ItemsSource = GlobalData.MonitorDetailList;
         }
 
+        // Event handler for deleting a record
         private void btnDelete_Click(object sender, RoutedEventArgs e)
         {
             display.Text = "";
@@ -218,6 +221,7 @@ namespace EquipmentTracking
             }
         }
 
+        // Event handler for updating a record
         private void btnUpdate_Click(object sender, RoutedEventArgs e)
         {
             Button btn = sender as Button;
@@ -226,6 +230,8 @@ namespace EquipmentTracking
 
             this.Frame.Navigate(typeof(UpdateMonitorDetail));
         }
+
+        // Method to display a dialog
         private async void DisplayDialog(string title, string content)
         {
             ContentDialog noDialog = new ContentDialog

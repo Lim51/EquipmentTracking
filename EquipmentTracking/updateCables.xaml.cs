@@ -19,10 +19,11 @@ using Windows.UI.Xaml.Navigation;
 namespace EquipmentTracking
 {
     /// <summary>
-    /// An empty page that can be used on its own or navigated to within a Frame.
+    /// Represents a page for managing cable information.
     /// </summary>
     public sealed partial class updateCables : Page
     {
+        // Connection string to the database
         private string conn = (App.Current as App).ConnectionString;
 
         // Define enum for sorting order
@@ -36,16 +37,18 @@ namespace EquipmentTracking
         private string currentSortColumn = "";
         private SortDirection currentSortDirection = SortDirection.Ascending;
 
-        // Implement sorting logic for each column
+        // Event handler for sorting by cable name
         private void SortByCable_Click(object sender, PointerRoutedEventArgs e)
         {
             SortByColumn("cables");
         }
 
+        // Event handler for sorting by quantity
         private void SortByQuantity_Click(object sender, PointerRoutedEventArgs e)
         {
             SortByColumn("quantity");
         }
+
         // Generic method to sort by column
         private void SortByColumn(string columnName)
         {
@@ -77,6 +80,8 @@ namespace EquipmentTracking
             // Update the ListView
             CableList.ItemsSource = GlobalData.CableDetailList;
         }
+
+        // Initializes a new instance of the updateCables class.
         public updateCables()
         {
             this.InitializeComponent();
@@ -126,6 +131,7 @@ namespace EquipmentTracking
             }
         }
 
+        // Event handler for applying filter
         private void ApplyFilter_Click(object sender, RoutedEventArgs e)
         {
             string filterText = txtFilter.Text.Trim().ToLower();
@@ -146,7 +152,7 @@ namespace EquipmentTracking
             CableList.ItemsSource = filteredList;
         }
 
-
+        // Event handler for clearing filter
         private void ClearFilter_Click(object sender, RoutedEventArgs e)
         {
             // Clear filter criteria and display all records
@@ -157,7 +163,7 @@ namespace EquipmentTracking
         }
 
 
-
+        // Event handler for deleting a record
         private void btnDelete_Click(object sender, RoutedEventArgs e)
         {
             display.Text = "";
@@ -199,6 +205,7 @@ namespace EquipmentTracking
             }
         }
 
+        // Event handler for updating a record
         private void btnUpdate_Click(object sender, RoutedEventArgs e)
         {
             Button btn = sender as Button;
@@ -207,6 +214,8 @@ namespace EquipmentTracking
 
             this.Frame.Navigate(typeof(UpdateCablesDetail));
         }
+
+        // Displays a dialog with the provided title and content
         private async void DisplayDialog(string title, string content)
         {
             ContentDialog noDialog = new ContentDialog

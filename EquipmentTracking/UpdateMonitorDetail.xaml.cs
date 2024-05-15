@@ -19,18 +19,21 @@ using Windows.UI.Xaml.Navigation;
 namespace EquipmentTracking
 {
     /// <summary>
-    /// An empty page that can be used on its own or navigated to within a Frame.
+    /// Represents a page for updating monitor details.
     /// </summary>
     public sealed partial class UpdateMonitorDetail : Page
     {
+        // Connection string to the database
         private string conn = (App.Current as App).ConnectionString;
 
         public UpdateMonitorDetail()
         {
             this.InitializeComponent();
+            // Retrieve the monitor item to update based on the GlobalData.MonitorID
             var itemToUpdate = GlobalData.MonitorDetailList.SingleOrDefault(r => r.MonitorID == GlobalData.MonitorID);
             if (itemToUpdate != null)
             {
+                // Populate the UI elements with the monitor details
                 modelTextbox.Text = itemToUpdate.Model;
                 codeTextbox.Text = itemToUpdate.Code_SN;
                 dateTextbox.Text = itemToUpdate.Received_date;
@@ -55,16 +58,19 @@ namespace EquipmentTracking
             }
         }
 
+        // Event handler for the Back button click
         private void BackButton_Click(object sender, RoutedEventArgs e)
         {
             this.Frame.Navigate(typeof(updateMonitor));
         }
 
+        // Event handler for the exitCommandBar click
         private void exitCommandBar_Click(object sender, RoutedEventArgs e)
         {
             Application.Current.Exit();
         }
 
+        // Event handler for the saveButton click
         private void saveButton_Click(object sender, RoutedEventArgs e)
         {
             try
@@ -112,14 +118,16 @@ namespace EquipmentTracking
 
                         db.Close();
                     }
-
+                    // Set focus to modelTextbox and display update success message
                     modelTextbox.Focus(FocusState.Programmatic);
                     DisplayDialog("Update", "updated successfully.");
+                    // Navigate back to the updateMonitor page
                     this.Frame.Navigate(typeof(updateMonitor));
 
                 }
                 else
                 {
+                    // Display error message if model name is not entered
                     DisplayDialog("Input Error", "Enter Employee name.");
                     modelTextbox.Focus(FocusState.Programmatic);
                 }
@@ -128,11 +136,13 @@ namespace EquipmentTracking
 
             catch (Exception theException)
             {
+                // Display error message in case of exception
                 DisplayDialog("Error: ", "Error: " + theException.Message);
             }
 
         }
 
+        // Method to display a content dialog
         private async void DisplayDialog(string title, string content)
         {
             ContentDialog noDialog = new ContentDialog

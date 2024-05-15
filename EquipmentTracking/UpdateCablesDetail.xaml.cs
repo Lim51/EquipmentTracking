@@ -1,5 +1,4 @@
-﻿//Last Update: 
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.IO;
@@ -20,35 +19,42 @@ using Windows.UI.Xaml.Navigation;
 namespace EquipmentTracking
 {
     /// <summary>
-    /// An empty page that can be used on its own or navigated to within a Frame.
+    /// Represents a page for updating cable details.
     /// </summary>
     public sealed partial class UpdateCablesDetail : Page
     {
-        private string conn = (App.Current as App).ConnectionString; 
+        // Connection string to the database
+        private string conn = (App.Current as App).ConnectionString;
+
+        // Initializes a new instance of the UpdateCablesDetail class.
         public UpdateCablesDetail()
         {
             this.InitializeComponent();
+
+            // Fetch the item to be updated from the global list based on CableID
             var itemToUpdate = GlobalData.CableDetailList.SingleOrDefault(r => r.CableID == GlobalData.CableID);
             if (itemToUpdate != null)
             {
+                // Set the text fields to the values of the item to be updated
                 cableNameTextbox.Text = itemToUpdate.cables;
                 quantityTextbox.Text = itemToUpdate.quantity.ToString();
 
             }
         }
 
-        
-
+        // Event handler for the back button
         private void BackButton_Click(object sender, RoutedEventArgs e)
         {
             this.Frame.Navigate(typeof(updateCables));
         }
 
+        // Event handler for the exit command bar button
         private void exitCommandBar_Click(object sender, RoutedEventArgs e)
         {
             Application.Current.Exit();
         }
 
+        // Event handler for the save button
         private void saveButton_Click(object sender, RoutedEventArgs e)
         {
             try
@@ -88,7 +94,7 @@ namespace EquipmentTracking
                             updateCommand.Parameters.AddWithValue("@quantity", quantity);
                         }
 
-
+                        // Execute the SQL command to update data in the database
                         updateCommand.ExecuteNonQuery();
 
                         db.Close();
@@ -115,6 +121,7 @@ namespace EquipmentTracking
 
         }
 
+        // Displays a dialog with the provided title and content
         private async void DisplayDialog(string title, string content)
         {
             ContentDialog noDialog = new ContentDialog

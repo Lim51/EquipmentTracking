@@ -19,10 +19,11 @@ using Windows.UI.Xaml.Navigation;
 namespace EquipmentTracking
 {
     /// <summary>
-    /// An empty page that can be used on its own or navigated to within a Frame.
+    /// Represents a page for managing docking system information.
     /// </summary>
     public sealed partial class updateDockingSystem : Page
     {
+        // Connection string to the database
         private string conn = (App.Current as App).ConnectionString;
         // Define enum for sorting order
         public enum SortDirection
@@ -35,7 +36,7 @@ namespace EquipmentTracking
         private string currentSortColumn = "";
         private SortDirection currentSortDirection = SortDirection.Ascending;
 
-        // Implement sorting logic for each column
+        // Event handlers for sorting columns
         private void SortByModel_Click(object sender, PointerRoutedEventArgs e)
         {
             SortByColumn("Model");
@@ -93,6 +94,8 @@ namespace EquipmentTracking
             // Update the ListView
             DockingList.ItemsSource = GlobalData.DockingDetailList;
         }
+
+        // Initializes a new instance of the updateDockingSystem class.
         public updateDockingSystem()
         {
             this.InitializeComponent();
@@ -144,6 +147,7 @@ namespace EquipmentTracking
             }
         }
 
+        // Event handler for applying filter
         private void ApplyFilter_Click(object sender, RoutedEventArgs e)
         {
             string filterText = txtFilter.Text.Trim().ToLower();
@@ -167,7 +171,7 @@ namespace EquipmentTracking
             DockingList.ItemsSource = filteredList;
         }
 
-
+        // Event handler for clearing filter
         private void ClearFilter_Click(object sender, RoutedEventArgs e)
         {
             // Clear filter criteria and display all records
@@ -177,6 +181,7 @@ namespace EquipmentTracking
             DockingList.ItemsSource = GlobalData.DockingDetailList;
         }
 
+        // Event handler for deleting a record
         private void btnDelete_Click(object sender, RoutedEventArgs e)
         {
             display.Text = "";
@@ -217,14 +222,18 @@ namespace EquipmentTracking
             }
         }
 
+        // Event handler for updating a record
         private void btnUpdate_Click(object sender, RoutedEventArgs e)
         {
             Button btn = sender as Button;
 
             GlobalData.DockingID = Convert.ToInt32(btn.Tag.ToString());
-
+            
+            // Navigate to the page for updating docking details
             this.Frame.Navigate(typeof(UpdateDockingDetail));
         }
+
+        // Method to display a dialog box
         private async void DisplayDialog(string title, string content)
         {
             ContentDialog noDialog = new ContentDialog

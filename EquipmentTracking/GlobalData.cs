@@ -6,9 +6,10 @@ using System.Threading.Tasks;
 
 namespace EquipmentTracking
 {
+    // Class for storing global data related to equipment
     internal class GlobalData
     {
-
+        // Lists to store details of different types of equipment
         public static List<MouseDetail> mouseDetailList = new List<MouseDetail>();
         public static List<HeadphoneDetail> HeadphoneDetailList = new List<HeadphoneDetail>();
         public static List<MonitorDetail> MonitorDetailList = new List<MonitorDetail>();
@@ -16,11 +17,12 @@ namespace EquipmentTracking
         public static List<LaptopDetail> LaptopDetailList = new List<LaptopDetail>();
         public static List<CableDetail> CableDetailList = new List<CableDetail>();
 
-        public static int MouseID { get; set; }
-        public static int hID { get; set; }
-        public static int MonitorID { get; set; }
-        public static int DockingID { get; set; }
-        public static int LaptopID { get; set; }
-        public static int CableID { get; set; }
+        // Properties to store IDs for different equipment types
+        public static int MouseID { get; set; }      // ID for mouse
+        public static int hID { get; set; }          // ID for headphone
+        public static int MonitorID { get; set; }    // ID for monitor
+        public static int DockingID { get; set; }    // ID for docking station
+        public static int LaptopID { get; set; }     // ID for laptop
+        public static int CableID { get; set; }      // ID for cable
     }
 }

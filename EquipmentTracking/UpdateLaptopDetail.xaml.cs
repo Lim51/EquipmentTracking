@@ -19,17 +19,20 @@ using Windows.UI.Xaml.Navigation;
 namespace EquipmentTracking
 {
     /// <summary>
-    /// An empty page that can be used on its own or navigated to within a Frame.
+    /// Represents a page for updating laptop details.
     /// </summary>
     public sealed partial class UpdateLaptopDetail : Page
     {
+        // Connection string to the database
         private string conn = (App.Current as App).ConnectionString;
         public UpdateLaptopDetail()
         {
             this.InitializeComponent();
+            // Retrieve the laptop item to update
             var itemToUpdate = GlobalData.LaptopDetailList.SingleOrDefault(r => r.LaptopID == GlobalData.LaptopID);
             if (itemToUpdate != null)
             {
+                // Populate the UI fields with the existing data
                 modelTextbox.Text = itemToUpdate.Model;
                 codeTextbox.Text = itemToUpdate.Code_SN;
                 dateTextbox.Text = itemToUpdate.Received_date;
@@ -54,16 +57,19 @@ namespace EquipmentTracking
             }
         }
 
+        // Event handler for navigating back to the updateLaptop page
         private void BackButton_Click(object sender, RoutedEventArgs e)
         {
             this.Frame.Navigate(typeof(updateLaptop));
         }
 
+        // Event handler for exiting the application
         private void exitCommandBar_Click(object sender, RoutedEventArgs e)
         {
             Application.Current.Exit();
         }
 
+        // Event handler for saving updates to the laptop details
         private void saveButton_Click(object sender, RoutedEventArgs e)
         {
             try
@@ -111,18 +117,22 @@ namespace EquipmentTracking
                         updateCommand.Parameters.AddWithValue("@Remarks", remarkTextbox.Text);
                         updateCommand.Parameters.AddWithValue("@Owner", ownerNameTextbox.Text);
 
+                        // Execute the update command
                         updateCommand.ExecuteNonQuery();
 
                         db.Close();
                     }
-
+                    // Set focus on the modelTextbox
                     modelTextbox.Focus(FocusState.Programmatic);
+                    // Display success message
                     DisplayDialog("Update", "updated successfully.");
+                    // Navigate back to the updateLaptop page
                     this.Frame.Navigate(typeof(updateLaptop));
 
                 }
                 else
                 {
+                    // Display error message if model name is not provided
                     DisplayDialog("Input Error", "Enter Model Name.");
                     modelTextbox.Focus(FocusState.Programmatic);
                 }
@@ -131,11 +141,12 @@ namespace EquipmentTracking
 
             catch (Exception theException)
             {
+                // Handle any exceptions and display error message
                 DisplayDialog("Error: ", "Error: " + theException.Message);
             }
 
         }
-
+        // Displays a dialog with the provided title and content
         private async void DisplayDialog(string title, string content)
         {
             ContentDialog noDialog = new ContentDialog

@@ -19,18 +19,23 @@ using Windows.UI.Xaml.Navigation;
 namespace EquipmentTracking
 {
     /// <summary>
-    /// An empty page that can be used on its own or navigated to within a Frame.
+    /// Page for adding details of a headphone.
     /// </summary>
     public sealed partial class addHeadphone : Page
     {
-        private string conn = (App.Current as App).ConnectionString; 
+        // Connection string to the database
+        private string conn = (App.Current as App).ConnectionString;
+
+        // Constructor
         public addHeadphone()
         {
             this.InitializeComponent();
         }
 
+        // Clear button click event handler
         private void btnClear_Click(object sender, RoutedEventArgs e)
         {
+            // Clear input fields
             modelTextbox.Text = "";
             codeTextbox.Text = "";
             dateTextbox.Text = "";
@@ -39,13 +44,12 @@ namespace EquipmentTracking
             conditionComboBox.SelectedIndex = -1; // Deselect any selected item in the combo box
         }
 
-
-
-
+        // Save button click event handler
         private void saveButton_Click(object sender, RoutedEventArgs e)
         {
             try
             {
+                // Check if model name is provided
                 if (!string.IsNullOrEmpty(modelTextbox.Text))
                 {
                     using (SqlConnection db = new SqlConnection(conn))
@@ -58,11 +62,11 @@ namespace EquipmentTracking
                         // Use parameterized query to prevent SQL injection attacks
                         insertCommand.CommandText = "INSERT INTO headphone (Model, Code_SN, Received_date, Condition, Remarks, Owner) VALUES (@Model, @Code_SN, @Received_date, @Condition, @Remarks, @Owner)";
 
-
+                        // Set parameter values
                         insertCommand.Parameters.AddWithValue("@Model", modelTextbox.Text);
                         insertCommand.Parameters.AddWithValue("@Code_SN", codeTextbox.Text);
 
-                        // Check if the date is in the correct format (yyyy-MM-dd)
+                        // Check and format received date
                         if (string.IsNullOrWhiteSpace(dateTextbox.Text))
                         {
                             // If the date is empty, set it to null in the database
@@ -83,9 +87,14 @@ namespace EquipmentTracking
                             }
                         }
 
+                        // Set condition parameter value
                         insertCommand.Parameters.AddWithValue("@Condition", conditionComboBox.SelectedItem != null ? (conditionComboBox.SelectedItem as ComboBoxItem).Content.ToString() : "");
+
+                        // Set remarks and owner parameter values
                         insertCommand.Parameters.AddWithValue("@Remarks", remarkTextbox.Text);
                         insertCommand.Parameters.AddWithValue("@Owner", ownerNameTextbox.Text);
+
+                        // Execute the query
                         insertCommand.ExecuteNonQuery();
 
                         db.Close();
@@ -100,20 +109,24 @@ namespace EquipmentTracking
                     ownerNameTextbox.Text = "";
                     modelTextbox.Focus(FocusState.Programmatic);
 
+                    // Display success message
                     DisplayDialog("Insert", "New record inserted successfully.");
                 }
                 else
                 {
+                    // Display error message if model name is not provided
                     DisplayDialog("Input Error", "Enter Model Name.");
                     modelTextbox.Focus(FocusState.Programmatic);
                 }
             }
             catch (Exception theException)
             {
+                // Display error message if an exception occurs
                 DisplayDialog("Error", "Error: " + theException.Message);
             }
         }
 
+        // Method to display a dialog with a specified title and content
         private async void DisplayDialog(string title, string content)
         {
             ContentDialog noDialog = new ContentDialog
@@ -126,10 +139,6 @@ namespace EquipmentTracking
 
             ContentDialogResult result = await noDialog.ShowAsync();
 
-
         }
-
-
-
     }
 }

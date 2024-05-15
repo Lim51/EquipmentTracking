@@ -18,16 +18,17 @@ using Windows.UI.Xaml.Navigation;
 namespace EquipmentTracking
 {
     /// <summary>
-    /// An empty page that can be used on its own or navigated to within a Frame.
+    /// Represents the page for updating equipment details.
     /// </summary>
     public sealed partial class update : Page
     {
+        // Initializes a new instance of the update class.
         public update()
         {
             this.InitializeComponent();
             LoadCategories();
         }
-
+        // Loads equipment categories into the ComboBox.
         private void LoadCategories()
         {
             // Assuming you have a list of categories, you need to populate them in the ListView
@@ -42,6 +43,8 @@ namespace EquipmentTracking
             };
         }
 
+        // Handles the selection change in the category ComboBox.
+        // Navigates to the corresponding page based on the selected category.
         private void categoryComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             // When a category is selected, navigate to the corresponding page
@@ -53,11 +56,15 @@ namespace EquipmentTracking
             }
         }
 
+        // Handles the click event of the Back button.
+        // Navigates to the main page.
         private void BackButton_Click(object sender, RoutedEventArgs e)
         {
             this.Frame.Navigate(typeof(MainPage));
         }
 
+        // Handles the click event of the exit command bar button.
+        // Exits the application.
         private void exitCommandBar_Click(object sender, RoutedEventArgs e)
         {
             Application.Current.Exit();

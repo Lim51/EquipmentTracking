@@ -10,6 +10,7 @@ using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
 using Windows.UI.Xaml.Data;
+using Windows.UI.Xaml.Documents;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
@@ -19,25 +20,34 @@ using Windows.UI.Xaml.Navigation;
 namespace EquipmentTracking
 {
     /// <summary>
-    /// An empty page that can be used on its own or navigated to within a Frame.
+    /// Page for adding details of a cable.
     /// </summary>
     public sealed partial class addCables : Page
     {
-        private string conn = (App.Current as App).ConnectionString; 
+        // Connection string for database
+        private string conn = (App.Current as App).ConnectionString;
+
+        //Initializes a new instance of the addCables class.
         public addCables()
         {
             this.InitializeComponent();
         }
+
+        // Event handler for the "Clear" button click.
+        // Clears input fields.
         private void btnClear_Click(object sender, RoutedEventArgs e)
         {
             cableNameTextbox.Text = "";
             quantityTextbox.Text = "";
         }
 
+        
+        // Saves cable details to the database.
         private void saveButton_Click(object sender, RoutedEventArgs e)
         {
             try
             {
+                // Check if cable name is provided
                 if (!string.IsNullOrEmpty(cableNameTextbox.Text))
                 {
                     using (SqlConnection db = new SqlConnection(conn))
@@ -50,6 +60,7 @@ namespace EquipmentTracking
                         // Use parameterized query to prevent SQL injection attacks
                         insertCommand.CommandText = "INSERT INTO cable (cables, quantity) VALUES (@cables, @quantity)";
 
+                        // Add parameters
                         insertCommand.Parameters.AddWithValue("@cables", cableNameTextbox.Text);
                         insertCommand.Parameters.AddWithValue("@quantity", quantityTextbox.Text);
 
@@ -64,21 +75,25 @@ namespace EquipmentTracking
                     quantityTextbox.Text = "";
                     cableNameTextbox.Focus(FocusState.Programmatic);
 
+                    // Display success message
                     DisplayDialog("Insert", "New record inserted successfully.");
                 }
                 else
                 {
+                    // Display error message if cable name is not provided
                     DisplayDialog("Input Error", "Enter Cable Name.");
                     cableNameTextbox.Focus(FocusState.Programmatic);
                 }
             }
             catch (Exception theException)
             {
+
+                // Display error message if an exception occurs
                 DisplayDialog("Error", "Error: " + theException.Message);
             }
         }
 
-
+        // Displays a dialog with the specified title and content.
         private async void DisplayDialog(string title, string content)
         {
             ContentDialog noDialog = new ContentDialog

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Reflection.Metadata;
 using System.Runtime.InteropServices.WindowsRuntime;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
@@ -18,16 +19,18 @@ using Windows.UI.Xaml.Navigation;
 namespace EquipmentTracking
 {
     /// <summary>
-    /// An empty page that can be used on its own or navigated to within a Frame.
+    /// Page for adding new equipment items.
     /// </summary>
     public sealed partial class add : Page
     {
         public add()
         {
             this.InitializeComponent();
+            // Load categories in the categoryComboBox
             LoadCategories();
         }
 
+        //Populates the categoryComboBox with available equipment categories.
         private void LoadCategories()
         {
             // Assuming you have a list of categories, you need to populate them in the ListView
@@ -42,6 +45,8 @@ namespace EquipmentTracking
             };
         }
 
+        //Handles the selection changed event of the categoryComboBox.
+        // Navigates to the corresponding page when a category is selected.
         private void categoryComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             // When a category is selected, navigate to the corresponding page
@@ -53,11 +58,15 @@ namespace EquipmentTracking
             }
         }
 
+        //Handles the click event of the BackButton.
+        /// Navigates to the MainPage.
         private void BackButton_Click(object sender, RoutedEventArgs e)
         {
             this.Frame.Navigate(typeof(MainPage));
         }
 
+        // Handles the click event of the exitCommandBar.
+        // Exits the application.
         private void exitCommandBar_Click(object sender, RoutedEventArgs e)
         {
             Application.Current.Exit();

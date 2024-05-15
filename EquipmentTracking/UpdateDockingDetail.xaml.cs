@@ -19,17 +19,23 @@ using Windows.UI.Xaml.Navigation;
 namespace EquipmentTracking
 {
     /// <summary>
-    /// An empty page that can be used on its own or navigated to within a Frame.
+    /// Represents a page for updating docking details.
     /// </summary>
     public sealed partial class UpdateDockingDetail : Page
     {
+        // Connection string to the database
         private string conn = (App.Current as App).ConnectionString;
+
+        // Initializes a new instance of the UpdateDockingDetail class.
         public UpdateDockingDetail()
         {
             this.InitializeComponent();
+
+            // Fetch the item to be updated from the global list based on DockingID
             var itemToUpdate = GlobalData.DockingDetailList.SingleOrDefault(r => r.DockingID == GlobalData.DockingID);
             if (itemToUpdate != null)
             {
+                // Set the text fields to the values of the item to be updated
                 modelTextbox.Text = itemToUpdate.Model;
                 codeTextbox.Text = itemToUpdate.Code_SN;
                 dateTextbox.Text = itemToUpdate.Received_date;
@@ -54,16 +60,19 @@ namespace EquipmentTracking
             }
         }
 
+        // Event handler for the back button
         private void BackButton_Click(object sender, RoutedEventArgs e)
         {
             this.Frame.Navigate(typeof(updateDockingSystem));
         }
 
+        // Event handler for the exit command bar button
         private void exitCommandBar_Click(object sender, RoutedEventArgs e)
         {
             Application.Current.Exit();
         }
 
+        // Event handler for the save button
         private void saveButton_Click(object sender, RoutedEventArgs e)
         {
             try
@@ -132,6 +141,7 @@ namespace EquipmentTracking
 
         }
 
+        // Displays a dialog with the provided title and content
         private async void DisplayDialog(string title, string content)
         {
             ContentDialog noDialog = new ContentDialog

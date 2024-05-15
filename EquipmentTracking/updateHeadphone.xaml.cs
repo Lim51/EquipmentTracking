@@ -19,10 +19,11 @@ using Windows.UI.Xaml.Navigation;
 namespace EquipmentTracking
 {
     /// <summary>
-    /// An empty page that can be used on its own or navigated to within a Frame.
+    /// Represents a page for managing headphone information.
     /// </summary>
     public sealed partial class updateHeadphone : Page
     {
+        // Connection string to the database
         private string conn = (App.Current as App).ConnectionString;
 
         // Define enum for sorting order
@@ -36,7 +37,7 @@ namespace EquipmentTracking
         private string currentSortColumn = "";
         private SortDirection currentSortDirection = SortDirection.Ascending;
 
-        // Implement sorting logic for each column
+        // Event handlers for sorting columns
         private void SortByModel_Click(object sender, PointerRoutedEventArgs e)
         {
             SortByColumn("Model");
@@ -95,6 +96,7 @@ namespace EquipmentTracking
             HeadphoneList.ItemsSource = GlobalData.HeadphoneDetailList;
         }
 
+        // Constructor
         public updateHeadphone()
         {
             this.InitializeComponent();
@@ -128,11 +130,13 @@ namespace EquipmentTracking
                     h.Condition = !string.IsNullOrEmpty(sdr["Condition"].ToString()) ? sdr["Condition"].ToString() : "-";
                     h.Remarks = !string.IsNullOrEmpty(sdr["Remarks"].ToString()) ? sdr["Remarks"].ToString() : "-";
                     h.Owner = !string.IsNullOrEmpty(sdr["Owner"].ToString()) ? sdr["Owner"].ToString() : "-";
-                    
+
+                    // Add the headphone detail to the list
                     GlobalData.HeadphoneDetailList.Add(h);
                     h = null;
                 }
 
+                // Set the ListView's item source to the headphone detail list
                 HeadphoneList.ItemsSource = null;
                 HeadphoneList.ItemsSource = GlobalData.HeadphoneDetailList;
             }
@@ -147,6 +151,7 @@ namespace EquipmentTracking
             }
         }
 
+        // Event handler for applying filter
         private void ApplyFilter_Click(object sender, RoutedEventArgs e)
         {
             string filterText = txtFilter.Text.Trim().ToLower();
@@ -166,11 +171,11 @@ namespace EquipmentTracking
                     filteredList.Add(item);
                 }
             }
-
+            // Update the ListView with the filtered list
             HeadphoneList.ItemsSource = filteredList;
         }
 
-
+        // Event handler for clearing filter
         private void ClearFilter_Click(object sender, RoutedEventArgs e)
         {
             // Clear filter criteria and display all records
@@ -180,6 +185,7 @@ namespace EquipmentTracking
             HeadphoneList.ItemsSource = GlobalData.HeadphoneDetailList;
         }
 
+        // Event handler for deleting a record
         private void btnDelete_Click(object sender, RoutedEventArgs e)
         {
             display.Text = "";
@@ -198,15 +204,16 @@ namespace EquipmentTracking
                 // Executing the SQL query  
                 cm.ExecuteNonQuery();
 
+                // Remove the item from the list
                 var itemToRemove = GlobalData.HeadphoneDetailList.SingleOrDefault(r => r.hID == Convert.ToInt32(btn.Tag.ToString()));
                 if (itemToRemove != null)
                     GlobalData.HeadphoneDetailList.Remove(itemToRemove);
 
-
+                // Update the ListView
                 HeadphoneList.ItemsSource = null;
                 HeadphoneList.ItemsSource = GlobalData.HeadphoneDetailList;
 
-
+                // Display success message
                 display.Text = "Record Deleted Successfully";
             }
             catch (Exception ex)
@@ -220,14 +227,19 @@ namespace EquipmentTracking
             }
         }
 
+        // Event handler for updating a record
         private void btnUpdate_Click(object sender, RoutedEventArgs e)
         {
             Button btn = sender as Button;
 
+            // Set the ID of the record to be updated in the global variable
             GlobalData.hID = Convert.ToInt32(btn.Tag.ToString());
-
+            
+            // Navigate to the page for updating headphone detail
             this.Frame.Navigate(typeof(UpdateHeadphoneDetail));
         }
+
+        // Displays a dialog with the provided title and content
         private async void DisplayDialog(string title, string content)
         {
             ContentDialog noDialog = new ContentDialog

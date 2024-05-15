@@ -19,7 +19,7 @@ using Windows.UI.Xaml.Navigation;
 namespace EquipmentTracking
 {
     /// <summary>
-    /// An empty page that can be used on its own or navigated to within a Frame.
+    /// Represents a page for updating mouse details.
     /// </summary>
     public sealed partial class UpdateMouseDetail : Page
     {

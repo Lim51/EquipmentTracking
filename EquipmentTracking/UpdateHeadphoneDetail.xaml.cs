@@ -19,18 +19,22 @@ using Windows.UI.Xaml.Navigation;
 namespace EquipmentTracking
 {
     /// <summary>
-    /// An empty page that can be used on its own or navigated to within a Frame.
+    /// Represents a page for updating headphone details.
     /// </summary>
     public sealed partial class UpdateHeadphoneDetail : Page
     {
+        // Connection string to the database
         private string conn = (App.Current as App).ConnectionString;
 
+        // Initializes a new instance of the UpdateHeadphoneDetail class.
         public UpdateHeadphoneDetail()
         {
             this.InitializeComponent();
+            // Fetch the item to be updated from the global list based on hID
             var itemToUpdate = GlobalData.HeadphoneDetailList.SingleOrDefault(r => r.hID == GlobalData.hID);
             if (itemToUpdate != null)
             {
+                // Set the text fields to the values of the item to be updated
                 modelTextbox.Text = itemToUpdate.Model;
                 codeTextbox.Text = itemToUpdate.Code_SN;
                 dateTextbox.Text = itemToUpdate.Received_date;
@@ -55,16 +59,19 @@ namespace EquipmentTracking
             }
         }
 
+        // Event handler for the back button
         private void BackButton_Click(object sender, RoutedEventArgs e)
         {
             this.Frame.Navigate(typeof(updateHeadphone));
         }
 
+        // Event handler for the exit command bar button
         private void exitCommandBar_Click(object sender, RoutedEventArgs e)
         {
             Application.Current.Exit();
         }
 
+        // Event handler for the save button
         private void saveButton_Click(object sender, RoutedEventArgs e)
         {
             try
@@ -112,7 +119,7 @@ namespace EquipmentTracking
 
                         db.Close();
                     }
-
+                    // Navigate back to the previous page after successful update
                     modelTextbox.Focus(FocusState.Programmatic);
                     DisplayDialog("Update", "updated successfully.");
                     this.Frame.Navigate(typeof(updateHeadphone));
@@ -132,7 +139,7 @@ namespace EquipmentTracking
             }
 
         }
-
+        // Displays a dialog with the provided title and content
         private async void DisplayDialog(string title, string content)
         {
             ContentDialog noDialog = new ContentDialog
