@@ -12,33 +12,54 @@
             <GradientStop Color="#FFFA8072" Offset="1.0" />
         </LinearGradientBrush>
         <SolidColorBrush x:Key="LoginButtonBrush" Color="#FF4500"/>
-        <!-- A more contrasting Orange-Red -->
         <SolidColorBrush x:Key="ButtonBorderBrush" Color="#FFFFFF"/>
-        <!-- White border -->
-      </Page.Resources>
+    </Page.Resources>
 
     <Grid Background="{StaticResource YellowOrangeGradientBrush}">
-        <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Width="300">
-            <!-- Image -->
-            <TextBlock x:Name="PageTitleTextBlock" Text="Login" FontSize="24" Margin="0,0,0,20" HorizontalAlignment="Center"/>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+            <!-- Title Row -->
+            <RowDefinition Height="Auto"/>
+            <!-- Form Row -->
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
 
-            <!-- Common Username and Password Fields -->
+        <!-- Image -->
+        <Image Source="Assets/continental-logo-black-jumping-horse.png" 
+               Grid.Row="2" 
+               Grid.Column="0" 
+               HorizontalAlignment="Right" 
+               VerticalAlignment="Center" 
+               Margin="0,0,20,0"
+               MaxWidth="200" 
+               MinWidth="100"/>
+
+        <!-- Welcome Wording -->
+        <TextBlock Text="Welcome to Equipment Tracking App"
+                   Grid.Row="1"
+                   Grid.Column="1"
+                   HorizontalAlignment="Center"
+                   VerticalAlignment="Center"
+                   FontSize="24"
+                   FontWeight="Bold"
+                   Foreground="Black"
+                   Margin="0,20,0,10"/>
+
+        <!-- Login Form -->
+        <StackPanel Grid.Row="2" Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Center" Width="300" Background="White" Padding="20" CornerRadius="10">
+            <TextBlock x:Name="PageTitleTextBlock" Text="Login" FontSize="20" FontWeight="Bold" Margin="0,0,0,20" HorizontalAlignment="Center" Foreground="Black"/>
             <TextBox x:Name="UsernameTextBox" Header="Username" Margin="0,0,0,10"/>
             <PasswordBox x:Name="PasswordBox" Header="Password" Margin="0,0,0,20"/>
-
-            <!-- Sign-Up Specific Fields -->
-            <TextBox x:Name="SignUpEmailTextBox" Header="Email" Margin="0,0,0,10" Visibility="Collapsed"/>
             <PasswordBox x:Name="SignUpConfirmPasswordBox" Header="Confirm Password" Margin="0,0,0,20" Visibility="Collapsed"/>
-
-            <!-- Action Buttons with DropShadowPanel -->
-            <Button x:Name="ActionButton" Content="Login" Click="ActionButton_Click" HorizontalAlignment="Center" Margin="0,0,0,10" Background="Coral" Foreground="White" Padding="10,5" BorderBrush="{StaticResource ButtonBorderBrush}" BorderThickness="2"/>
-            <Button x:Name="SwitchButton" Content="Sign Up / Register" Click="SwitchButton_Click" HorizontalAlignment="Center" Background="LightCoral" Foreground="White" Padding="10,5" BorderBrush="{StaticResource ButtonBorderBrush}" BorderThickness="2"/>
-
-            <!-- Error Message -->
-            <TextBlock x:Name="ErrorMessageTextBlock" Foreground="Red" Margin="0,20,0,0" Visibility="Collapsed"/>
+            <Button x:Name="ActionButton" Content="Login" Click="ActionButton_Click" Margin="0,0,0,10" Background="{StaticResource LoginButtonBrush}" Foreground="White" Padding="10,5" BorderBrush="{StaticResource ButtonBorderBrush}" BorderThickness="2" CornerRadius="5" HorizontalAlignment="Center"/>
+            <Button x:Name="SwitchButton" Content="Sign Up / Register" Click="SwitchButton_Click" Background="LightCoral" Foreground="White" Padding="10,5" BorderBrush="{StaticResource ButtonBorderBrush}" BorderThickness="2" CornerRadius="5" HorizontalAlignment="Center"/>
+            <TextBlock x:Name="ErrorMessageTextBlock" Foreground="Red" Margin="0,20,0,0" Visibility="Collapsed" TextAlignment="Center"/>
         </StackPanel>
-
-        <Image Source="Assets/continental-logo-black-jumping-horse.png" Width="182" Margin="111,184,0,635" HorizontalAlignment="Left" RenderTransformOrigin="0.475,-0.13"/>
-
     </Grid>
 </Page>
