@@ -157,6 +157,9 @@
       <DependentUpon>history.xaml</DependentUpon>
     </Compile>
     <Compile Include="LaptopDetail.cs" />
+    <Compile Include="LoginPage.xaml.cs">
+      <DependentUpon>LoginPage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>
@@ -232,6 +235,9 @@
     <Content Include="Assets\Continental-logo-1920x1080.targetsize-256.png" />
     <Content Include="Assets\Continental-logo-1920x1080.targetsize-32.png" />
     <Content Include="Assets\Continental-logo-1920x1080.targetsize-48.png" />
+    <Content Include="Assets\continental-logo-black-jumping-horse.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="Assets\continental_logo_tagline_yellow_srgb_png-data.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
@@ -308,6 +314,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="history.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="LoginPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
