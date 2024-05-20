@@ -28,75 +28,82 @@ namespace EquipmentTracking
         {
             this.InitializeComponent();
         }
-        private async void ActionButton_Click(object sender, RoutedEventArgs e)
-        {
-            // Perform login action
-            string username = UsernameTextBox.Text;
-            string password = PasswordBox.Password;
 
-            using (SqlConnection connection = new SqlConnection(conn))
-            {
-                try
-                {
-                    await connection.OpenAsync();
-
-                    string query = "SELECT COUNT(1) FROM Users WHERE username = @Username AND Password = @Password";
-                    using (SqlCommand cmd = new SqlCommand(query, connection))
-                    {
-                        cmd.Parameters.AddWithValue("@Username", username);
-                        cmd.Parameters.AddWithValue("@Password", password);
-
-                        var result = await cmd.ExecuteScalarAsync();
-                        int count = Convert.ToInt32(result);
-
-                        if (count > 0)
-                        {
-                            ErrorMessageTextBlock.Text = "Login successful!";
-                            this.Frame.Navigate(typeof(MainPage));
-                        }
-                        else
-                        {
-                            ErrorMessageTextBlock.Text = "Invalid username or password!";
-                            ErrorMessageTextBlock.Visibility = Visibility.Visible;
-                        }
-                    }
-                }
-                catch (Exception ex)
-                {
-                    ErrorMessageTextBlock.Text = "An error occurred: " + ex.Message;
-                    ErrorMessageTextBlock.Visibility = Visibility.Visible;
-                }
-            }
-        }
-
-        //Register/Sign Up
-        private async void SwitchButton_Click(object sender, RoutedEventArgs e)
+        //Sign In/Register Account Event Handler
+        private void SwitchButton_Click(object sender, RoutedEventArgs e)
         {
             if (SignUpConfirmPasswordBox.Visibility == Visibility.Collapsed)
             {
-                // If the confirm password field is not visible, it means we are currently in login mode
-                // Change the content of the action button to "Sign Up"
+                // Switch to sign-up mode
                 ActionButton.Content = "Sign Up / Register";
-
-                // Change the header to "Sign Up"
                 PageTitleTextBlock.Text = "Sign Up / Register";
-
-                // Show the confirm password field
                 SignUpConfirmPasswordBox.Visibility = Visibility.Visible;
-
-                // Hide the "Invalid username or password!" message
+                UsernameTextBox.Visibility = Visibility.Visible;
                 ErrorMessageTextBlock.Visibility = Visibility.Collapsed;
             }
             else
             {
-                // If the confirm password field is visible, it means we are currently in sign-up mode
-                // Perform sign-up action
-                string username = UsernameTextBox.Text;
-                string password = PasswordBox.Password;
-                string confirmPassword = SignUpConfirmPasswordBox.Password;
+                // Switch to login mode
+                ActionButton.Content = "Login";
+                PageTitleTextBlock.Text = "Login";
+                SignUpConfirmPasswordBox.Visibility = Visibility.Collapsed;
+                UsernameTextBox.Visibility = Visibility.Collapsed;
+            }
 
-                // Validate input (you can add more validation logic as needed)
-                if (string.IsNullOrEmpty(username) || string.IsNullOrEmpty(password) || string.IsNullOrEmpty(confirmPassword))
+            // Change text of the switch button
+            SwitchButton.Content = SignUpConfirmPasswordBox.Visibility == Visibility.Visible ? "Switch to Login" : "Sign Up / Register";
+        }
+
+        //Login Account Event Handler
+        private async void ActionButton_Click(object sender, RoutedEventArgs e)
+        {
+            string userID = UserIDTextBox.Text;
+            string password = PasswordBox.Password;
+
+            if (SignUpConfirmPasswordBox.Visibility == Visibility.Collapsed || UsernameTextBox.Visibility==Visibility.Collapsed)
+            {
+                // Perform login action
+                using (SqlConnection connection = new SqlConnection(conn))
+                {
+                    try
+                    {
+                        await connection.OpenAsync();
+                        string query = "SELECT COUNT(1) FROM Users WHERE username = @Username AND password = @Password";
+                        using (SqlCommand cmd = new SqlCommand(query, connection))
+                        {
+                            cmd.Parameters.AddWithValue("@UserID", userID);
+                            cmd.Parameters.AddWithValue("@Password", password);
+
+                            var result = await cmd.ExecuteScalarAsync();
+                            int count = Convert.ToInt32(result);
+
+                            if (count > 0)
+                            {
+                                ErrorMessageTextBlock.Text = "Login successful!";
+                                this.Frame.Navigate(typeof(MainPage));
+                            }
+                            else
+                            {
+                                ErrorMessageTextBlock.Text = "Invalid username or password!";
+                                ErrorMessageTextBlock.Visibility = Visibility.Visible;
+                            }
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        ErrorMessageTextBlock.Text = "An error occurred: " + ex.Message;
+                        ErrorMessageTextBlock.Visibility = Visibility.Visible;
+                    }
+                }
+            }
+            else
+            {
+                // Perform sign-up action
+                string confirmPassword = SignUpConfirmPasswordBox.Password;
+                string username = UsernameTextBox.Text;
+
+                // Validate input
+                if (string.IsNullOrEmpty(userID) || string.IsNullOrEmpty(username) || string.IsNullOrEmpty(password) || string.IsNullOrEmpty(confirmPassword))
                 {
                     ErrorMessageTextBlock.Text = "Please fill in all fields.";
                     ErrorMessageTextBlock.Visibility = Visibility.Visible;
@@ -110,15 +117,15 @@ namespace EquipmentTracking
                 }
 
                 // Insert the new user into the database
-                string query = "INSERT INTO Users (username, password) VALUES (@Username, @Password)";
                 using (SqlConnection connection = new SqlConnection(conn))
                 {
                     try
                     {
                         await connection.OpenAsync();
-
+                        string query = "INSERT INTO Users (userID, username, password) VALUES (@UserID,@Username, @Password)";
                         using (SqlCommand cmd = new SqlCommand(query, connection))
                         {
+                            cmd.Parameters.AddWithValue("@UserID", userID);
                             cmd.Parameters.AddWithValue("@Username", username);
                             cmd.Parameters.AddWithValue("@Password", password);
 
@@ -129,6 +136,7 @@ namespace EquipmentTracking
                                 ErrorMessageTextBlock.Visibility = Visibility.Visible;
 
                                 // Clear input fields after successful sign-up
+                                UserIDTextBox.Text = "";
                                 UsernameTextBox.Text = "";
                                 PasswordBox.Password = "";
                                 SignUpConfirmPasswordBox.Password = "";
@@ -152,66 +160,16 @@ namespace EquipmentTracking
                     }
                 }
             }
-
-            // Change text of the switch button
-            SwitchButton.Content = SignUpConfirmPasswordBox.Visibility == Visibility.Visible ? "Switch to Login" : "Sign Up / Register";
         }
 
-
-
-    /*
-    // Validate username and password (You would typically do this against a database or some authentication service)
-    if (username == "example" && password == "password")
-    {
-        // Successful login, navigate to Main Page or perform other actions
-        ErrorMessageTextBlock.Text = "Login successful!";
-        this.Frame.Navigate(typeof(MainPage));
-    }
-    else
-    {
-        // Display error message
-        ErrorMessageTextBlock.Text = "Invalid username or password!";
-        ErrorMessageTextBlock.Visibility = Visibility.Visible;
-    }
-}
-
-    private void SwitchButton_Click(object sender, RoutedEventArgs e)
-    {
-        if (SignUpConfirmPasswordBox.Visibility == Visibility.Collapsed)
+        private void ForgotPassword_Click(object sender, RoutedEventArgs e)
         {
-            // If the confirm password field is not visible, it means we are currently in login mode
-            // Change the content of the action button to "Sign Up"
-            ActionButton.Content = "Sign Up / Register";
-
-            // Change the header to "Sign Up"
-            PageTitleTextBlock.Text = "Sign Up / Register";
-
-            // Show the confirm password field
-            SignUpConfirmPasswordBox.Visibility = Visibility.Visible;
-
-            // Hide the "Invalid username or password!" message
-            ErrorMessageTextBlock.Visibility = Visibility.Collapsed;
+            this.Frame.Navigate(typeof(ForgotPassword));
         }
-        else
-        {
-            // If the confirm password field is visible, it means we are currently in sign-up mode
-            // Change the content of the action button back to "Login"
-            ActionButton.Content = "Login";
-
-            // Change the header back to "Login"
-            PageTitleTextBlock.Text = "Login";
-
-            // Hide the confirm password field
-            SignUpConfirmPasswordBox.Visibility = Visibility.Collapsed;
-        }
-
-        // Change text of the switch button
-        SwitchButton.Content = SignUpConfirmPasswordBox.Visibility == Visibility.Visible ? "Switch to Login" : "Sign Up / Register";
-
     }
-    */
+}
 
 
-}
-}
+
+
 

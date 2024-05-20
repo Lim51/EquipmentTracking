@@ -151,6 +151,9 @@
     </Compile>
     <Compile Include="CableDetail.cs" />
     <Compile Include="DockingDetail.cs" />
+    <Compile Include="ForgotPassword.xaml.cs">
+      <DependentUpon>ForgotPassword.xaml</DependentUpon>
+    </Compile>
     <Compile Include="GlobalData.cs" />
     <Compile Include="HeadphoneDetail.cs" />
     <Compile Include="history.xaml.cs">
@@ -310,6 +313,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="addMouse.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="ForgotPassword.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
