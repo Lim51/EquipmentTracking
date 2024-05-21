@@ -194,20 +194,61 @@ namespace EquipmentTracking
                 // Creating Connection  
                 con = new SqlConnection(conn);
                 // writing sql query  
-                SqlCommand cm = new SqlCommand("delete from docking_sys where DockingID= '" + btn.Tag.ToString() + "'", con);
-                // Opening Connection  
+                SqlCommand selectOldDataCommand = new SqlCommand();
+                selectOldDataCommand.Connection = con;
+                selectOldDataCommand.CommandText = @"
+            SELECT DockingID, Model, Code_SN, Received_date, Condition, Remarks, Owner
+            FROM docking_sys
+            WHERE DockingID = @DockingID";
+                selectOldDataCommand.Parameters.AddWithValue("@DockingID", btn.Tag.ToString());
+
                 con.Open();
-                // Executing the SQL query  
-                cm.ExecuteNonQuery();
+                // Retrieve the old data before deleting the record
+                SqlDataReader reader = selectOldDataCommand.ExecuteReader();
+                if (reader.Read())
+                {
+                    // Store old data in variables
+                    var oldDockingID = reader["DockingID"];
+                    var oldModel = reader["Model"];
+                    var oldCode_SN = reader["Code_SN"];
+                    var oldReceived_date = reader["Received_date"];
+                    var oldCondition = reader["Condition"];
+                    var oldRemarks = reader["Remarks"];
+                    var oldOwner = reader["Owner"];
+
+                    reader.Close();
+
+                    // Insert the old data into the history table
+                    SqlCommand insertHistoryCommand = new SqlCommand();
+                    insertHistoryCommand.Connection = con;
+                    insertHistoryCommand.CommandText = @"
+                INSERT INTO docking_history (DockingID, Model, Code_SN, Received_date, Condition, Remarks, Owner, UpdatedBy)
+                VALUES (@DockingID, @Model, @Code_SN, @Received_date, @Condition, @Remarks, @Owner, @UpdatedBy)";
+                    insertHistoryCommand.Parameters.AddWithValue("@DockingID", oldDockingID);
+                    insertHistoryCommand.Parameters.AddWithValue("@Model", oldModel);
+                    insertHistoryCommand.Parameters.AddWithValue("@Code_SN", oldCode_SN);
+                    insertHistoryCommand.Parameters.AddWithValue("@Received_date", oldReceived_date);
+                    insertHistoryCommand.Parameters.AddWithValue("@Condition", oldCondition);
+                    insertHistoryCommand.Parameters.AddWithValue("@Remarks", oldRemarks);
+                    insertHistoryCommand.Parameters.AddWithValue("@Owner", oldOwner);
+                    insertHistoryCommand.Parameters.AddWithValue("@UpdatedBy", GlobalData.CurrentUser);
+
+                    insertHistoryCommand.ExecuteNonQuery();
+                }
+
+                // Now delete the record from the docking_sys table
+                SqlCommand deleteCommand = new SqlCommand();
+                deleteCommand.Connection = con;
+                deleteCommand.CommandText = "DELETE FROM docking_sys WHERE DockingID=@DockingID";
+                deleteCommand.Parameters.AddWithValue("@DockingID", btn.Tag.ToString());
+                deleteCommand.ExecuteNonQuery();
 
                 var itemToRemove = GlobalData.DockingDetailList.SingleOrDefault(r => r.DockingID == Convert.ToInt32(btn.Tag.ToString()));
                 if (itemToRemove != null)
                     GlobalData.DockingDetailList.Remove(itemToRemove);
 
-
                 DockingList.ItemsSource = null;
                 DockingList.ItemsSource = GlobalData.DockingDetailList;
-
 
                 display.Text = "Record Deleted Successfully";
             }
