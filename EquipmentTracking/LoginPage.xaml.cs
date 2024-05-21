@@ -187,6 +187,7 @@ namespace EquipmentTracking
                 catch (Exception ex)
                 {
                     // Handle exception
+                    DisplayDialog("Error: ", "Error: " + ex.Message);
                 }
             }
             return username;
@@ -195,6 +196,22 @@ namespace EquipmentTracking
         private void ForgotPassword_Click(object sender, RoutedEventArgs e)
         {
             this.Frame.Navigate(typeof(ForgotPassword));
+        }
+
+        // Method to display a dialog with a specified title and content
+        private async void DisplayDialog(string title, string content)
+        {
+            ContentDialog noDialog = new ContentDialog
+            {
+                Title = title,
+                Content = content,
+                CloseButtonText = "Ok"
+
+            };
+
+            ContentDialogResult result = await noDialog.ShowAsync();
+
+
         }
     }
 }
