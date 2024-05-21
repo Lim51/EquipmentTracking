@@ -72,47 +72,7 @@ namespace EquipmentTracking
             }
         }
 
-        // Event handler for the Docking System filter button click
-        private void FilterDocking_Click(object sender, RoutedEventArgs e)
-        {
-            // Get the owner filter criteria from the text box
-            string ownerFilter = DockingFilterTextBox.Text;
-
-            // Modify the SQL query based on the owner filter criteria
-            string query = "SELECT * FROM docking_sys WHERE Owner = @Owner";
-
-            // Execute the modified query to get the filtered data
-            using (SqlConnection connection = new SqlConnection(conn))
-            {
-                SqlCommand command = new SqlCommand(query, connection);
-                command.Parameters.AddWithValue("@Owner", ownerFilter);
-
-                try
-                {
-                    connection.Open();
-                    SqlDataReader reader = command.ExecuteReader();
-                    
-
-                    while (reader.Read())
-                    {
-                        DockingDetail docking = new DockingDetail();
-                        docking.Model = reader["Model"].ToString();
-                        docking.Code_SN = reader["Code_SN"].ToString();
-                       
-                        DockingList.ItemsSource = null;
-                        
-                    }
-
-                    // Bind the ListView to the filtered data
-                    DockingList.ItemsSource = GlobalData.DockingDetailList;
-                }
-                catch (Exception ex)
-                {
-                    // Handle exceptions
-                    DisplayDialog("Error: ", "Error: " + ex.Message);
-                }
-            }
-        }
+  
 
 
 

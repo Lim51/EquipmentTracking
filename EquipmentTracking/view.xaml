@@ -64,31 +64,6 @@
 
 
             </Grid>
-            <!-- First Row -->
-            <StackPanel>
-                <!-- Filter UI for Docking System -->
-                <StackPanel Orientation="Horizontal" Margin="0,10,0,0">
-                    <TextBlock Text="Filter Docking System by Owner:" VerticalAlignment="Center"/>
-                    <TextBox x:Name="DockingFilterTextBox" Width="150" VerticalAlignment="Center"/>
-                    <Button Content="Filter" Click="FilterDocking_Click" VerticalAlignment="Center"/>
-                </StackPanel>
-
-                <!-- Equipment Box for Docking System -->
-                <ListView x:Name="DockingList" Height="200" Margin="0,10,0,0">
-                    <!-- Define ListView ItemTemplate to display Docking System items -->
-                    <ListView.ItemTemplate>
-                        <DataTemplate>
-                            <StackPanel>
-                                <!-- Bindings to display Docking System details -->
-                                <TextBlock Text="{Binding Model}" FontWeight="Bold"/>
-                                <TextBlock Text="{Binding Code_SN}"/>
-                                <!-- Add other details as needed -->
-                            </StackPanel>
-                        </DataTemplate>
-                    </ListView.ItemTemplate>
-                </ListView>
-            </StackPanel>
-
         </StackPanel>
     </ScrollViewer>
 </Page>
