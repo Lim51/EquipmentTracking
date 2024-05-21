@@ -215,6 +215,9 @@
     </AppxManifest>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Assets\cable.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="Assets\Continental-logo-1920x1080.altform-lightunplated_targetsize-16.png" />
     <Content Include="Assets\Continental-logo-1920x1080.altform-lightunplated_targetsize-24.png" />
     <Content Include="Assets\Continental-logo-1920x1080.altform-lightunplated_targetsize-256.png" />
@@ -241,7 +244,16 @@
     <Content Include="Assets\continental_logo_tagline_yellow_srgb_png-data.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="Assets\docking.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="Assets\equipment.jpg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Assets\headphone.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Assets\laptop.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Assets\LargeTile.scale-100.png" />
@@ -249,6 +261,12 @@
     <Content Include="Assets\LargeTile.scale-150.png" />
     <Content Include="Assets\LargeTile.scale-200.png" />
     <Content Include="Assets\LargeTile.scale-400.png" />
+    <Content Include="Assets\monitor.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Assets\mouse.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="Assets\picture-continental-stand-alone-logo-black.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

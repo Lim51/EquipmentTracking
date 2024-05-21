@@ -7,16 +7,90 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+    <ScrollViewer VerticalScrollBarVisibility="Auto">
+        <StackPanel>
+            <CommandBar Height="36" UseLayoutRounding="True" Background="#FFEDF2EE">
+                <CommandBar.Content>
+                    <Grid/>
+                </CommandBar.Content>
+                <AppBarButton Icon="Back" Label="Back" Click="BackButton_Click"/>
+                <AppBarSeparator/>
+                <AppBarButton x:Name="exitCommandBar" Icon="ClosePane" Label="Exit" Click="exitCommandBar_Click" />
+            </CommandBar>
 
-    <StackPanel>
-        <CommandBar Height="36" UseLayoutRounding="True" Background="#FFEDF2EE">
-            <CommandBar.Content>
-                <Grid/>
-            </CommandBar.Content>
-            <AppBarButton Icon="Back" Label="Back" Click="BackButton_Click"/>
-            <AppBarSeparator/>
-            <AppBarButton x:Name="exitCommandBar" Icon="ClosePane" Label="Exit" Click="exitCommandBar_Click" />
+            <Grid Margin="30,30,30,0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
 
-        </CommandBar>
-    </StackPanel>
+                <!-- First Row -->
+                <StackPanel Width="361" HorizontalAlignment="Center" FocusVisualPrimaryBrush="#FFEF962A" Background="#FFF7A328" Grid.Column="0" Grid.Row="0">
+                    <TextBlock TextWrapping="Wrap" Text="Available Mouse" HorizontalAlignment="Right" Margin="0,20,20,0" FontSize="28" FontWeight="Bold" FontFamily="Arial Black" Foreground="White"/>
+                    <Image Source="Assets/mouse.png" Height="100" Width="100" HorizontalAlignment="Left" Margin="30,10,0,0"/>
+                    <TextBlock x:Name="MouseCount" TextWrapping="Wrap" Text="0" FontSize="48" FontWeight="Bold" FontFamily="Arial Black" Foreground="White" HorizontalAlignment="Right" Margin="0,0,20,10"/>
+                </StackPanel>
+
+                <StackPanel Width="361" HorizontalAlignment="Center" FocusVisualPrimaryBrush="#FFEF962A" Background="#FFF7A328" Grid.Column="1" Grid.Row="0">
+                    <TextBlock TextWrapping="Wrap" Text="Available Headphone" HorizontalAlignment="Right" Margin="0,20,20,0" FontSize="28" FontWeight="Bold" FontFamily="Arial Black" Foreground="White"/>
+                    <Image Source="Assets/headphone.png" Height="100" Width="100" HorizontalAlignment="Left" Margin="30,10,0,0"/>
+                    <TextBlock x:Name="HeadphoneCount" TextWrapping="Wrap" Text="0" FontSize="48" FontWeight="Bold" FontFamily="Arial Black" Foreground="White" HorizontalAlignment="Right" Margin="0,0,20,10"/>
+                </StackPanel>
+
+                <StackPanel Width="361" HorizontalAlignment="Center" FocusVisualPrimaryBrush="#FFEF962A" Background="#FFF7A328" Grid.Column="2" Grid.Row="0">
+                    <TextBlock TextWrapping="Wrap" Text="Available Monitor" HorizontalAlignment="Right" Margin="0,20,20,0" FontSize="28" FontWeight="Bold" FontFamily="Arial Black" Foreground="White"/>
+                    <Image Source="Assets/monitor.png" Height="100" Width="100" HorizontalAlignment="Left" Margin="30,10,0,0"/>
+                    <TextBlock x:Name="MonitorCount" TextWrapping="Wrap" Text="0" FontSize="48" FontWeight="Bold" FontFamily="Arial Black" Foreground="White" HorizontalAlignment="Right" Margin="0,0,20,10"/>
+                </StackPanel>
+
+                <!-- Second Row -->
+                <StackPanel Width="361" HorizontalAlignment="Center" FocusVisualPrimaryBrush="#FFEF962A" Background="#FFF7A328" Grid.Column="0" Grid.Row="1" Margin="0,20,0,0">
+                    <TextBlock TextWrapping="Wrap" Text="Available Docking System" HorizontalAlignment="Right" Margin="0,20,20,0" FontSize="28" FontWeight="Bold" FontFamily="Arial Black" Foreground="White"/>
+                    <Image Source="Assets/docking.png" Height="100" Width="100" HorizontalAlignment="Left" Margin="30,10,0,0"/>
+                    <TextBlock x:Name="DockingCount" TextWrapping="Wrap" Text="0" FontSize="48" FontWeight="Bold" FontFamily="Arial Black" Foreground="White" HorizontalAlignment="Right" Margin="0,0,20,10"/>
+                </StackPanel>
+
+                <StackPanel Width="361" HorizontalAlignment="Center" FocusVisualPrimaryBrush="#FFEF962A" Background="#FFF7A328" Grid.Column="1" Grid.Row="1" Margin="0,20,0,0">
+                    <TextBlock TextWrapping="Wrap" Text="Available Laptop" HorizontalAlignment="Right" Margin="0,20,20,0" FontSize="28" FontWeight="Bold" FontFamily="Arial Black" Foreground="White"/>
+                    <Image Source="Assets/laptop.png" Height="100" Width="100" HorizontalAlignment="Left" Margin="30,10,0,0"/>
+                    <TextBlock x:Name="LaptopCount" TextWrapping="Wrap" Text="0" FontSize="48" FontWeight="Bold" FontFamily="Arial Black" Foreground="White" HorizontalAlignment="Right" Margin="0,0,20,10"/>
+                </StackPanel>
+
+                
+
+            </Grid>
+            <!-- First Row -->
+            <StackPanel>
+                <!-- Filter UI for Docking System -->
+                <StackPanel Orientation="Horizontal" Margin="0,10,0,0">
+                    <TextBlock Text="Filter Docking System by Owner:" VerticalAlignment="Center"/>
+                    <TextBox x:Name="DockingFilterTextBox" Width="150" VerticalAlignment="Center"/>
+                    <Button Content="Filter" Click="FilterDocking_Click" VerticalAlignment="Center"/>
+                </StackPanel>
+
+                <!-- Equipment Box for Docking System -->
+                <ListView x:Name="DockingList" Height="200" Margin="0,10,0,0">
+                    <!-- Define ListView ItemTemplate to display Docking System items -->
+                    <ListView.ItemTemplate>
+                        <DataTemplate>
+                            <StackPanel>
+                                <!-- Bindings to display Docking System details -->
+                                <TextBlock Text="{Binding Model}" FontWeight="Bold"/>
+                                <TextBlock Text="{Binding Code_SN}"/>
+                                <!-- Add other details as needed -->
+                            </StackPanel>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
+            </StackPanel>
+
+        </StackPanel>
+        
+        
+    </ScrollViewer>
 </Page>
