@@ -24,5 +24,8 @@ namespace EquipmentTracking
         public static int DockingID { get; set; }    // ID for docking station
         public static int LaptopID { get; set; }     // ID for laptop
         public static int CableID { get; set; }      // ID for cable
+
+
+        public static string CurrentUser { get; set; }
     }
 }

@@ -25,9 +25,11 @@ namespace EquipmentTracking
         /// <summary>
         /// Initializes a new instance of the MainPage class.
         /// </summary>
+        
         public MainPage()
         {
             this.InitializeComponent();
+            UpdateWelcomeMessage();
         }
 
         /// <summary>
@@ -74,17 +76,27 @@ namespace EquipmentTracking
         {
             this.Frame.Navigate(typeof(add));
         }
+
         protected override void OnNavigatedTo(NavigationEventArgs e)
-{
-    base.OnNavigatedTo(e);
+        {
+            base.OnNavigatedTo(e);
+            UpdateWelcomeMessage();
+        }
 
-    if (e.Parameter != null && e.Parameter is string)
-    {
-        string username = (string)e.Parameter;
-        welcomeTextBlock.Text = $"Login as {username}";
-    }
-}
+        private void UpdateWelcomeMessage()
+        {
+            if (!string.IsNullOrEmpty(GlobalData.CurrentUser))
+            {
+                welcomeTextBlock.Text = $"Login as {GlobalData.CurrentUser}";
+            }
+        }
 
-       
+
+        private void BackButton_Click(object sender, RoutedEventArgs e)
+        {
+            this.Frame.Navigate(typeof(LoginPage));
+        }
+
+
     }
 }

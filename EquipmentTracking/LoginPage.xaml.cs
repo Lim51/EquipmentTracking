@@ -83,8 +83,10 @@ namespace EquipmentTracking
                                 ErrorMessageTextBlock.Text = "Login successful!";
                                 // Retrieve the username from the database query result
                                 string username = await GetUsernameAsync(userID);
-                                // Pass username to MainPage
-                                this.Frame.Navigate(typeof(MainPage), username);
+                                // Set the current user in GlobalData
+                                GlobalData.CurrentUser = username;
+                                // Navigate to MainPage
+                                this.Frame.Navigate(typeof(MainPage));
                             }
 
 

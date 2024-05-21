@@ -27,6 +27,7 @@
     <AppInstallerUri>Y:\03_RM\201 RM_Personal\030_JieYou\Equipment Tracking App\Release</AppInstallerUri>
     <HoursBetweenUpdateChecks>0</HoursBetweenUpdateChecks>
     <PackageCertificateThumbprint>5D83B4A7661C8B7DF191E67FD30A2DD876D797D3</PackageCertificateThumbprint>
+    <PackageCertificateKeyFile />
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
     <DebugSymbols>true</DebugSymbols>
@@ -169,6 +170,9 @@
     <Compile Include="MonitorDetail.cs" />
     <Compile Include="MouseDetail.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="TeamEquipmentTracking.xaml.cs">
+      <DependentUpon>TeamEquipmentTracking.xaml</DependentUpon>
+    </Compile>
     <Compile Include="update.xaml.cs">
       <DependentUpon>update.xaml</DependentUpon>
     </Compile>
@@ -286,6 +290,9 @@
     <Content Include="Assets\Square150x150Logo.scale-125.png" />
     <Content Include="Assets\Square150x150Logo.scale-150.png" />
     <Content Include="Assets\Square150x150Logo.scale-400.png" />
+    <Content Include="Assets\team-icon-png-1.jpg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="Assets\user.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
@@ -350,6 +357,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="MainPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="TeamEquipmentTracking.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

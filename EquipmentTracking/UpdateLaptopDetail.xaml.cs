@@ -84,7 +84,7 @@ namespace EquipmentTracking
                         SqlCommand selectOldDataCommand = new SqlCommand();
                         selectOldDataCommand.Connection = db;
                         selectOldDataCommand.CommandText = @"
-                            SELECT LaptopID, Model, Code_SN, Received_date, Condition, Remarks, Owner, OwnerID
+                            SELECT LaptopID, Model, Code_SN, Received_date, Condition, Remarks, Owner
                             FROM laptop
                             WHERE LaptopID = @LaptopID";
                         selectOldDataCommand.Parameters.AddWithValue("@LaptopID", GlobalData.LaptopID);
@@ -100,7 +100,7 @@ namespace EquipmentTracking
                             var oldCondition = reader["Condition"];
                             var oldRemarks = reader["Remarks"];
                             var oldOwner = reader["Owner"];
-                            var oldOwnerID = reader["OwnerID"];
+                            
 
                             reader.Close();
 
@@ -108,8 +108,8 @@ namespace EquipmentTracking
                             SqlCommand insertHistoryCommand = new SqlCommand();
                             insertHistoryCommand.Connection = db;
                             insertHistoryCommand.CommandText = @"
-                                INSERT INTO laptop_history (LaptopID, Model, Code_SN, Received_date, Condition, Remarks, Owner, OwnerID)
-                                VALUES (@LaptopID, @Model, @Code_SN, @Received_date, @Condition, @Remarks, @Owner, @OwnerID)";
+                                INSERT INTO laptop_history (LaptopID, Model, Code_SN, Received_date, Condition, Remarks, Owner, UpdatedBy)
+                                VALUES (@LaptopID, @Model, @Code_SN, @Received_date, @Condition, @Remarks, @Owner, @UpdatedBy)";
                             insertHistoryCommand.Parameters.AddWithValue("@LaptopID", oldLaptopID);
                             insertHistoryCommand.Parameters.AddWithValue("@Model", oldModel);
                             insertHistoryCommand.Parameters.AddWithValue("@Code_SN", oldCode_SN);
@@ -117,7 +117,7 @@ namespace EquipmentTracking
                             insertHistoryCommand.Parameters.AddWithValue("@Condition", oldCondition);
                             insertHistoryCommand.Parameters.AddWithValue("@Remarks", oldRemarks);
                             insertHistoryCommand.Parameters.AddWithValue("@Owner", oldOwner);
-                            insertHistoryCommand.Parameters.AddWithValue("@OwnerID", oldOwnerID);
+                            insertHistoryCommand.Parameters.AddWithValue("@UpdatedBy", GlobalData.CurrentUser);
 
                             insertHistoryCommand.ExecuteNonQuery();
                         }
