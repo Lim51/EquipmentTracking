@@ -4,6 +4,7 @@ using System.Data.SqlClient;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
+using System.Threading.Tasks;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
 using Windows.UI.Xaml;
@@ -25,6 +26,7 @@ namespace EquipmentTracking
     {
         // Connection string to the database
         private string conn = (App.Current as App).ConnectionString;
+
         public UpdateLaptopDetail()
         {
             this.InitializeComponent();
@@ -40,7 +42,6 @@ namespace EquipmentTracking
                 SetConditionComboBox(itemToUpdate.Condition);
                 remarkTextbox.Text = itemToUpdate.Remarks;
                 ownerNameTextbox.Text = itemToUpdate.Owner;
-
             }
         }
 
@@ -70,7 +71,7 @@ namespace EquipmentTracking
         }
 
         // Event handler for saving updates to the laptop details
-        private void saveButton_Click(object sender, RoutedEventArgs e)
+        private async void saveButton_Click(object sender, RoutedEventArgs e)
         {
             try
             {
@@ -78,19 +79,17 @@ namespace EquipmentTracking
                 {
                     using (SqlConnection db = new SqlConnection(conn))
                     {
-                        db.Open();
+                        await db.OpenAsync();
 
                         // Step 1: Retrieve the old data
-                        SqlCommand selectOldDataCommand = new SqlCommand();
-                        selectOldDataCommand.Connection = db;
-                        selectOldDataCommand.CommandText = @"
+                        SqlCommand selectOldDataCommand = new SqlCommand(@"
                             SELECT LaptopID, Model, Code_SN, Received_date, Condition, Remarks, Owner
                             FROM laptop
-                            WHERE LaptopID = @LaptopID";
+                            WHERE LaptopID = @LaptopID", db);
                         selectOldDataCommand.Parameters.AddWithValue("@LaptopID", GlobalData.LaptopID);
 
-                        SqlDataReader reader = selectOldDataCommand.ExecuteReader();
-                        if (reader.Read())
+                        SqlDataReader reader = await selectOldDataCommand.ExecuteReaderAsync();
+                        if (await reader.ReadAsync())
                         {
                             // Store old data in variables
                             var oldLaptopID = reader["LaptopID"];
@@ -100,16 +99,13 @@ namespace EquipmentTracking
                             var oldCondition = reader["Condition"];
                             var oldRemarks = reader["Remarks"];
                             var oldOwner = reader["Owner"];
-                            
 
                             reader.Close();
 
                             // Step 2: Insert the old data into the history table
-                            SqlCommand insertHistoryCommand = new SqlCommand();
-                            insertHistoryCommand.Connection = db;
-                            insertHistoryCommand.CommandText = @"
+                            SqlCommand insertHistoryCommand = new SqlCommand(@"
                                 INSERT INTO laptop_history (LaptopID, Model, Code_SN, Received_date, Condition, Remarks, Owner, UpdatedBy)
-                                VALUES (@LaptopID, @Model, @Code_SN, @Received_date, @Condition, @Remarks, @Owner, @UpdatedBy)";
+                                VALUES (@LaptopID, @Model, @Code_SN, @Received_date, @Condition, @Remarks, @Owner, @UpdatedBy)", db);
                             insertHistoryCommand.Parameters.AddWithValue("@LaptopID", oldLaptopID);
                             insertHistoryCommand.Parameters.AddWithValue("@Model", oldModel);
                             insertHistoryCommand.Parameters.AddWithValue("@Code_SN", oldCode_SN);
@@ -119,22 +115,20 @@ namespace EquipmentTracking
                             insertHistoryCommand.Parameters.AddWithValue("@Owner", oldOwner);
                             insertHistoryCommand.Parameters.AddWithValue("@UpdatedBy", GlobalData.CurrentUser);
 
-                            insertHistoryCommand.ExecuteNonQuery();
+                            await insertHistoryCommand.ExecuteNonQueryAsync();
                         }
                         else
                         {
                             reader.Close();
-                            DisplayDialog("Error", "Old data not found.");
+                            await DisplayDialog("Error", "Old data not found.");
                             return;
                         }
 
                         // Step 3: Update the laptop table with the new data
-                        SqlCommand updateCommand = new SqlCommand();
-                        updateCommand.Connection = db;
-                        updateCommand.CommandText = @"
+                        SqlCommand updateCommand = new SqlCommand(@"
                             UPDATE laptop
                             SET Model = @Model, Code_SN = @Code_SN, Received_date = @Received_date, Condition = @Condition, Remarks = @Remarks, Owner = @Owner
-                            WHERE LaptopID = @LaptopID";
+                            WHERE LaptopID = @LaptopID", db);
                         updateCommand.Parameters.AddWithValue("@LaptopID", GlobalData.LaptopID);
                         updateCommand.Parameters.AddWithValue("@Model", modelTextbox.Text);
                         updateCommand.Parameters.AddWithValue("@Code_SN", codeTextbox.Text);
@@ -153,7 +147,7 @@ namespace EquipmentTracking
                             }
                             else
                             {
-                                DisplayDialog("Input Error", "Enter a valid year in the format yyyy.");
+                                await DisplayDialog("Input Error", "Enter a valid year in the format yyyy.");
                                 return;
                             }
                         }
@@ -162,28 +156,28 @@ namespace EquipmentTracking
                         updateCommand.Parameters.AddWithValue("@Remarks", remarkTextbox.Text);
                         updateCommand.Parameters.AddWithValue("@Owner", ownerNameTextbox.Text);
 
-                        updateCommand.ExecuteNonQuery();
+                        await updateCommand.ExecuteNonQueryAsync();
 
                         db.Close();
                     }
 
                     modelTextbox.Focus(FocusState.Programmatic);
-                    DisplayDialog("Update", "Updated successfully.");
+                    await DisplayDialog("Update", "Updated successfully.");
                     this.Frame.Navigate(typeof(updateLaptop));
                 }
                 else
                 {
-                    DisplayDialog("Input Error", "Enter Model Name.");
+                    await DisplayDialog("Input Error", "Enter Model Name.");
                     modelTextbox.Focus(FocusState.Programmatic);
                 }
             }
             catch (Exception theException)
             {
-                DisplayDialog("Error", "Error: " + theException.Message);
+                await DisplayDialog("Error", "Error: " + theException.Message);
             }
         }
 
-        private async void DisplayDialog(string title, string content)
+        private async Task DisplayDialog(string title, string content)
         {
             ContentDialog noDialog = new ContentDialog
             {
