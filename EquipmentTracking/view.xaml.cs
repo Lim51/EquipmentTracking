@@ -6,6 +6,7 @@ using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
+using Windows.UI.Popups;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
@@ -100,6 +101,12 @@ namespace EquipmentTracking
         private void exitCommandBar_Click(object sender, RoutedEventArgs e)
         {
             Application.Current.Exit();
+        }
+
+        private void TeamEuipTrackTapped(object sender, TappedRoutedEventArgs e)
+        {
+            // Navigate to Team Euipment Tracking Dashboard
+            this.Frame.Navigate(typeof(TeamEquipmentTracking));
         }
     }
 }
