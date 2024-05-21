@@ -13,6 +13,7 @@ using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
+using System.Threading.Tasks;
 
 // The Blank Page item template is documented at https://go.microsoft.com/fwlink/?LinkId=234238
 
@@ -80,8 +81,13 @@ namespace EquipmentTracking
                             if (count > 0)
                             {
                                 ErrorMessageTextBlock.Text = "Login successful!";
-                                this.Frame.Navigate(typeof(MainPage));
+                                // Retrieve the username from the database query result
+                                string username = await GetUsernameAsync(userID);
+                                // Pass username to MainPage
+                                this.Frame.Navigate(typeof(MainPage), username);
                             }
+
+
                             else
                             {
                                 ErrorMessageTextBlock.Text = "Invalid username or password!";
@@ -160,6 +166,30 @@ namespace EquipmentTracking
                     }
                 }
             }
+        }
+
+        //retrieve the username from the database
+        private async Task<string> GetUsernameAsync(string userID)
+        {
+            string username = null;
+            using (SqlConnection connection = new SqlConnection(conn))
+            {
+                try
+                {
+                    await connection.OpenAsync();
+                    string query = "SELECT username FROM Users WHERE userID = @userID";
+                    using (SqlCommand cmd = new SqlCommand(query, connection))
+                    {
+                        cmd.Parameters.AddWithValue("@UserID", userID);
+                        username = await cmd.ExecuteScalarAsync() as string;
+                    }
+                }
+                catch (Exception ex)
+                {
+                    // Handle exception
+                }
+            }
+            return username;
         }
 
         private void ForgotPassword_Click(object sender, RoutedEventArgs e)

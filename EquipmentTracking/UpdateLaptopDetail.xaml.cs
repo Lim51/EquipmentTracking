@@ -80,73 +80,109 @@ namespace EquipmentTracking
                     {
                         db.Open();
 
+                        // Step 1: Retrieve the old data
+                        SqlCommand selectOldDataCommand = new SqlCommand();
+                        selectOldDataCommand.Connection = db;
+                        selectOldDataCommand.CommandText = @"
+                            SELECT LaptopID, Model, Code_SN, Received_date, Condition, Remarks, Owner, OwnerID
+                            FROM laptop
+                            WHERE LaptopID = @LaptopID";
+                        selectOldDataCommand.Parameters.AddWithValue("@LaptopID", GlobalData.LaptopID);
+
+                        SqlDataReader reader = selectOldDataCommand.ExecuteReader();
+                        if (reader.Read())
+                        {
+                            // Store old data in variables
+                            var oldLaptopID = reader["LaptopID"];
+                            var oldModel = reader["Model"];
+                            var oldCode_SN = reader["Code_SN"];
+                            var oldReceived_date = reader["Received_date"];
+                            var oldCondition = reader["Condition"];
+                            var oldRemarks = reader["Remarks"];
+                            var oldOwner = reader["Owner"];
+                            var oldOwnerID = reader["OwnerID"];
+
+                            reader.Close();
+
+                            // Step 2: Insert the old data into the history table
+                            SqlCommand insertHistoryCommand = new SqlCommand();
+                            insertHistoryCommand.Connection = db;
+                            insertHistoryCommand.CommandText = @"
+                                INSERT INTO laptop_history (LaptopID, Model, Code_SN, Received_date, Condition, Remarks, Owner, OwnerID)
+                                VALUES (@LaptopID, @Model, @Code_SN, @Received_date, @Condition, @Remarks, @Owner, @OwnerID)";
+                            insertHistoryCommand.Parameters.AddWithValue("@LaptopID", oldLaptopID);
+                            insertHistoryCommand.Parameters.AddWithValue("@Model", oldModel);
+                            insertHistoryCommand.Parameters.AddWithValue("@Code_SN", oldCode_SN);
+                            insertHistoryCommand.Parameters.AddWithValue("@Received_date", oldReceived_date);
+                            insertHistoryCommand.Parameters.AddWithValue("@Condition", oldCondition);
+                            insertHistoryCommand.Parameters.AddWithValue("@Remarks", oldRemarks);
+                            insertHistoryCommand.Parameters.AddWithValue("@Owner", oldOwner);
+                            insertHistoryCommand.Parameters.AddWithValue("@OwnerID", oldOwnerID);
+
+                            insertHistoryCommand.ExecuteNonQuery();
+                        }
+                        else
+                        {
+                            reader.Close();
+                            DisplayDialog("Error", "Old data not found.");
+                            return;
+                        }
+
+                        // Step 3: Update the laptop table with the new data
                         SqlCommand updateCommand = new SqlCommand();
                         updateCommand.Connection = db;
-
-                        //Use parameterized query to prevent SQL injection attacks
-                        updateCommand.CommandText = "UPDATE laptop SET Model=@Model, Code_SN=@Code_SN, Received_date=@Received_date, Condition=@Condition, Remarks=@Remarks,Owner=@Owner WHERE LaptopID='" + GlobalData.LaptopID.ToString() + "'";
-
+                        updateCommand.CommandText = @"
+                            UPDATE laptop
+                            SET Model = @Model, Code_SN = @Code_SN, Received_date = @Received_date, Condition = @Condition, Remarks = @Remarks, Owner = @Owner
+                            WHERE LaptopID = @LaptopID";
+                        updateCommand.Parameters.AddWithValue("@LaptopID", GlobalData.LaptopID);
                         updateCommand.Parameters.AddWithValue("@Model", modelTextbox.Text);
                         updateCommand.Parameters.AddWithValue("@Code_SN", codeTextbox.Text);
+
                         // Check if the date is in the correct format (yyyy)
                         if (string.IsNullOrWhiteSpace(dateTextbox.Text))
                         {
-                            // If the date is empty, set it to null in the database
                             updateCommand.Parameters.AddWithValue("@Received_date", DBNull.Value);
                         }
                         else
                         {
-                            // Regular expression pattern to match yyyy format
                             string yearPattern = @"^\d{4}$";
-
                             if (System.Text.RegularExpressions.Regex.IsMatch(dateTextbox.Text, yearPattern))
                             {
-                                // Date format is correct, set it to the database parameter
                                 updateCommand.Parameters.AddWithValue("@Received_date", dateTextbox.Text);
                             }
                             else
                             {
-                                // Handle invalid date format
                                 DisplayDialog("Input Error", "Enter a valid year in the format yyyy.");
                                 return;
                             }
                         }
 
-                        // Save the selected condition from ComboBox
                         updateCommand.Parameters.AddWithValue("@Condition", conditionComboBox.SelectedItem != null ? (conditionComboBox.SelectedItem as ComboBoxItem).Content.ToString() : "");
                         updateCommand.Parameters.AddWithValue("@Remarks", remarkTextbox.Text);
                         updateCommand.Parameters.AddWithValue("@Owner", ownerNameTextbox.Text);
 
-                        // Execute the update command
                         updateCommand.ExecuteNonQuery();
 
                         db.Close();
                     }
-                    // Set focus on the modelTextbox
-                    modelTextbox.Focus(FocusState.Programmatic);
-                    // Display success message
-                    DisplayDialog("Update", "updated successfully.");
-                    // Navigate back to the updateLaptop page
-                    this.Frame.Navigate(typeof(updateLaptop));
 
+                    modelTextbox.Focus(FocusState.Programmatic);
+                    DisplayDialog("Update", "Updated successfully.");
+                    this.Frame.Navigate(typeof(updateLaptop));
                 }
                 else
                 {
-                    // Display error message if model name is not provided
                     DisplayDialog("Input Error", "Enter Model Name.");
                     modelTextbox.Focus(FocusState.Programmatic);
                 }
-
             }
-
             catch (Exception theException)
             {
-                // Handle any exceptions and display error message
-                DisplayDialog("Error: ", "Error: " + theException.Message);
+                DisplayDialog("Error", "Error: " + theException.Message);
             }
-
         }
-        // Displays a dialog with the provided title and content
+
         private async void DisplayDialog(string title, string content)
         {
             ContentDialog noDialog = new ContentDialog
@@ -154,12 +190,9 @@ namespace EquipmentTracking
                 Title = title,
                 Content = content,
                 CloseButtonText = "Ok"
-
             };
 
-            ContentDialogResult result = await noDialog.ShowAsync();
-
-
+            await noDialog.ShowAsync();
         }
     }
 }

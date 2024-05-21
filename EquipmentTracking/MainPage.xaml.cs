@@ -74,6 +74,16 @@ namespace EquipmentTracking
         {
             this.Frame.Navigate(typeof(add));
         }
+        protected override void OnNavigatedTo(NavigationEventArgs e)
+{
+    base.OnNavigatedTo(e);
+
+    if (e.Parameter != null && e.Parameter is string)
+    {
+        string username = (string)e.Parameter;
+        welcomeTextBlock.Text = $"Login as {username}";
+    }
+}
 
        
     }
