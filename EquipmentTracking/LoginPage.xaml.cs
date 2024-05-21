@@ -68,7 +68,7 @@ namespace EquipmentTracking
                     try
                     {
                         await connection.OpenAsync();
-                        string query = "SELECT COUNT(1) FROM Users WHERE username = @Username AND password = @Password";
+                        string query = "SELECT COUNT(1) FROM Users WHERE userID = @userID AND password = @Password";
                         using (SqlCommand cmd = new SqlCommand(query, connection))
                         {
                             cmd.Parameters.AddWithValue("@UserID", userID);
