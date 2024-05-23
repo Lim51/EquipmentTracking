@@ -198,22 +198,62 @@ namespace EquipmentTracking
                 // Creating Connection  
                 con = new SqlConnection(conn);
                 // writing sql query  
-                SqlCommand cm = new SqlCommand("delete from headphone where hID= '" + btn.Tag.ToString() + "'", con);
-                // Opening Connection  
-                con.Open();
-                // Executing the SQL query  
-                cm.ExecuteNonQuery();
+                SqlCommand selectOldDataCommand = new SqlCommand();
+                selectOldDataCommand.Connection = con;
+                selectOldDataCommand.CommandText = @"
+                    SELECT hID, Model, Code_SN, Received_date, Condition, Remarks, Owner
+                    FROM headphone
+                    WHERE hID = @hID";
+                selectOldDataCommand.Parameters.AddWithValue("@hID", btn.Tag.ToString());
 
-                // Remove the item from the list
+                con.Open();
+                // Retrieve the old data before deleting the record
+                SqlDataReader reader = selectOldDataCommand.ExecuteReader();
+                if (reader.Read())
+                {
+                    // Store old data in variables
+                    var oldhID = reader["hID"];
+                    var oldModel = reader["Model"];
+                    var oldCode_SN = reader["Code_SN"];
+                    var oldReceived_date = reader["Received_date"];
+                    var oldCondition = reader["Condition"];
+                    var oldRemarks = reader["Remarks"];
+                    var oldOwner = reader["Owner"];
+
+                    reader.Close();
+
+                    // Insert the old data into the history table
+                    SqlCommand insertHistoryCommand = new SqlCommand();
+                    insertHistoryCommand.Connection = con;
+                    insertHistoryCommand.CommandText = @"
+                        INSERT INTO headphone_history (hID, Model, Code_SN, Received_date, Condition, Remarks, Owner, UpdatedBy)
+                        VALUES (@hID, @Model, @Code_SN, @Received_date, @Condition, @Remarks, @Owner, @UpdatedBy)";
+                    insertHistoryCommand.Parameters.AddWithValue("@hID", oldhID);
+                    insertHistoryCommand.Parameters.AddWithValue("@Model", oldModel);
+                    insertHistoryCommand.Parameters.AddWithValue("@Code_SN", oldCode_SN);
+                    insertHistoryCommand.Parameters.AddWithValue("@Received_date", oldReceived_date);
+                    insertHistoryCommand.Parameters.AddWithValue("@Condition", oldCondition);
+                    insertHistoryCommand.Parameters.AddWithValue("@Remarks", oldRemarks);
+                    insertHistoryCommand.Parameters.AddWithValue("@Owner", oldOwner);
+                    insertHistoryCommand.Parameters.AddWithValue("@UpdatedBy", GlobalData.CurrentUser);
+
+                    insertHistoryCommand.ExecuteNonQuery();
+                }
+
+                // Now delete the record from the headphone table
+                SqlCommand deleteCommand = new SqlCommand();
+                deleteCommand.Connection = con;
+                deleteCommand.CommandText = "DELETE FROM headphone WHERE hID=@hID";
+                deleteCommand.Parameters.AddWithValue("@hID", btn.Tag.ToString());
+                deleteCommand.ExecuteNonQuery();
+
                 var itemToRemove = GlobalData.HeadphoneDetailList.SingleOrDefault(r => r.hID == Convert.ToInt32(btn.Tag.ToString()));
                 if (itemToRemove != null)
                     GlobalData.HeadphoneDetailList.Remove(itemToRemove);
 
-                // Update the ListView
                 HeadphoneList.ItemsSource = null;
                 HeadphoneList.ItemsSource = GlobalData.HeadphoneDetailList;
 
-                // Display success message
                 display.Text = "Record Deleted Successfully";
             }
             catch (Exception ex)

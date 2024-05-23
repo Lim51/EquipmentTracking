@@ -215,6 +215,12 @@ namespace EquipmentTracking
 
 
         }
+
+        private void exitCommandBar_Click(object sender, RoutedEventArgs e)
+        {
+            Application.Current.Exit();
+        }
+
     }
 }
 

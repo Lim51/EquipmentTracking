@@ -193,20 +193,61 @@ namespace EquipmentTracking
                 // Creating Connection  
                 con = new SqlConnection(conn);
                 // writing sql query  
-                SqlCommand cm = new SqlCommand("delete from monitor where MonitorID= '" + btn.Tag.ToString() + "'", con);
-                // Opening Connection  
+                SqlCommand selectOldDataCommand = new SqlCommand();
+                selectOldDataCommand.Connection = con;
+                selectOldDataCommand.CommandText = @"
+                    SELECT MonitorID, Model, Code_SN, Received_date, Condition, Remarks, Owner
+                    FROM monitor
+                    WHERE MonitorID = @MonitorID";
+                selectOldDataCommand.Parameters.AddWithValue("@MonitorID", btn.Tag.ToString());
+
                 con.Open();
-                // Executing the SQL query  
-                cm.ExecuteNonQuery();
+                // Retrieve the old data before deleting the record
+                SqlDataReader reader = selectOldDataCommand.ExecuteReader();
+                if (reader.Read())
+                {
+                    // Store old data in variables
+                    var oldMonitorID = reader["MonitorID"];
+                    var oldModel = reader["Model"];
+                    var oldCode_SN = reader["Code_SN"];
+                    var oldReceived_date = reader["Received_date"];
+                    var oldCondition = reader["Condition"];
+                    var oldRemarks = reader["Remarks"];
+                    var oldOwner = reader["Owner"];
+
+                    reader.Close();
+
+                    // Insert the old data into the history table
+                    SqlCommand insertHistoryCommand = new SqlCommand();
+                    insertHistoryCommand.Connection = con;
+                    insertHistoryCommand.CommandText = @"
+                        INSERT INTO monitor_history (MonitorID, Model, Code_SN, Received_date, Condition, Remarks, Owner, UpdatedBy)
+                        VALUES (@MonitorID, @Model, @Code_SN, @Received_date, @Condition, @Remarks, @Owner, @UpdatedBy)";
+                    insertHistoryCommand.Parameters.AddWithValue("@MonitorID", oldMonitorID);
+                    insertHistoryCommand.Parameters.AddWithValue("@Model", oldModel);
+                    insertHistoryCommand.Parameters.AddWithValue("@Code_SN", oldCode_SN);
+                    insertHistoryCommand.Parameters.AddWithValue("@Received_date", oldReceived_date);
+                    insertHistoryCommand.Parameters.AddWithValue("@Condition", oldCondition);
+                    insertHistoryCommand.Parameters.AddWithValue("@Remarks", oldRemarks);
+                    insertHistoryCommand.Parameters.AddWithValue("@Owner", oldOwner);
+                    insertHistoryCommand.Parameters.AddWithValue("@UpdatedBy", GlobalData.CurrentUser);
+
+                    insertHistoryCommand.ExecuteNonQuery();
+                }
+
+                // Now delete the record from the monitor table
+                SqlCommand deleteCommand = new SqlCommand();
+                deleteCommand.Connection = con;
+                deleteCommand.CommandText = "DELETE FROM monitor WHERE MonitorID=@MonitorID";
+                deleteCommand.Parameters.AddWithValue("@MonitorID", btn.Tag.ToString());
+                deleteCommand.ExecuteNonQuery();
 
                 var itemToRemove = GlobalData.MonitorDetailList.SingleOrDefault(r => r.MonitorID == Convert.ToInt32(btn.Tag.ToString()));
                 if (itemToRemove != null)
                     GlobalData.MonitorDetailList.Remove(itemToRemove);
 
-
                 MonitorList.ItemsSource = null;
                 MonitorList.ItemsSource = GlobalData.MonitorDetailList;
-
 
                 display.Text = "Record Deleted Successfully";
             }
