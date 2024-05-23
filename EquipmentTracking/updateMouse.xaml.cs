@@ -187,7 +187,7 @@ namespace EquipmentTracking
             MouseList.ItemsSource = GlobalData.mouseDetailList;
         }
 
-        // Event handler to delete a record
+        // Event handler for deleting a record
         private void btnDelete_Click(object sender, RoutedEventArgs e)
         {
             display.Text = "";
@@ -197,30 +197,69 @@ namespace EquipmentTracking
             SqlConnection con = null;
             try
             {
-                // Creating connection to the database 
+                // Creating Connection  
                 con = new SqlConnection(conn);
-                // Writing SQL query to delete a record by MouseID
-                SqlCommand cm = new SqlCommand("delete from mouse where MouseID= '" + btn.Tag.ToString() + "'", con);
-                // Opening Connection  
-                con.Open();
-                // Executing the SQL query  
-                cm.ExecuteNonQuery();
+                // writing sql query  
+                SqlCommand selectOldDataCommand = new SqlCommand();
+                selectOldDataCommand.Connection = con;
+                selectOldDataCommand.CommandText = @"
+                    SELECT MouseID, Model, Code_SN, Received_date, Condition, Remarks, Owner
+                    FROM mouse
+                    WHERE MouseID = @MouseID";
+                selectOldDataCommand.Parameters.AddWithValue("@MouseID", btn.Tag.ToString());
 
-                // Remove the deleted item from the list
+                con.Open();
+                // Retrieve the old data before deleting the record
+                SqlDataReader reader = selectOldDataCommand.ExecuteReader();
+                if (reader.Read())
+                {
+                    // Store old data in variables
+                    var oldMouseID = reader["MouseID"];
+                    var oldModel = reader["Model"];
+                    var oldCode_SN = reader["Code_SN"];
+                    var oldReceived_date = reader["Received_date"];
+                    var oldCondition = reader["Condition"];
+                    var oldRemarks = reader["Remarks"];
+                    var oldOwner = reader["Owner"];
+
+                    reader.Close();
+
+                    // Insert the old data into the history table
+                    SqlCommand insertHistoryCommand = new SqlCommand();
+                    insertHistoryCommand.Connection = con;
+                    insertHistoryCommand.CommandText = @"
+                        INSERT INTO mouse_history (MouseID, Model, Code_SN, Received_date, Condition, Remarks, Owner, UpdatedBy)
+                        VALUES (@MouseID, @Model, @Code_SN, @Received_date, @Condition, @Remarks, @Owner, @UpdatedBy)";
+                    insertHistoryCommand.Parameters.AddWithValue("@MouseID", oldMouseID);
+                    insertHistoryCommand.Parameters.AddWithValue("@Model", oldModel);
+                    insertHistoryCommand.Parameters.AddWithValue("@Code_SN", oldCode_SN);
+                    insertHistoryCommand.Parameters.AddWithValue("@Received_date", oldReceived_date);
+                    insertHistoryCommand.Parameters.AddWithValue("@Condition", oldCondition);
+                    insertHistoryCommand.Parameters.AddWithValue("@Remarks", oldRemarks);
+                    insertHistoryCommand.Parameters.AddWithValue("@Owner", oldOwner);
+                    insertHistoryCommand.Parameters.AddWithValue("@UpdatedBy", GlobalData.CurrentUser);
+
+                    insertHistoryCommand.ExecuteNonQuery();
+                }
+
+                // Now delete the record from the mouse table
+                SqlCommand deleteCommand = new SqlCommand();
+                deleteCommand.Connection = con;
+                deleteCommand.CommandText = "DELETE FROM mouse WHERE MouseID=@MouseID";
+                deleteCommand.Parameters.AddWithValue("@MouseID", btn.Tag.ToString());
+                deleteCommand.ExecuteNonQuery();
+
                 var itemToRemove = GlobalData.mouseDetailList.SingleOrDefault(r => r.MouseID == Convert.ToInt32(btn.Tag.ToString()));
                 if (itemToRemove != null)
                     GlobalData.mouseDetailList.Remove(itemToRemove);
 
-                // Update the ListView
                 MouseList.ItemsSource = null;
                 MouseList.ItemsSource = GlobalData.mouseDetailList;
 
-                // Display success message
                 display.Text = "Record Deleted Successfully";
             }
             catch (Exception ex)
             {
-                // Display an error dialog if an exception occurs
                 DisplayDialog("Error: ", "Error: " + ex.Message);
             }
             // Closing the connection  
@@ -229,7 +268,7 @@ namespace EquipmentTracking
                 con.Close();
             }
         }
-
+        
         // Event handler to navigate to the update details page
         private void btnUpdate_Click(object sender, RoutedEventArgs e)
         {

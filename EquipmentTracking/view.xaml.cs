@@ -37,27 +37,27 @@ namespace EquipmentTracking
                 con.Open();
 
                 // Counting available mouse
-                SqlCommand cmMouse = new SqlCommand("SELECT COUNT(MouseID) FROM mouse WHERE Owner IS NULL", con);
+                SqlCommand cmMouse = new SqlCommand("SELECT COUNT(MouseID) FROM mouse WHERE Owner IS NULL OR Owner = '' OR Owner = '-'", con);
                 int mouseCount = (int)cmMouse.ExecuteScalar();
                 MouseCount.Text = mouseCount.ToString();
 
                 // Counting available headphones
-                SqlCommand cmHeadphone = new SqlCommand("SELECT COUNT(hID) FROM headphone WHERE Owner IS NULL", con);
+                SqlCommand cmHeadphone = new SqlCommand("SELECT COUNT(hID) FROM headphone WHERE Owner IS NULL OR Owner = '' OR Owner = '-'", con);
                 int headphoneCount = (int)cmHeadphone.ExecuteScalar();
                 HeadphoneCount.Text = headphoneCount.ToString();
 
                 // Counting available monitors
-                SqlCommand cmMonitor = new SqlCommand("SELECT COUNT(MonitorID) FROM monitor WHERE Owner IS NULL", con);
+                SqlCommand cmMonitor = new SqlCommand("SELECT COUNT(MonitorID) FROM monitor WHERE Owner IS NULL OR Owner = '' OR Owner = '-'", con);
                 int monitorCount = (int)cmMonitor.ExecuteScalar();
                 MonitorCount.Text = monitorCount.ToString();
 
                 // Counting available docking
-                SqlCommand cmDocking = new SqlCommand("SELECT COUNT(DockingID) FROM docking_sys WHERE Owner IS NULL", con);
+                SqlCommand cmDocking = new SqlCommand("SELECT COUNT(DockingID) FROM docking_sys WHERE Owner IS NULL OR Owner = '' OR Owner = '-'", con);
                 int dockingCount = (int)cmMonitor.ExecuteScalar();
                 DockingCount.Text = dockingCount.ToString();
 
                 // Counting available docking
-                SqlCommand cmLaptop = new SqlCommand("SELECT COUNT(LaptopID) FROM laptop WHERE Owner IS NULL", con);
+                SqlCommand cmLaptop = new SqlCommand("SELECT COUNT(LaptopID) FROM laptop WHERE Owner IS NULL OR Owner = '' OR Owner = '-'", con);
                 int laptopCount = (int)cmMonitor.ExecuteScalar();
                 LaptopCount.Text = laptopCount.ToString();
             }

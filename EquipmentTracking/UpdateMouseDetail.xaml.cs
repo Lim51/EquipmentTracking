@@ -79,20 +79,67 @@ namespace EquipmentTracking
                     {
                         db.Open();
 
+                        // Step 1: Retrieve the old data
+                        SqlCommand selectOldDataCommand = new SqlCommand();
+                        selectOldDataCommand.Connection = db;
+                        selectOldDataCommand.CommandText = @"
+                            SELECT MouseID, Model, Code_SN, Received_date, Condition, Remarks, Owner
+                            FROM mouse
+                            WHERE MouseID = @MouseID";
+                        selectOldDataCommand.Parameters.AddWithValue("@MouseID", GlobalData.MouseID);
+
+                        SqlDataReader reader = selectOldDataCommand.ExecuteReader();
+                        if (reader.Read())
+                        {
+                            // Store old data in variables
+                            var oldMouseID = reader["MouseID"];
+                            var oldModel = reader["Model"];
+                            var oldCode_SN = reader["Code_SN"];
+                            var oldReceived_date = reader["Received_date"];
+                            var oldCondition = reader["Condition"];
+                            var oldRemarks = reader["Remarks"];
+                            var oldOwner = reader["Owner"];
+
+                            reader.Close();
+
+                            // Step 2: Insert the old data into the history table
+                            SqlCommand insertHistoryCommand = new SqlCommand();
+                            insertHistoryCommand.Connection = db;
+                            insertHistoryCommand.CommandText = @"
+                                INSERT INTO mouse_history (MouseID, Model, Code_SN, Received_date, Condition, Remarks, Owner, UpdatedBy)
+                                VALUES (@MouseID, @Model, @Code_SN, @Received_date, @Condition, @Remarks, @Owner, @UpdatedBy)";
+                            insertHistoryCommand.Parameters.AddWithValue("@MouseID", oldMouseID);
+                            insertHistoryCommand.Parameters.AddWithValue("@Model", oldModel);
+                            insertHistoryCommand.Parameters.AddWithValue("@Code_SN", oldCode_SN);
+                            insertHistoryCommand.Parameters.AddWithValue("@Received_date", oldReceived_date) ;
+                            insertHistoryCommand.Parameters.AddWithValue("@Condition", oldCondition);
+                            insertHistoryCommand.Parameters.AddWithValue("@Remarks", oldRemarks);
+                            insertHistoryCommand.Parameters.AddWithValue("@Owner", oldOwner);
+                            insertHistoryCommand.Parameters.AddWithValue("@UpdatedBy", GlobalData.CurrentUser);
+
+                            insertHistoryCommand.ExecuteNonQuery();
+                        }
+                        else
+                        {
+                            reader.Close();
+                            DisplayDialog("Error", "Old data not found.");
+                            return;
+                        }
+
+                        // Step 3: Update the mouse table with the new data
                         SqlCommand updateCommand = new SqlCommand();
                         updateCommand.Connection = db;
-
-                        // Use parameterized query to prevent SQL injection attacks
-                        updateCommand.CommandText = "UPDATE mouse SET Model=@Model, Code_SN=@Code_SN, Received_date=@Received_date, Condition=@Condition, Remarks=@Remarks,Owner=@Owner WHERE MouseID=@MouseID";
-
+                        updateCommand.CommandText = @"
+                            UPDATE mouse
+                            SET Model = @Model, Code_SN = @Code_SN, Received_date = @Received_date, Condition = @Condition, Remarks = @Remarks, Owner = @Owner
+                            WHERE MouseID = @MouseID";
+                        updateCommand.Parameters.AddWithValue("@MouseID", GlobalData.MouseID);
                         updateCommand.Parameters.AddWithValue("@Model", modelTextbox.Text);
                         updateCommand.Parameters.AddWithValue("@Code_SN", codeTextbox.Text);
-
 
                         // Check if the date is in the correct format (yyyy-MM-dd)
                         if (string.IsNullOrWhiteSpace(dateTextbox.Text))
                         {
-                            // If the date is empty, set it to null in the database
                             updateCommand.Parameters.AddWithValue("@Received_date", DBNull.Value);
                         }
                         else
@@ -104,16 +151,14 @@ namespace EquipmentTracking
                             }
                             else
                             {
-                                // Handle invalid date format
                                 DisplayDialog("Input Error", "Enter a valid date in the format yyyy-MM-dd.");
                                 return;
                             }
                         }
-                        // Save the selected condition from ComboBox
+
                         updateCommand.Parameters.AddWithValue("@Condition", conditionComboBox.SelectedItem != null ? (conditionComboBox.SelectedItem as ComboBoxItem).Content.ToString() : "");
                         updateCommand.Parameters.AddWithValue("@Remarks", remarkTextbox.Text);
                         updateCommand.Parameters.AddWithValue("@Owner", ownerNameTextbox.Text);
-                        updateCommand.Parameters.AddWithValue("@MouseID", GlobalData.MouseID); // Add MouseID parameter
 
                         updateCommand.ExecuteNonQuery();
 
@@ -126,19 +171,15 @@ namespace EquipmentTracking
                 }
                 else
                 {
-                    DisplayDialog("Input Error", "Enter Employee name.");
+                    DisplayDialog("Input Error", "Enter Model name.");
                     modelTextbox.Focus(FocusState.Programmatic);
                 }
-
             }
-
             catch (Exception theException)
             {
-                DisplayDialog("Error: ", "Error: " + theException.Message);
+                DisplayDialog("Error", "Error: " + theException.Message);
             }
         }
-
-
 
         // Method to display a dialog with a specified title and content
         private async void DisplayDialog(string title, string content)
@@ -148,12 +189,10 @@ namespace EquipmentTracking
                 Title = title,
                 Content = content,
                 CloseButtonText = "Ok"
-
             };
 
             ContentDialogResult result = await noDialog.ShowAsync();
-
-
         }
+
     }
 }
