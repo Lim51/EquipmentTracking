@@ -195,20 +195,61 @@ namespace EquipmentTracking
                 // Creating Connection  
                 con = new SqlConnection(conn);
                 // writing sql query  
-                SqlCommand cm = new SqlCommand("delete from laptop where LaptopID= '" + btn.Tag.ToString() + "'", con);
-                // Opening Connection  
+                SqlCommand selectOldDataCommand = new SqlCommand();
+                selectOldDataCommand.Connection = con;
+                selectOldDataCommand.CommandText = @"
+            SELECT LaptopID, Model, Code_SN, Received_date, Condition, Remarks, Owner
+            FROM laptop
+            WHERE LaptopID = @LaptopID";
+                selectOldDataCommand.Parameters.AddWithValue("@LaptopID", btn.Tag.ToString());
+
                 con.Open();
-                // Executing the SQL query  
-                cm.ExecuteNonQuery();
+                // Retrieve the old data before deleting the record
+                SqlDataReader reader = selectOldDataCommand.ExecuteReader();
+                if (reader.Read())
+                {
+                    // Store old data in variables
+                    var oldLaptopID = reader["LaptopID"];
+                    var oldModel = reader["Model"];
+                    var oldCode_SN = reader["Code_SN"];
+                    var oldReceived_date = reader["Received_date"];
+                    var oldCondition = reader["Condition"];
+                    var oldRemarks = reader["Remarks"];
+                    var oldOwner = reader["Owner"];
+
+                    reader.Close();
+
+                    // Insert the old data into the history table
+                    SqlCommand insertHistoryCommand = new SqlCommand();
+                    insertHistoryCommand.Connection = con;
+                    insertHistoryCommand.CommandText = @"
+                INSERT INTO laptop_history (LaptopID, Model, Code_SN, Received_date, Condition, Remarks, Owner, UpdatedBy)
+                VALUES (@LaptopID, @Model, @Code_SN, @Received_date, @Condition, @Remarks, @Owner, @UpdatedBy)";
+                    insertHistoryCommand.Parameters.AddWithValue("@LaptopID", oldLaptopID);
+                    insertHistoryCommand.Parameters.AddWithValue("@Model", oldModel);
+                    insertHistoryCommand.Parameters.AddWithValue("@Code_SN", oldCode_SN);
+                    insertHistoryCommand.Parameters.AddWithValue("@Received_date", oldReceived_date);
+                    insertHistoryCommand.Parameters.AddWithValue("@Condition", oldCondition);
+                    insertHistoryCommand.Parameters.AddWithValue("@Remarks", oldRemarks);
+                    insertHistoryCommand.Parameters.AddWithValue("@Owner", oldOwner);
+                    insertHistoryCommand.Parameters.AddWithValue("@UpdatedBy", GlobalData.CurrentUser);
+
+                    insertHistoryCommand.ExecuteNonQuery();
+                }
+
+                // Now delete the record from the laptop table
+                SqlCommand deleteCommand = new SqlCommand();
+                deleteCommand.Connection = con;
+                deleteCommand.CommandText = "DELETE FROM laptop WHERE LaptopID=@LaptopID";
+                deleteCommand.Parameters.AddWithValue("@LaptopID", btn.Tag.ToString());
+                deleteCommand.ExecuteNonQuery();
 
                 var itemToRemove = GlobalData.LaptopDetailList.SingleOrDefault(r => r.LaptopID == Convert.ToInt32(btn.Tag.ToString()));
                 if (itemToRemove != null)
                     GlobalData.LaptopDetailList.Remove(itemToRemove);
 
-
                 LaptopList.ItemsSource = null;
                 LaptopList.ItemsSource = GlobalData.LaptopDetailList;
-
 
                 display.Text = "Record Deleted Successfully";
             }
@@ -222,6 +263,8 @@ namespace EquipmentTracking
                 con.Close();
             }
         }
+
+    
 
         // Event handler for updating a record
         private void btnUpdate_Click(object sender, RoutedEventArgs e)
