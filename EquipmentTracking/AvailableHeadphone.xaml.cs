@@ -21,7 +21,7 @@ namespace EquipmentTracking
     /// <summary>
     /// An empty page that can be used on its own or navigated to within a Frame.
     /// </summary>
-    public sealed partial class AvailableMousePage : Page
+    public sealed partial class AvailableHeadphone : Page
     {
         private string conn = (App.Current as App).ConnectionString;
 
@@ -34,7 +34,7 @@ namespace EquipmentTracking
         private string currentSortColumn = "";
         private SortDirection currentSortDirection = SortDirection.Ascending;
 
-        public AvailableMousePage()
+        public AvailableHeadphone()
         {
             this.InitializeComponent();
             LoadAvailableMice();
@@ -46,23 +46,23 @@ namespace EquipmentTracking
             try
             {
                 con = new SqlConnection(conn);
-                SqlCommand cm = new SqlCommand("SELECT * FROM mouse WHERE Owner IS NULL OR Owner = '' OR Owner = '-'", con);
+                SqlCommand cm = new SqlCommand("SELECT * FROM headphone WHERE Owner IS NULL OR Owner = '' OR Owner = '-'", con);
                 con.Open();
                 SqlDataReader sdr = cm.ExecuteReader();
-                GlobalData.mouseDetailList = new List<MouseDetail>();
+                GlobalData.HeadphoneDetailList = new List<HeadphoneDetail>();
                 while (sdr.Read())
                 {
-                    MouseDetail m = new MouseDetail();
-                    m.MouseID = Convert.ToInt32(sdr["MouseID"]);
+                    HeadphoneDetail m = new HeadphoneDetail();
+                    m.hID = Convert.ToInt32(sdr["hID"]);
                     m.Model = !string.IsNullOrEmpty(sdr["Model"].ToString()) ? sdr["Model"].ToString() : "-";
                     m.Code_SN = !string.IsNullOrEmpty(sdr["Code_SN"].ToString()) ? sdr["Code_SN"].ToString() : "-";
                     m.Received_date = !string.IsNullOrEmpty(sdr["Received_date"].ToString()) ? sdr["Received_date"].ToString() : "-";
                     m.Condition = !string.IsNullOrEmpty(sdr["Condition"].ToString()) ? sdr["Condition"].ToString() : "-";
                     m.Remarks = !string.IsNullOrEmpty(sdr["Remarks"].ToString()) ? sdr["Remarks"].ToString() : "-";
                     m.Owner = !string.IsNullOrEmpty(sdr["Owner"].ToString()) ? sdr["Owner"].ToString() : "-";
-                    GlobalData.mouseDetailList.Add(m);
+                    GlobalData.HeadphoneDetailList.Add(m);
                 }
-                MouseList.ItemsSource = GlobalData.mouseDetailList;
+                HeadphoneList.ItemsSource = GlobalData.HeadphoneDetailList;
                 con.Close();
             }
             catch (Exception ex)
@@ -73,18 +73,18 @@ namespace EquipmentTracking
 
         private void ApplyFilter_Click(object sender, RoutedEventArgs e)
         {
-            FilterMice();
+            FilterHeadphone();
         }
 
         private void ClearFilter_Click(object sender, RoutedEventArgs e)
         {
             txtFilter.Text = "";
-            FilterMice();
+            FilterHeadphone();
         }
 
-        private void FilterMice()
+        private void FilterHeadphone()
         {
-            var filteredList = GlobalData.mouseDetailList
+            var filteredList = GlobalData.HeadphoneDetailList
                 .Where(m => m.Model.Contains(txtFilter.Text, StringComparison.OrdinalIgnoreCase)
                          || m.Code_SN.Contains(txtFilter.Text, StringComparison.OrdinalIgnoreCase)
                          || m.Received_date.Contains(txtFilter.Text, StringComparison.OrdinalIgnoreCase)
@@ -92,36 +92,10 @@ namespace EquipmentTracking
                          || m.Remarks.Contains(txtFilter.Text, StringComparison.OrdinalIgnoreCase)
                          || m.Owner.Contains(txtFilter.Text, StringComparison.OrdinalIgnoreCase))
                 .ToList();
-            MouseList.ItemsSource = filteredList;
+            HeadphoneList.ItemsSource = filteredList;
         }
 
-        private void btnDelete_Click(object sender, RoutedEventArgs e)
-        {
-            Button button = sender as Button;
-            int mouseID = (int)button.Tag;
-
-            SqlConnection con = new SqlConnection(conn);
-            con.Open();
-            SqlCommand cmd = new SqlCommand("DELETE FROM mouse WHERE MouseID = @MouseID", con);
-            cmd.Parameters.AddWithValue("@MouseID", mouseID);
-            cmd.ExecuteNonQuery();
-            con.Close();
-
-            GlobalData.mouseDetailList.RemoveAll(m => m.MouseID == mouseID);
-            FilterMice();
-        }
-
-        // Event handler to navigate to the update details page
-        private void btnUpdate_Click(object sender, RoutedEventArgs e)
-        {
-            Button btn = sender as Button;
-
-            // Store the selected MouseID globally
-            GlobalData.MouseID = Convert.ToInt32(btn.Tag.ToString());
-
-            // Navigate to the UpdateMouseDetail page
-            this.Frame.Navigate(typeof(UpdateMouseDetail));
-        }
+        
 
         private void SortByModel_Click(object sender, PointerRoutedEventArgs e) => SortByColumn("Model");
         private void SortByCodeSN_Click(object sender, PointerRoutedEventArgs e) => SortByColumn("Code_SN");
@@ -143,10 +117,10 @@ namespace EquipmentTracking
             }
 
             var sortedList = currentSortDirection == SortDirection.Ascending
-                ? GlobalData.mouseDetailList.OrderBy(m => m.GetType().GetProperty(currentSortColumn).GetValue(m, null))
-                : GlobalData.mouseDetailList.OrderByDescending(m => m.GetType().GetProperty(currentSortColumn).GetValue(m, null));
+                ? GlobalData.HeadphoneDetailList.OrderBy(m => m.GetType().GetProperty(currentSortColumn).GetValue(m, null))
+                : GlobalData.HeadphoneDetailList.OrderByDescending(m => m.GetType().GetProperty(currentSortColumn).GetValue(m, null));
 
-            MouseList.ItemsSource = sortedList.ToList();
+            HeadphoneList.ItemsSource = sortedList.ToList();
         }
 
     }

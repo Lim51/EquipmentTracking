@@ -30,13 +30,13 @@
                 </Grid.RowDefinitions>
 
                 <!-- First Row -->
-                <StackPanel Width="361" HorizontalAlignment="Center" FocusVisualPrimaryBrush="#FFEF962A" Background="#FFF7A328" Grid.Column="0" Grid.Row="0" Tapped="BoxTapped" Tag="AvailableMousePage">
+                <StackPanel Width="361" HorizontalAlignment="Center" FocusVisualPrimaryBrush="#FFEF962A" Background="#FFF7A328" Grid.Column="0" Grid.Row="0" Tapped="BoxTapped" Tag="AvailableMouse">
                     <TextBlock TextWrapping="Wrap" Text="Available Mouse" HorizontalAlignment="Right" Margin="0,20,20,0" FontSize="28" FontWeight="Bold" FontFamily="Arial Black" Foreground="White"/>
                     <Image Source="Assets/mouse.png" Height="100" Width="100" HorizontalAlignment="Left" Margin="30,10,0,0"/>
                     <TextBlock x:Name="MouseCount" TextWrapping="Wrap" Text="0" FontSize="48" FontWeight="Bold" FontFamily="Arial Black" Foreground="White" HorizontalAlignment="Right" Margin="0,0,20,10"/>
                 </StackPanel>
 
-                <StackPanel Width="361" HorizontalAlignment="Center" FocusVisualPrimaryBrush="#FFEF962A" Background="#FFF7A328" Grid.Column="1" Grid.Row="0" Tapped="BoxTapped" Tag="updateHeadphone">
+                <StackPanel Width="361" HorizontalAlignment="Center" FocusVisualPrimaryBrush="#FFEF962A" Background="#FFF7A328" Grid.Column="1" Grid.Row="0" Tapped="BoxTapped" Tag="AvailableHeadphone">
                     <TextBlock TextWrapping="Wrap" Text="Available Headphone" HorizontalAlignment="Right" Margin="0,20,20,0" FontSize="28" FontWeight="Bold" FontFamily="Arial Black" Foreground="White"/>
                     <Image Source="Assets/headphone.png" Height="100" Width="100" HorizontalAlignment="Left" Margin="30,10,0,0"/>
                     <TextBlock x:Name="HeadphoneCount" TextWrapping="Wrap" Text="0" FontSize="48" FontWeight="Bold" FontFamily="Arial Black" Foreground="White" HorizontalAlignment="Right" Margin="0,0,20,10"/>

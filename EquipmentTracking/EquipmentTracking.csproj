@@ -150,8 +150,14 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
-    <Compile Include="AvailableMousePage.xaml.cs">
-      <DependentUpon>AvailableMousePage.xaml</DependentUpon>
+    <Compile Include="AvailableHeadphone.xaml.cs">
+      <DependentUpon>AvailableHeadphone.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="AvailableMonitor.xaml.cs">
+      <DependentUpon>AvailableMonitor.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="AvailableMouse.xaml.cs">
+      <DependentUpon>AvailableMouse.xaml</DependentUpon>
     </Compile>
     <Compile Include="CableDetail.cs" />
     <Compile Include="DockingDetail.cs" />
@@ -347,7 +353,15 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="AvailableMousePage.xaml">
+    <Page Include="AvailableHeadphone.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="AvailableMonitor.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="AvailableMouse.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
