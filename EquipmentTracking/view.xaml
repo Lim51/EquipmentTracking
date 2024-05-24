@@ -30,46 +30,49 @@
                 </Grid.RowDefinitions>
 
                 <!-- First Row -->
-                <StackPanel Width="361" HorizontalAlignment="Center" FocusVisualPrimaryBrush="#FFEF962A" Background="#FFF7A328" Grid.Column="0" Grid.Row="0">
+                <StackPanel Width="361" HorizontalAlignment="Center" FocusVisualPrimaryBrush="#FFEF962A" Background="#FFF7A328" Grid.Column="0" Grid.Row="0" Tapped="BoxTapped" Tag="AvailableMousePage">
                     <TextBlock TextWrapping="Wrap" Text="Available Mouse" HorizontalAlignment="Right" Margin="0,20,20,0" FontSize="28" FontWeight="Bold" FontFamily="Arial Black" Foreground="White"/>
                     <Image Source="Assets/mouse.png" Height="100" Width="100" HorizontalAlignment="Left" Margin="30,10,0,0"/>
                     <TextBlock x:Name="MouseCount" TextWrapping="Wrap" Text="0" FontSize="48" FontWeight="Bold" FontFamily="Arial Black" Foreground="White" HorizontalAlignment="Right" Margin="0,0,20,10"/>
                 </StackPanel>
 
-                <StackPanel Width="361" HorizontalAlignment="Center" FocusVisualPrimaryBrush="#FFEF962A" Background="#FFF7A328" Grid.Column="1" Grid.Row="0">
+                <StackPanel Width="361" HorizontalAlignment="Center" FocusVisualPrimaryBrush="#FFEF962A" Background="#FFF7A328" Grid.Column="1" Grid.Row="0" Tapped="BoxTapped" Tag="updateHeadphone">
                     <TextBlock TextWrapping="Wrap" Text="Available Headphone" HorizontalAlignment="Right" Margin="0,20,20,0" FontSize="28" FontWeight="Bold" FontFamily="Arial Black" Foreground="White"/>
                     <Image Source="Assets/headphone.png" Height="100" Width="100" HorizontalAlignment="Left" Margin="30,10,0,0"/>
                     <TextBlock x:Name="HeadphoneCount" TextWrapping="Wrap" Text="0" FontSize="48" FontWeight="Bold" FontFamily="Arial Black" Foreground="White" HorizontalAlignment="Right" Margin="0,0,20,10"/>
                 </StackPanel>
 
-                <StackPanel Width="361" HorizontalAlignment="Center" FocusVisualPrimaryBrush="#FFEF962A" Background="#FFF7A328" Grid.Column="2" Grid.Row="0">
+                <StackPanel Width="361" HorizontalAlignment="Center" FocusVisualPrimaryBrush="#FFEF962A" Background="#FFF7A328" Grid.Column="2" Grid.Row="0" Tapped="BoxTapped" Tag="updateMonitor">
                     <TextBlock TextWrapping="Wrap" Text="Available Monitor" HorizontalAlignment="Right" Margin="0,20,20,0" FontSize="28" FontWeight="Bold" FontFamily="Arial Black" Foreground="White"/>
                     <Image Source="Assets/monitor.png" Height="100" Width="100" HorizontalAlignment="Left" Margin="30,10,0,0"/>
                     <TextBlock x:Name="MonitorCount" TextWrapping="Wrap" Text="0" FontSize="48" FontWeight="Bold" FontFamily="Arial Black" Foreground="White" HorizontalAlignment="Right" Margin="0,0,20,10"/>
                 </StackPanel>
 
                 <!-- Second Row -->
-                <StackPanel Width="361" HorizontalAlignment="Center" FocusVisualPrimaryBrush="#FFEF962A" Background="#FFF7A328" Grid.Column="0" Grid.Row="1" Margin="0,20,0,0">
+                <StackPanel Width="361" HorizontalAlignment="Center" FocusVisualPrimaryBrush="#FFEF962A" Background="#FFF7A328" Grid.Column="0" Grid.Row="1" Margin="0,20,0,0" Tapped="BoxTapped" Tag="updateDockingSystem">
                     <TextBlock TextWrapping="Wrap" Text="Available Docking System" HorizontalAlignment="Right" Margin="0,20,25,0" FontSize="28" FontWeight="Bold" FontFamily="Arial Black" Foreground="White" TextAlignment="Right"/>
                     <Image Source="Assets/docking.png" Height="100" Width="100" HorizontalAlignment="Left" Margin="30,-25,0,0"/>
                     <TextBlock x:Name="DockingCount" TextWrapping="Wrap" Text="0" FontSize="48" FontWeight="Bold" FontFamily="Arial Black" Foreground="White" HorizontalAlignment="Right" Margin="0,0,20,10"/>
                 </StackPanel>
 
-                <StackPanel Width="361" HorizontalAlignment="Center" FocusVisualPrimaryBrush="#FFEF962A" Background="#FFF7A328" Grid.Column="1" Grid.Row="1" Margin="0,20,0,0">
+                <StackPanel Width="361" HorizontalAlignment="Center" FocusVisualPrimaryBrush="#FFEF962A" Background="#FFF7A328" Grid.Column="1" Grid.Row="1" Margin="0,20,0,0" Tapped="BoxTapped" Tag="updateLaptop">
                     <TextBlock TextWrapping="Wrap" Text="Available Laptop" HorizontalAlignment="Right" Margin="0,20,20,0" FontSize="28" FontWeight="Bold" FontFamily="Arial Black" Foreground="White"/>
                     <Image Source="Assets/laptop.png" Height="100" Width="100" HorizontalAlignment="Left" Margin="30,10,0,0"/>
                     <TextBlock x:Name="LaptopCount" TextWrapping="Wrap" Text="0" FontSize="48" FontWeight="Bold" FontFamily="Arial Black" Foreground="White" HorizontalAlignment="Right" Margin="0,0,20,10"/>
                 </StackPanel>
 
-                
-                <StackPanel Width="361" HorizontalAlignment="Center" FocusVisualPrimaryBrush="#FFEF962A" Background="#FFCCB682" Grid.Column="2" Grid.Row="1" Margin="0,20,0,0" Tapped="TeamEuipTrackTapped">
+                <StackPanel Width="361" HorizontalAlignment="Center" FocusVisualPrimaryBrush="#FFEF962A" Background="#FFCCB682" Grid.Column="2" Grid.Row="1" Margin="0,20,0,0" Tapped="BoxTapped" Tag="TeamEquipmentTracking">
                     <TextBlock TextWrapping="Wrap" Text="Team Equipment Tracking" HorizontalAlignment="Right" Margin="0,20,30,0" FontSize="28" FontWeight="Bold" FontFamily="Arial Black" Foreground="White" TextAlignment="Right"/>
                     <Image Source="Assets/team-icon-png-1.jpg" Height="100" Width="100" HorizontalAlignment="Left" Margin="30,-20,0,0"/>
                 </StackPanel>
-
-
-
             </Grid>
+
+            <!-- Selected Category Information -->
+            <StackPanel Orientation="Horizontal" Margin="30,30,30,0">
+                <TextBlock x:Name="SelectedCategoryTextBlock" Text="Selected Category: None" FontSize="28" FontWeight="Bold" Foreground="Black"/>
+                <Button Content="Clear" Click="ClearCategory_Click" Width="108" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="500,0,0,0"/>
+            </StackPanel>
+            <Frame x:Name="categoryFrame" Margin="30,10,30,10"/>
         </StackPanel>
     </ScrollViewer>
 </Page>

@@ -24,7 +24,7 @@
     <GenerateTestArtifacts>True</GenerateTestArtifacts>
     <AppxBundle>Always</AppxBundle>
     <AppxBundlePlatforms>x64</AppxBundlePlatforms>
-    <AppInstallerUri>Y:\03_RM\201 RM_Personal\030_JieYou\Equipment Tracking App\Release</AppInstallerUri>
+    <AppInstallerUri>Y:\03_RM\201 RM_Personal\031_ChingYee\Equipment App\Release</AppInstallerUri>
     <HoursBetweenUpdateChecks>0</HoursBetweenUpdateChecks>
     <PackageCertificateThumbprint>5D83B4A7661C8B7DF191E67FD30A2DD876D797D3</PackageCertificateThumbprint>
     <PackageCertificateKeyFile />
@@ -149,6 +149,9 @@
     </Compile>
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="AvailableMousePage.xaml.cs">
+      <DependentUpon>AvailableMousePage.xaml</DependentUpon>
     </Compile>
     <Compile Include="CableDetail.cs" />
     <Compile Include="DockingDetail.cs" />
@@ -344,6 +347,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="AvailableMousePage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="ForgotPassword.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -425,9 +432,6 @@
     <PackageReference Include="Microsoft.NETCore.UniversalWindowsPlatform">
       <Version>6.2.14</Version>
     </PackageReference>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="EquipmentTracking_TemporaryKey.pfx" />
   </ItemGroup>
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
     <VisualStudioVersion>14.0</VisualStudioVersion>

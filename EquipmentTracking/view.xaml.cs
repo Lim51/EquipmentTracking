@@ -29,6 +29,11 @@ namespace EquipmentTracking
         public view()
         {
             this.InitializeComponent();
+            LoadCounts();
+        }
+
+        private void LoadCounts()
+        {
             SqlConnection con = null;
             try
             {
@@ -53,12 +58,12 @@ namespace EquipmentTracking
 
                 // Counting available docking
                 SqlCommand cmDocking = new SqlCommand("SELECT COUNT(DockingID) FROM docking_sys WHERE Owner IS NULL OR Owner = '' OR Owner = '-'", con);
-                int dockingCount = (int)cmMonitor.ExecuteScalar();
+                int dockingCount = (int)cmDocking.ExecuteScalar();
                 DockingCount.Text = dockingCount.ToString();
 
-                // Counting available docking
+                // Counting available laptops
                 SqlCommand cmLaptop = new SqlCommand("SELECT COUNT(LaptopID) FROM laptop WHERE Owner IS NULL OR Owner = '' OR Owner = '-'", con);
-                int laptopCount = (int)cmMonitor.ExecuteScalar();
+                int laptopCount = (int)cmLaptop.ExecuteScalar();
                 LaptopCount.Text = laptopCount.ToString();
             }
             catch (Exception ex)
@@ -69,13 +74,9 @@ namespace EquipmentTracking
             // Closing the connection  
             finally
             {
-                con.Close();
+                con?.Close();
             }
         }
-
-  
-
-
 
         // Method to display a dialog with a specified title and content
         private async void DisplayDialog(string title, string content)
@@ -85,12 +86,9 @@ namespace EquipmentTracking
                 Title = title,
                 Content = content,
                 CloseButtonText = "Ok"
-
             };
 
             ContentDialogResult result = await noDialog.ShowAsync();
-
-
         }
 
         private void BackButton_Click(object sender, RoutedEventArgs e)
@@ -103,10 +101,23 @@ namespace EquipmentTracking
             Application.Current.Exit();
         }
 
-        private void TeamEuipTrackTapped(object sender, TappedRoutedEventArgs e)
+        private void BoxTapped(object sender, TappedRoutedEventArgs e)
         {
-            // Navigate to Team Euipment Tracking Dashboard
-            this.Frame.Navigate(typeof(TeamEquipmentTracking));
+            if (sender is StackPanel panel && panel.Tag is string pageName)
+            {
+                Type pageType = Type.GetType($"EquipmentTracking.{pageName}");
+                if (pageType != null)
+                {
+                    SelectedCategoryTextBlock.Text = $"Selected Category: {pageName}";
+                    categoryFrame.Navigate(pageType);
+                }
+            }
+        }
+
+        private void ClearCategory_Click(object sender, RoutedEventArgs e)
+        {
+            SelectedCategoryTextBlock.Text = "Selected Category: None";
+            categoryFrame.Navigate(typeof(Page));
         }
     }
 }
