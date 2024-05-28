@@ -42,20 +42,20 @@
                     <TextBlock x:Name="HeadphoneCount" TextWrapping="Wrap" Text="0" FontSize="48" FontWeight="Bold" FontFamily="Arial Black" Foreground="White" HorizontalAlignment="Right" Margin="0,0,20,10"/>
                 </StackPanel>
 
-                <StackPanel Width="361" HorizontalAlignment="Center" FocusVisualPrimaryBrush="#FFEF962A" Background="#FFF7A328" Grid.Column="2" Grid.Row="0" Tapped="BoxTapped" Tag="updateMonitor">
+                <StackPanel Width="361" HorizontalAlignment="Center" FocusVisualPrimaryBrush="#FFEF962A" Background="#FFF7A328" Grid.Column="2" Grid.Row="0" Tapped="BoxTapped" Tag="AvailableMonitor">
                     <TextBlock TextWrapping="Wrap" Text="Available Monitor" HorizontalAlignment="Right" Margin="0,20,20,0" FontSize="28" FontWeight="Bold" FontFamily="Arial Black" Foreground="White"/>
                     <Image Source="Assets/monitor.png" Height="100" Width="100" HorizontalAlignment="Left" Margin="30,10,0,0"/>
                     <TextBlock x:Name="MonitorCount" TextWrapping="Wrap" Text="0" FontSize="48" FontWeight="Bold" FontFamily="Arial Black" Foreground="White" HorizontalAlignment="Right" Margin="0,0,20,10"/>
                 </StackPanel>
 
                 <!-- Second Row -->
-                <StackPanel Width="361" HorizontalAlignment="Center" FocusVisualPrimaryBrush="#FFEF962A" Background="#FFF7A328" Grid.Column="0" Grid.Row="1" Margin="0,20,0,0" Tapped="BoxTapped" Tag="updateDockingSystem">
+                <StackPanel Width="361" HorizontalAlignment="Center" FocusVisualPrimaryBrush="#FFEF962A" Background="#FFF7A328" Grid.Column="0" Grid.Row="1" Margin="0,20,0,0" Tapped="BoxTapped" Tag="AvailableDocking">
                     <TextBlock TextWrapping="Wrap" Text="Available Docking System" HorizontalAlignment="Right" Margin="0,20,25,0" FontSize="28" FontWeight="Bold" FontFamily="Arial Black" Foreground="White" TextAlignment="Right"/>
                     <Image Source="Assets/docking.png" Height="100" Width="100" HorizontalAlignment="Left" Margin="30,-25,0,0"/>
                     <TextBlock x:Name="DockingCount" TextWrapping="Wrap" Text="0" FontSize="48" FontWeight="Bold" FontFamily="Arial Black" Foreground="White" HorizontalAlignment="Right" Margin="0,0,20,10"/>
                 </StackPanel>
 
-                <StackPanel Width="361" HorizontalAlignment="Center" FocusVisualPrimaryBrush="#FFEF962A" Background="#FFF7A328" Grid.Column="1" Grid.Row="1" Margin="0,20,0,0" Tapped="BoxTapped" Tag="updateLaptop">
+                <StackPanel Width="361" HorizontalAlignment="Center" FocusVisualPrimaryBrush="#FFEF962A" Background="#FFF7A328" Grid.Column="1" Grid.Row="1" Margin="0,20,0,0" Tapped="BoxTapped" Tag="AvailableLaptop">
                     <TextBlock TextWrapping="Wrap" Text="Available Laptop" HorizontalAlignment="Right" Margin="0,20,20,0" FontSize="28" FontWeight="Bold" FontFamily="Arial Black" Foreground="White"/>
                     <Image Source="Assets/laptop.png" Height="100" Width="100" HorizontalAlignment="Left" Margin="30,10,0,0"/>
                     <TextBlock x:Name="LaptopCount" TextWrapping="Wrap" Text="0" FontSize="48" FontWeight="Bold" FontFamily="Arial Black" Foreground="White" HorizontalAlignment="Right" Margin="0,0,20,10"/>

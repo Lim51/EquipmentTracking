@@ -21,7 +21,7 @@ namespace EquipmentTracking
     /// <summary>
     /// An empty page that can be used on its own or navigated to within a Frame.
     /// </summary>
-    public sealed partial class AvailableMonitor : Page
+    public sealed partial class AvailableDocking : Page
     {
         private string conn = (App.Current as App).ConnectionString;
 
@@ -34,34 +34,34 @@ namespace EquipmentTracking
         private string currentSortColumn = "";
         private SortDirection currentSortDirection = SortDirection.Ascending;
 
-        public AvailableMonitor()
+        public AvailableDocking()
         {
             this.InitializeComponent();
-            LoadAvailableMonitor();
+            LoadAvailableDocking();
         }
-        private void LoadAvailableMonitor()
+        private void LoadAvailableDocking()
         {
             SqlConnection con = null;
             try
             {
                 con = new SqlConnection(conn);
-                SqlCommand cm = new SqlCommand("SELECT * FROM monitor WHERE Owner IS NULL OR Owner = '' OR Owner = '-'", con);
+                SqlCommand cm = new SqlCommand("SELECT * FROM docking_sys WHERE Owner IS NULL OR Owner = '' OR Owner = '-'", con);
                 con.Open();
                 SqlDataReader sdr = cm.ExecuteReader();
-                GlobalData.MonitorDetailList = new List<MonitorDetail>();
+                GlobalData.DockingDetailList = new List<DockingDetail>();
                 while (sdr.Read())
                 {
-                    MonitorDetail m = new MonitorDetail();
-                    m.MonitorID = Convert.ToInt32(sdr["MonitorID"]);
+                    DockingDetail m = new DockingDetail();
+                    m.DockingID = Convert.ToInt32(sdr["DockingID"]);
                     m.Model = !string.IsNullOrEmpty(sdr["Model"].ToString()) ? sdr["Model"].ToString() : "-";
                     m.Code_SN = !string.IsNullOrEmpty(sdr["Code_SN"].ToString()) ? sdr["Code_SN"].ToString() : "-";
                     m.Received_date = !string.IsNullOrEmpty(sdr["Received_date"].ToString()) ? sdr["Received_date"].ToString() : "-";
                     m.Condition = !string.IsNullOrEmpty(sdr["Condition"].ToString()) ? sdr["Condition"].ToString() : "-";
                     m.Remarks = !string.IsNullOrEmpty(sdr["Remarks"].ToString()) ? sdr["Remarks"].ToString() : "-";
                     m.Owner = !string.IsNullOrEmpty(sdr["Owner"].ToString()) ? sdr["Owner"].ToString() : "-";
-                    GlobalData.MonitorDetailList.Add(m);
+                    GlobalData.DockingDetailList.Add(m);
                 }
-                MonitorList.ItemsSource = GlobalData.MonitorDetailList;
+                DockingList.ItemsSource = GlobalData.DockingDetailList;
                 con.Close();
             }
             catch (Exception ex)
@@ -83,7 +83,7 @@ namespace EquipmentTracking
 
         private void FilterMice()
         {
-            var filteredList = GlobalData.MonitorDetailList
+            var filteredList = GlobalData.DockingDetailList
                 .Where(m => m.Model.Contains(txtFilter.Text, StringComparison.OrdinalIgnoreCase)
                          || m.Code_SN.Contains(txtFilter.Text, StringComparison.OrdinalIgnoreCase)
                          || m.Received_date.Contains(txtFilter.Text, StringComparison.OrdinalIgnoreCase)
@@ -91,7 +91,7 @@ namespace EquipmentTracking
                          || m.Remarks.Contains(txtFilter.Text, StringComparison.OrdinalIgnoreCase)
                          || m.Owner.Contains(txtFilter.Text, StringComparison.OrdinalIgnoreCase))
                 .ToList();
-            MonitorList.ItemsSource = filteredList;
+            DockingList.ItemsSource = filteredList;
         }
 
 
@@ -116,10 +116,10 @@ namespace EquipmentTracking
             }
 
             var sortedList = currentSortDirection == SortDirection.Ascending
-                ? GlobalData.MonitorDetailList.OrderBy(m => m.GetType().GetProperty(currentSortColumn).GetValue(m, null))
-                : GlobalData.MonitorDetailList.OrderByDescending(m => m.GetType().GetProperty(currentSortColumn).GetValue(m, null));
+                ? GlobalData.DockingDetailList.OrderBy(m => m.GetType().GetProperty(currentSortColumn).GetValue(m, null))
+                : GlobalData.DockingDetailList.OrderByDescending(m => m.GetType().GetProperty(currentSortColumn).GetValue(m, null));
 
-            MonitorList.ItemsSource = sortedList.ToList();
+            DockingList.ItemsSource = sortedList.ToList();
         }
 
     }

@@ -150,8 +150,14 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
+    <Compile Include="AvailableDocking.xaml.cs">
+      <DependentUpon>AvailableDocking.xaml</DependentUpon>
+    </Compile>
     <Compile Include="AvailableHeadphone.xaml.cs">
       <DependentUpon>AvailableHeadphone.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="AvailableLaptop.xaml.cs">
+      <DependentUpon>AvailableLaptop.xaml</DependentUpon>
     </Compile>
     <Compile Include="AvailableMonitor.xaml.cs">
       <DependentUpon>AvailableMonitor.xaml</DependentUpon>
@@ -353,7 +359,15 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="AvailableDocking.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="AvailableHeadphone.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="AvailableLaptop.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

@@ -14,7 +14,7 @@
   <Identity
     Name="63b64997-5598-45ba-95af-New"
     Publisher="CN=uig60643"
-    Version="1.0.3.0" />
+    Version="1.0.5.0" />
 
   <mp:PhoneIdentity PhoneProductId="63b64997-5598-45ba-95af-503f7c6167c3" PhonePublisherId="00000000-0000-0000-0000-000000000000"/>
 
