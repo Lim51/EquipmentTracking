@@ -78,7 +78,6 @@ namespace EquipmentTracking
             }
         }
 
-
         // Method to display a dialog with a specified title and content
         private async void DisplayDialog(string title, string content)
         {
